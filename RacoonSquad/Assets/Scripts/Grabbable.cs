@@ -9,6 +9,7 @@ public class Grabbable : MonoBehaviour
 
     public int racoonValue = 1;
     public int humanValue = 1;
+    [Range(0f, 200f)] public float weight = 10f;
 
     bool isHeld = false;
 

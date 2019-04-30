@@ -8,29 +8,39 @@ public class PlayerController : MonoBehaviour
     public PlayerIndex index;
 
     [Header("Inputs")]
-    public float grabTriggerThreshold = 0.3f;
+    [Range(0,1)]public float grabTriggerThreshold = 0.3f;
     public MeshRenderer noseRenderer;
 
     [Header("Locomotion")]
     public float speedForce = 25f;
     public float orientationLerpSpeed = 10f;
+    public float carryCapacity = 10f;
+    [Range(0, 1)] public float minimumWeightedSpeedFactor = 0.7f;
 
     [Header("Grabbotion")]
     public List<Grabbable> objectsAtRange = new List<Grabbable>();
     public float throwForceMultiplier = 100f;
-    public float throwVerticality = 0.2f;
+    [Range(0, 1)] public float throwVerticality = 0.2f;
+    public float throwForceAccumulationSpeed = 1f;
+
+    [Header("Visuals")]
+    public float aimRotationSpeed = 5f;
 
     CollisionEventTransmitter grabCollisions;
     Grabbable heldObject;
     Vector3 targetOrientation;
     Rigidbody rb;
+    Light aimLight;
     new CapsuleCollider collider;
+    float throwAccumulatedForce = 0f;
+    float throwAimForceCorrection = 0.9f; // Band-aid correction to make the spotlight aiming more accurate
 
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
+        aimLight = GetComponentInChildren<Light>();
 
         // Check which objects are currently grabbable
         grabCollisions = GetComponentInChildren<CollisionEventTransmitter>();
@@ -80,13 +90,21 @@ public class PlayerController : MonoBehaviour
     {
         CheckMovementInputs(state);
         CheckGrabInputs(state);
+        UpdateThrowPreview();
     }
 
     void CheckMovementInputs(GamePadState state)
     {
         // Calculate the direction of the movement depending on the gamepad inputs
         Vector2 direction = new Vector3(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
-        rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime);
+
+        float weightModifier = 1f;
+        if (IsHolding()) {
+            // Slows down racoon if object carried is too heavy
+            weightModifier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
+        }
+
+        rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime * weightModifier);
 
         // If the player is aiming
         if(state.ThumbSticks.Right.X != 0 || state.ThumbSticks.Right.Y != 0)
@@ -105,10 +123,16 @@ public class PlayerController : MonoBehaviour
     
     void CheckGrabInputs(GamePadState state)
     {
+        bool isAccumulating = false;
+        var rightStickAmplitude = GetStickDirection(state.ThumbSticks.Right).magnitude;
+
         if (state.Triggers.Right > grabTriggerThreshold) {
             // Trigger is pressed
             if (IsHolding()) {
                 // Nothing - keep holding
+                if (rightStickAmplitude > 0.1f) {
+                    isAccumulating = true;
+                }
             }
             else if (IsAnythingAtRange()) {
                 // Grab the highest object
@@ -117,14 +141,44 @@ public class PlayerController : MonoBehaviour
         }
         else {
             if (IsHolding()) {
-                var rightStickAmplitude = GetStickDirection(state.ThumbSticks.Right).magnitude;
                 if (rightStickAmplitude > 0.1f) {
-                    ThrowHeldObject(rightStickAmplitude*throwForceMultiplier);
+                    ThrowHeldObject(throwAccumulatedForce * throwForceMultiplier);
                 }
                 else {
                     DropHeldObject();
                 }
             }
+        }
+
+        // Increases throw force over time, or resets it
+        if (isAccumulating) {
+            AccumulateThrowForce(rightStickAmplitude);
+        }
+        else {
+            throwAccumulatedForce = 0f;
+        }
+    }
+
+    void AccumulateThrowForce(float max=1f)
+    {
+        throwAccumulatedForce = Mathf.Clamp(
+                throwAccumulatedForce + throwForceAccumulationSpeed * Time.deltaTime,
+                0f,
+                max
+            );
+    }
+
+    void UpdateThrowPreview()
+    {
+        aimLight.enabled = false;
+        if (throwAccumulatedForce > 0f) {
+            aimLight.transform.localEulerAngles = new Vector3(90f, aimLight.transform.localEulerAngles.y + Time.deltaTime*aimRotationSpeed, 0f);
+            aimLight.transform.localPosition = new Vector3(
+                0f,
+                aimLight.transform.localPosition.y,
+                throwAccumulatedForce * throwForceMultiplier * throwAimForceCorrection
+            );
+            aimLight.enabled = true;
         }
     }
 
