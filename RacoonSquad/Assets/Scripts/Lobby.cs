@@ -7,10 +7,9 @@ using XInputDotNetPure;
 public class Lobby : MonoBehaviour
 {
     [Header("Referencies")]
-    public Transform holder;
+    public Text readyText;
     public Image[] images;
     public Text[] texts;
-
     List<PlayerIndex> players = new List<PlayerIndex>();
 
     void Update()
@@ -36,6 +35,11 @@ public class Lobby : MonoBehaviour
         images[players.Count].enabled = false;
         texts[players.Count].text = "Controller " + controllerIndex;
         players.Add(controllerIndex);
+
+        if(players.Count == 1)
+        {
+            readyText.gameObject.SetActive(true);
+        }
     }
 
     void StartGame()
