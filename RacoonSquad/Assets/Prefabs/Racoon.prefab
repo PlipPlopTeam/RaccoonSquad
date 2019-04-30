@@ -182,9 +182,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24574c8f2cda2a94db4d2089a03c6ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 0}
+  index: 0
+  noseRenderer: {fileID: 4643777608270927788}
   speedForce: 1000
   orientationLerpSpeed: 10
+  objectsAtRange: []
 --- !u!54 &-8807611651865769668
 Rigidbody:
   m_ObjectHideFlags: 0

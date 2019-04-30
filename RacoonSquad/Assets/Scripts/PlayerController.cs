@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 
     // Referencies
     public PlayerIndex index;
+    public MeshRenderer noseRenderer;
     Rigidbody rb;
 
     [Header("Locomotion")]
@@ -24,7 +25,6 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-
         /*
         // Check which objects are currently grabbable
         grabCollisions = GetComponentInChildren<CollisionEventTransmitter>();
@@ -32,6 +32,31 @@ public class PlayerController : MonoBehaviour
         grabCollisions.onTriggerExit += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Remove(grab); };
         */
     }
+
+    void Start()
+    {
+        LoadNoseColor();
+    }
+
+    void LoadNoseColor()
+    {
+        noseRenderer.material = Instantiate(noseRenderer.material);
+        switch(index)
+        {
+            case PlayerIndex.One:
+                noseRenderer.material.color = Color.blue;
+                break;
+            case PlayerIndex.Two:
+                noseRenderer.material.color = Color.red;
+                break;
+            case PlayerIndex.Three:
+                noseRenderer.material.color = Color.green;
+                break;
+            case PlayerIndex.Four:
+                noseRenderer.material.color = Color.yellow;
+                break;
+        }
+    } // Change the color of the nose of the capsule to differentiate players (debug purpose)
 
     void Update()
     {
