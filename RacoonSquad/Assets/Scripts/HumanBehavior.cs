@@ -26,6 +26,8 @@ public class HumanBehavior : MonoBehaviour
     // Referencies
     NavMeshAgent agent;
     Sight sight;
+    Animator anim;
+
     PlayerController seenPlayer;
     Grabbable seenItem;
 
@@ -33,6 +35,7 @@ public class HumanBehavior : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         sight = GetComponent<Sight>();
+        anim = GetComponent<Animator>();
     }
 
     void ChangeState(HumanState newState)
@@ -63,6 +66,8 @@ public class HumanBehavior : MonoBehaviour
     {
         // Lerp agent speed for a more organic effect
         agent.speed = Mathf.Lerp(agent.speed, targetSpeed, velocityLerpSpeed * Time.deltaTime);
+        anim.SetFloat("Speed", agent.speed/chaseSpeed);
+
 
         // Different update depending on the current state
         StateUpdate();
@@ -109,7 +114,7 @@ public class HumanBehavior : MonoBehaviour
         }
     }
 
-    IEnumerator Thinking(Vector3 position)
+    IEnumerator Suprised(Vector3 position)
     {
         // Look at the intresting thing
         Vector3 direction = seenPlayer.transform.position - transform.position;
@@ -118,6 +123,7 @@ public class HumanBehavior : MonoBehaviour
 
         // Stops agent movement
         //agent.destination = transform.position;
+        anim.SetTrigger("Suprised");
 
         // Put a mark on his head
         Mark();
@@ -171,7 +177,7 @@ public class HumanBehavior : MonoBehaviour
     {
         seenPlayer = pc;
         
-        StartCoroutine(Thinking(seenPlayer.transform.position));
+        StartCoroutine(Suprised(seenPlayer.transform.position));
     }
 
     int GetNextWaypoint()
