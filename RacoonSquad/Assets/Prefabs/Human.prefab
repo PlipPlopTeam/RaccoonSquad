@@ -83,6 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76aba0071d002943be0f6958c9dcb80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   walkSpeed: 2
   chaseSpeed: 5
   velocityLerpSpeed: 10
@@ -105,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headHeight: 1
   fieldOfViewAngle: 110
-  range: 5
+  range: 0.5
 --- !u!1 &9007589512087950731
 GameObject:
   m_ObjectHideFlags: 0
