@@ -19,6 +19,9 @@ public class HumanBehavior : MonoBehaviour
     [Header("Path")]
     public Transform[] paths;
 
+    [Header("Bones")]
+    public Transform headBone;
+
     // Variables
     int currentWaypoint;
     float targetSpeed;
@@ -79,6 +82,24 @@ public class HumanBehavior : MonoBehaviour
         if(Vector3.Distance(transform.position, agent.destination) < navTreshold) StateDestinationReached();
     }
 
+    void LateUpdate()
+    {
+        Vector3 lookDirection = Vector3.zero;
+
+        if(seenPlayer != null) lookDirection = (seenPlayer.transform.position - headBone.transform.position).normalized;
+        else if(seenItem != null) lookDirection = (headBone.transform.position - headBone.transform.position).normalized;
+
+        if(lookDirection != Vector3.zero)
+        {
+            if(Vector3.Angle(lookDirection, transform.forward) < 60f)
+            {
+                headBone.forward = lookDirection;
+                headBone.Rotate(new Vector3(0f, 0f, -90f));
+            }
+        }
+    }
+
+
     void StateUpdate()
     {
         switch(state)
@@ -126,7 +147,7 @@ public class HumanBehavior : MonoBehaviour
         transform.forward = direction;
 
         // Stops agent movement
-        //agent.destination = transform.position;
+        agent.destination = transform.position;
         anim.SetTrigger("Suprised");
 
         // Put a mark on his head
