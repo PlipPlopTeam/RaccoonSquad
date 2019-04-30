@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Inputs")]
     public float grabTriggerThreshold = 0.3f;
+    public MeshRenderer noseRenderer;
 
     [Header("Locomotion")]
     public float speedForce = 25f;
@@ -36,6 +37,31 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    void Start()
+    {
+        LoadNoseColor();
+    }
+
+    void LoadNoseColor()
+    {
+        noseRenderer.material = Instantiate(noseRenderer.material);
+        switch(index)
+        {
+            case PlayerIndex.One:
+                noseRenderer.material.color = Color.blue;
+                break;
+            case PlayerIndex.Two:
+                noseRenderer.material.color = Color.red;
+                break;
+            case PlayerIndex.Three:
+                noseRenderer.material.color = Color.green;
+                break;
+            case PlayerIndex.Four:
+                noseRenderer.material.color = Color.yellow;
+                break;
+        }
+    } // Change the color of the nose of the capsule to differentiate players (debug purpose)
+    
     void Update()
     {
         var state = GamePad.GetState(index);
@@ -54,16 +80,21 @@ public class PlayerController : MonoBehaviour
         Vector2 direction = new Vector3(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
         rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime);
 
-        // If the player movement axis are still flowing
-        if(direction.x != 0 || direction.y != 0) 
+        // If the player is aiming
+        if(state.ThumbSticks.Right.X != 0 || state.ThumbSticks.Right.Y != 0)
+        {
+            targetOrientation = new Vector3(state.ThumbSticks.Right.X, 0f, state.ThumbSticks.Right.Y);
+        }
+        else if(direction.x != 0 || direction.y != 0) // If the player movement axis are still flowing
         {
             targetOrientation = new Vector3(direction.x, 0f, direction.y);
         }
 
+
         // Rotate the character towards his movement direction
         transform.forward = Vector3.Lerp(transform.forward, targetOrientation, Time.deltaTime * orientationLerpSpeed);
     }
-
+    
     void CheckGrabInputs(GamePadState state)
     {
         if (state.Triggers.Right > grabTriggerThreshold) {
