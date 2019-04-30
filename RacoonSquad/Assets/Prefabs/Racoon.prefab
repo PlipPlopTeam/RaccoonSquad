@@ -295,9 +295,10 @@ MonoBehaviour:
   carryCapacity: 10
   minimumWeightedSpeedFactor: 0.51
   objectsAtRange: []
-  throwForceMultiplier: 14.99
+  throwForceMultiplier: 10
   throwVerticality: 0.3
   throwForceAccumulationSpeed: 1
+  aimRotationSpeed: 30
 --- !u!54 &-8807611651865769668
 Rigidbody:
   m_ObjectHideFlags: 0
