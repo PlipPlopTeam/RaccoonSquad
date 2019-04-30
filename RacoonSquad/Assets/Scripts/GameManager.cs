@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XInputDotNetPure;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,9 +15,7 @@ public class GameManager : MonoBehaviour
             PlayerController pc = Instantiate(racoonPrefab).GetComponent<PlayerController>();
             pc.gameObject.name = "Racoon_" + i;
 
-            PlayerInputs pi = gameObject.AddComponent<PlayerInputs>();
-            pi.LoadGamepad(i);
-            pc.controller = pi;
+            pc.index = (PlayerIndex)i;
         }   
     }
 }
