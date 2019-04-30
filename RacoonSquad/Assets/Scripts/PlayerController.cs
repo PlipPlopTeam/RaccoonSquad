@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Grabbotion")]
     public List<Grabbable> objectsAtRange = new List<Grabbable>();
+    public float throwForceMultiplier = 100f;
+    public float throwVerticality = 0.2f;
 
     CollisionEventTransmitter grabCollisions;
     Grabbable heldObject;
@@ -61,7 +63,13 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     } // Change the color of the nose of the capsule to differentiate players (debug purpose)
-    
+
+
+    public Grabbable GetHeldObject()
+    {
+        return heldObject;
+    }
+
     void Update()
     {
         var state = GamePad.GetState(index);
@@ -104,17 +112,27 @@ public class PlayerController : MonoBehaviour
             }
             else if (IsAnythingAtRange()) {
                 // Grab the first object you saw
-                GrabProp(objectsAtRange[0]);
+                GrabObject(objectsAtRange[0]);
             }
         }
         else {
             if (IsHolding()) {
-                DropHeldObject();
+                var rightStickAmplitude = GetStickDirection(state.ThumbSticks.Right).magnitude;
+                if (rightStickAmplitude > 0.1f) {
+                    ThrowHeldObject(rightStickAmplitude*throwForceMultiplier);
+                }
+                else {
+                    DropHeldObject();
+                }
             }
         }
     }
 
-    void GrabProp(Grabbable prop)
+    Vector2 GetStickDirection(GamePadThumbSticks.StickValue val) {
+        return new Vector2(val.X, val.Y);
+    }
+
+    void GrabObject(Grabbable prop)
     {
         float headHeight = 
             collider.bounds.extents.y / 2f 
@@ -132,9 +150,17 @@ public class PlayerController : MonoBehaviour
         heldObject = null;
     }
 
-    void ThrowHeldObject()
+    void ThrowHeldObject(float force)
     {
-
+        var prop = heldObject;
+        DropHeldObject();
+        prop.rigidbody.AddForce(
+            Vector3.Lerp(
+                transform.forward,
+                transform.up,
+                throwVerticality 
+            )* force, ForceMode.Impulse
+       );
     }
 
     bool IsHolding()

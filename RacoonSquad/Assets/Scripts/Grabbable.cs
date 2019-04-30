@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Grabbable : MonoBehaviour
 {
-    Rigidbody rb;
+    public new Rigidbody rigidbody;
     public new Collider collider;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
     }
 
@@ -17,14 +17,14 @@ public class Grabbable : MonoBehaviour
     {
         transform.parent = _transform;
         transform.localPosition = offset;
-        rb.isKinematic = true;
+        rigidbody.isKinematic = true;
         gameObject.layer = LayerMask.NameToLayer("NoPlayerCollision");
     }
 
     public void GetDropped()
     {
         transform.parent = null;
-        rb.isKinematic = false;
+        rigidbody.isKinematic = false;
         gameObject.layer = 0; // Default layer
     }
 }

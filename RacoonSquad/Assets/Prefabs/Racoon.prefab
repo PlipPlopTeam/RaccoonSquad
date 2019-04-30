@@ -197,9 +197,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   grabTriggerThreshold: 0.3
+  noseRenderer: {fileID: 4643777608270927788}
   speedForce: 1000
   orientationLerpSpeed: 10
   objectsAtRange: []
+  throwForceMultiplier: 20
+  throwVerticality: 0.3
 --- !u!54 &-8807611651865769668
 Rigidbody:
   m_ObjectHideFlags: 0
