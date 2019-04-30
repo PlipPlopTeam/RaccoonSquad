@@ -15,7 +15,7 @@ public class Sight : MonoBehaviour
         Vector3 headPosition = transform.position + new Vector3(0f, headHeight, 0f);
 
         RaycastHit[] hits;
-        hits = Physics.SphereCastAll(headPosition, range, transform.forward, Mathf.Infinity);
+        hits = Physics.SphereCastAll(headPosition, range, transform.forward, range);
 
         for(int i = 0; i < hits.Length; i++)
         {
