@@ -21,13 +21,18 @@ public class Sight : MonoBehaviour
         {
             Vector3 direction = hits[i].transform.position - headPosition;
             float angle = Vector3.Angle(direction, transform.forward);
-
             if(angle < fieldOfViewAngle * 0.5f)
             {
-                objects.Add(hits[i].transform.gameObject);
+                RaycastHit hit;
+                if(Physics.Raycast(transform.position, direction, out hit, range))
+                {
+                    if(hit.transform == hits[i].transform)
+                    {
+                        objects.Add(hits[i].transform.gameObject);
+                    }
+                }
             }
         }
-
         return objects.ToArray();
     }
 }
