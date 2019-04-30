@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-enum HumanState{ Calm, Aware, Angry }
-enum HumanAction{ Roaming, Chasing }
+public enum HumanState{ Walking, Chasing }
 
 public class HumanBehavior : MonoBehaviour
 {
+    [Header("State")]
+    public HumanState state;
+
     [Header("Settings")]
     public float walkSpeed;
     public float chaseSpeed;
@@ -16,10 +18,11 @@ public class HumanBehavior : MonoBehaviour
 
     [Header("Path")]
     public Transform[] paths;
+
+    // Variables
     int currentWaypoint;
-
     float targetSpeed;
-
+    GameObject mark;
     // Referencies
     NavMeshAgent agent;
     Sight sight;
@@ -31,30 +34,32 @@ public class HumanBehavior : MonoBehaviour
         sight = GetComponent<Sight>();
     }
 
-    void ChangeState(HumanState state)
+    void ChangeState(HumanState newState)
     {
-        switch(state)
+        switch(newState)
         {
-            case HumanState.Calm:
+            case HumanState.Walking:
                 targetSpeed = walkSpeed;
                 break;
-            case HumanState.Aware:
-                targetSpeed = walkSpeed;
-                break;
-            case HumanState.Angry:
+            case HumanState.Chasing:
                 targetSpeed = chaseSpeed;
                 break;
         }
+
+        state = newState;
+    }
+
+    void Mark()
+    {
+        if(mark != null) Destroy(mark);
+        mark = Instantiate(Library.instance.exclamationMarkPrefab, transform);
+        mark.transform.localPosition = new Vector3(0f, 5.25f, 0f);
     }
 
     void Start()
     {
-        ChangeState(HumanState.Calm);
-
-        if(paths.Length > 0)
-        {
-            MoveTo(0);
-        }
+        ChangeState(HumanState.Walking);
+        if(paths.Length > 0) MoveTo(0);
     }
     
     void Update()
@@ -62,19 +67,22 @@ public class HumanBehavior : MonoBehaviour
         // Lerp agent speed for a more organic effect
         agent.speed = Mathf.Lerp(agent.speed, targetSpeed, velocityLerpSpeed * Time.deltaTime);
 
-        // Check if the Human as reach his destination
-        if(Vector3.Distance(transform.position, agent.destination) < navTreshold)
+        switch(state)
         {
-            MoveTo(GetNextWaypoint());
+            case HumanState.Walking:
+                // Check if the Human as reach his destination
+                if(Vector3.Distance(transform.position, agent.destination) < navTreshold) MoveTo(GetNextWaypoint());
+                // Scanning for Racoons
+                ScanRacoons();
+                break;
+            case HumanState.Chasing:
+                break;
         }
-
-        ScanRacoons();
     }
 
     void ScanRacoons()
     {
         GameObject[] seens = sight.Scan();
-
         foreach(GameObject go in seens)
         {
             PlayerController pc = go.GetComponent<PlayerController>();
@@ -82,7 +90,7 @@ public class HumanBehavior : MonoBehaviour
             {
                 seenPlayer = pc;
                 agent.destination = pc.transform.position;
-                ChangeState(HumanState.Angry);
+                ChangeState(HumanState.Chasing);
             }
         }
     }
@@ -97,7 +105,6 @@ public class HumanBehavior : MonoBehaviour
     void MoveTo(int waypointIndex)
     {
         if(paths.Length == 0) return;
-
         agent.destination = paths[waypointIndex].position;
         currentWaypoint = waypointIndex;
     }
