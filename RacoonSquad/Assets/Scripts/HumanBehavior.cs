@@ -51,6 +51,9 @@ public class HumanBehavior : MonoBehaviour
             case HumanState.Chasing:
                 targetSpeed = chaseSpeed;
                 break;
+            case HumanState.Collecting:
+                seenPlayer = null;
+                break;
         }
 
         state = newState;
@@ -108,8 +111,9 @@ public class HumanBehavior : MonoBehaviour
                 break;
 
             case HumanState.Collecting:
-                Destroy(seenItem);
+                Destroy(seenItem.gameObject);
                 MoveTo(GetNextWaypoint());
+                ChangeState(HumanState.Walking);
                 break;
         }
     }
@@ -176,7 +180,6 @@ public class HumanBehavior : MonoBehaviour
     void SpotRaccoon(PlayerController pc)
     {
         seenPlayer = pc;
-        
         StartCoroutine(Suprised(seenPlayer.transform.position));
     }
 

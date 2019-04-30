@@ -107,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headHeight: 1
   fieldOfViewAngle: 110
-  range: 0.5
+  range: 5
 --- !u!95 &862487992
 Animator:
   serializedVersion: 3
