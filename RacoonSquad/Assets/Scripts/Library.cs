@@ -8,6 +8,7 @@ public class Library : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject racoonPrefab;
+    public GameObject exclamationMarkPrefab;
 
     void Awake()
     {

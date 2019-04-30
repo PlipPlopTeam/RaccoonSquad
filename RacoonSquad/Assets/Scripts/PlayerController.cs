@@ -111,8 +111,8 @@ public class PlayerController : MonoBehaviour
                 // Nothing - keep holding
             }
             else if (IsAnythingAtRange()) {
-                // Grab the first object you saw
-                GrabObject(objectsAtRange[0]);
+                // Grab the highest object
+                GrabBestObjectAtRange();
             }
         }
         else {
@@ -128,6 +128,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void GrabBestObjectAtRange()
+    {
+        GrabObject(
+            GetBestObjectAtRange()
+        );
+    }
+
+    Grabbable GetBestObjectAtRange()
+    {
+        float bestHeight = Mathf.NegativeInfinity;
+        Grabbable bestProp = null;
+        foreach(var prop in objectsAtRange) {
+            if (prop.transform.position.y > bestHeight) {
+                bestProp = prop;
+                bestHeight = prop.transform.position.y;
+            }
+        }
+        return bestProp;
+    }
+
     Vector2 GetStickDirection(GamePadThumbSticks.StickValue val) {
         return new Vector2(val.X, val.Y);
     }
@@ -140,13 +160,13 @@ public class PlayerController : MonoBehaviour
             - prop.collider.bounds.center.y 
             + collider.bounds.center.y;
 
-        prop.GetHeldBy(transform, new Vector3(0f, headHeight, 0f));
+        prop.BecomeHeldBy(transform, new Vector3(0f, headHeight, 0f));
         heldObject = prop;
     }
 
     void DropHeldObject()
     {
-        heldObject.GetDropped();
+        heldObject.BecomeDropped();
         heldObject = null;
     }
 
