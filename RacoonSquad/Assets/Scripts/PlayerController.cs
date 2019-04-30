@@ -8,17 +8,19 @@ public class PlayerController : MonoBehaviour
     public PlayerIndex index;
 
     [Header("Inputs")]
-    public float grabTriggerThreshold = 0.3f;
+    [Range(0,1)]public float grabTriggerThreshold = 0.3f;
     public MeshRenderer noseRenderer;
 
     [Header("Locomotion")]
     public float speedForce = 25f;
     public float orientationLerpSpeed = 10f;
+    public float carryCapacity = 10f;
+    [Range(0, 1)] public float minimumWeightedSpeedFactor = 0.7f;
 
     [Header("Grabbotion")]
     public List<Grabbable> objectsAtRange = new List<Grabbable>();
     public float throwForceMultiplier = 100f;
-    public float throwVerticality = 0.2f;
+    [Range(0, 1)] public float throwVerticality = 0.2f;
 
     CollisionEventTransmitter grabCollisions;
     Grabbable heldObject;
@@ -86,7 +88,14 @@ public class PlayerController : MonoBehaviour
     {
         // Calculate the direction of the movement depending on the gamepad inputs
         Vector2 direction = new Vector3(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
-        rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime);
+
+        float weightModifier = 1f;
+        if (IsHolding()) {
+            // Slows down racoon if object carried is too heavy
+            weightModifier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
+        }
+
+        rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime * weightModifier);
 
         // If the player is aiming
         if(state.ThumbSticks.Right.X != 0 || state.ThumbSticks.Right.Y != 0)
