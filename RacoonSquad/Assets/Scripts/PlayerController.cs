@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     [Range(0, 1)] public float throwVerticality = 0.2f;
     public float throwForceAccumulationSpeed = 1f;
 
+    [Header("Visuals")]
+    public float aimRotationSpeed = 5f;
+
     CollisionEventTransmitter grabCollisions;
     Grabbable heldObject;
     Vector3 targetOrientation;
@@ -30,6 +33,7 @@ public class PlayerController : MonoBehaviour
     Light aimLight;
     new CapsuleCollider collider;
     float throwAccumulatedForce = 0f;
+    float throwAimForceCorrection = 0.9f; // Band-aid correction to make the spotlight aiming more accurate
 
 
     void Awake()
@@ -148,19 +152,19 @@ public class PlayerController : MonoBehaviour
 
         // Increases throw force over time, or resets it
         if (isAccumulating) {
-            AccumulateThrowForce();
+            AccumulateThrowForce(rightStickAmplitude);
         }
         else {
             throwAccumulatedForce = 0f;
         }
     }
 
-    void AccumulateThrowForce()
+    void AccumulateThrowForce(float max=1f)
     {
         throwAccumulatedForce = Mathf.Clamp(
                 throwAccumulatedForce + throwForceAccumulationSpeed * Time.deltaTime,
                 0f,
-                1f
+                max
             );
     }
 
@@ -168,10 +172,11 @@ public class PlayerController : MonoBehaviour
     {
         aimLight.enabled = false;
         if (throwAccumulatedForce > 0f) {
+            aimLight.transform.localEulerAngles = new Vector3(90f, aimLight.transform.localEulerAngles.y + Time.deltaTime*aimRotationSpeed, 0f);
             aimLight.transform.localPosition = new Vector3(
                 0f,
                 aimLight.transform.localPosition.y,
-                throwAccumulatedForce * throwForceMultiplier
+                throwAccumulatedForce * throwForceMultiplier * throwAimForceCorrection
             );
             aimLight.enabled = true;
         }
