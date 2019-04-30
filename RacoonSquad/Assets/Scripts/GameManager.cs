@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public GameObject racoonPrefab;
     public bool lobby = false;
     public int playerCount;
 
@@ -32,7 +31,7 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < players.Length; i++)
         {
-            PlayerController pc = Instantiate(racoonPrefab).GetComponent<PlayerController>();
+            PlayerController pc = Instantiate(Library.instance.racoonPrefab).GetComponent<PlayerController>();
             pc.gameObject.name = "Racoon_" + players[i];
 
             pc.index = players[i];
@@ -43,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < playerCount; i++)
         {
-            PlayerController pc = Instantiate(racoonPrefab).GetComponent<PlayerController>();
+            PlayerController pc = Instantiate(Library.instance.racoonPrefab).GetComponent<PlayerController>();
             pc.gameObject.name = "Racoon_" + i;
             pc.index = (PlayerIndex)i;
         }   
