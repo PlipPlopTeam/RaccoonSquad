@@ -78,11 +78,16 @@ public class PlayerController : MonoBehaviour
         Vector2 direction = new Vector3(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
         rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime);
 
-        // If the player movement axis are still flowing
-        if(direction.x != 0 || direction.y != 0) 
+        // If the player is aiming
+        if(state.ThumbSticks.Right.X != 0 || state.ThumbSticks.Right.Y != 0)
+        {
+            targetOrientation = new Vector3(state.ThumbSticks.Right.X, 0f, state.ThumbSticks.Right.Y);
+        }
+        else if(direction.x != 0 || direction.y != 0) // If the player movement axis are still flowing
         {
             targetOrientation = new Vector3(direction.x, 0f, direction.y);
         }
+
 
         // Rotate the character towards his movement direction
         transform.forward = Vector3.Lerp(transform.forward, targetOrientation, Time.deltaTime * orientationLerpSpeed);
