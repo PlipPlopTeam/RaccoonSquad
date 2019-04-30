@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
         float weightModifier = 1f;
         if (IsHolding()) {
             // Slows down racoon if object carried is too heavy
-            weightModifier = Mathf.Clamp(carryForce - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
+            weightModifier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
         }
 
         rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime * weightModifier);
