@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 enum HumanState{ Calm, Aware, Angry }
+enum HumanAction{ Roaming, Chasing }
 
 public class HumanBehavior : MonoBehaviour
 {
