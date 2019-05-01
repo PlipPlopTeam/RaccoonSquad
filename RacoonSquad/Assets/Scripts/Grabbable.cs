@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Grabbable : MonoBehaviour
 {
-    public new Rigidbody rigidbody;
-    public new Collider collider;
 
+    [HideInInspector] public new Rigidbody rigidbody;
+    [HideInInspector] public new Collider collider;
     public int racoonValue = 1;
     public int humanValue = 1;
     [Range(0f, 200f)] public float weight = 10f;
@@ -15,19 +15,11 @@ public class Grabbable : MonoBehaviour
 
     private void Awake()
     {
-        // Check if rigidbody has been referenced
-        if(rigidbody == null) 
-        {
-            rigidbody = GetComponent<Rigidbody>();
-            // If there is no rigidbody in this gameObject
-            if(rigidbody == null) rigidbody = gameObject.AddComponent<Rigidbody>();
-        }
+        rigidbody = GetComponent<Rigidbody>();
+        if (rigidbody == null) rigidbody = gameObject.AddComponent<Rigidbody>();
 
-        if(collider == null) 
-        {
-            collider = GetComponent<Collider>();
-            if(collider == null) collider = gameObject.AddComponent<BoxCollider>();
-        }
+        collider = GetComponent<Collider>();
+        if(collider == null) collider = gameObject.AddComponent<BoxCollider>();
     }
 
     public void BecomeHeldBy(Transform _transform, Vector3 offset=new Vector3())
