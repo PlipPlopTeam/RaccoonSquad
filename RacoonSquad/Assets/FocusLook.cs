@@ -21,7 +21,7 @@ public class FocusLook : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector3 direction = Vector3.zero;
+        Vector3 direction = transform.forward;
 
         if(transformTarget != null) 
             direction = (transformTarget.position - head.position).normalized;
@@ -29,11 +29,9 @@ public class FocusLook : MonoBehaviour
             direction = (positionTarget - head.position).normalized;
 
         if(Vector3.Angle(direction, transform.forward) > angleMax) 
-            targetDirection = transform.forward;
-        else 
-            targetDirection = direction;
+            direction = transform.forward;
 
-        head.forward = targetDirection;
+        head.forward = direction;
         head.Rotate(adjustment);
     }
 
