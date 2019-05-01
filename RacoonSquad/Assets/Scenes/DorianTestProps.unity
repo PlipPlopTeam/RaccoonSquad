@@ -1210,25 +1210,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2790891721651772566, guid: 661c764e8994a984d8acdd2e179973a3,
-        type: 3}
-      propertyPath: EmissionModule.m_Bursts.Array.data[0].repeatInterval
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790891721651772566, guid: 661c764e8994a984d8acdd2e179973a3,
-        type: 3}
-      propertyPath: EmissionModule.m_Bursts.Array.data[0].cycleCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790891721651772566, guid: 661c764e8994a984d8acdd2e179973a3,
-        type: 3}
-      propertyPath: lengthInSec
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2790891721651772566, guid: 661c764e8994a984d8acdd2e179973a3,
-        type: 3}
-      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minMaxState
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 661c764e8994a984d8acdd2e179973a3, type: 3}
