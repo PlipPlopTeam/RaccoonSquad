@@ -67,10 +67,24 @@ public class GameManager : MonoBehaviour
     private string keyBuffer = string.Empty;
     private Cheats cheats = new Cheats {
         // Everything becomes grababble
-        {"GRABALL",  delegate{ foreach(var obj in FindObjectsOfType<GameObject>()){ if (obj.GetComponent<Grabbable>()==null) obj.AddComponent<Grabbable>(); } } },
+        {"GRABALL",
+            delegate {
+            foreach (var obj in FindObjectsOfType<GameObject>()){
+                if (
+                obj.GetComponent<Grabbable>()==null && 
+                obj.GetComponent<RectTransform>()==null &&
+                obj.GetComponent<MeshRenderer>()!= null &&
+                obj.GetComponentInParent<PlayerController>() == null &&
+                obj.name != "Ground"){
+                    obj.AddComponent<Grabbable>();
+                    obj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                }
+            }
+        } },
 
         // Resets the game
-        {"DEJAVU",  delegate{ SceneManager.LoadScene(SceneManager.GetActiveScene().name); } }
+        {"DEJAVU",
+            delegate { SceneManager.LoadScene(SceneManager.GetActiveScene().name); } }
     };
 
     public static KeyCode KeyDown(bool getDef=false)
@@ -101,6 +115,7 @@ public class GameManager : MonoBehaviour
         foreach(string cheatCode in cheats.Keys) {
             if (keyBuffer.ToUpper().EndsWith(cheatCode)) {
                 cheats[cheatCode].Invoke();
+                print("!");
                 return;
             }
         }

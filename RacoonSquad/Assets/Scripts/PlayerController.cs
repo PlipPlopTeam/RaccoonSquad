@@ -251,6 +251,11 @@ public class PlayerController : MonoBehaviour
 
     bool IsAnythingAtRange()
     {
+        foreach(var prop in objectsAtRange.ToArray()) {
+            if (prop == null) {
+                objectsAtRange.Remove(prop);
+            }
+        }
         return objectsAtRange.Count > 0;
     }
 }
