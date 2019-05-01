@@ -23,14 +23,15 @@ public class HumanBehavior : MonoBehaviour
     public Transform headBone;
 
     // Variables
+    public List<GameObject> inRange = new List<GameObject>();
     int currentWaypoint;
     float targetSpeed;
-    GameObject mark;
     // Referencies
+    GameObject mark;
     NavMeshAgent agent;
     Sight sight;
     Animator anim;
-
+    CollisionEventTransmitter rangeEvent;
     PlayerController seenPlayer;
     Grabbable seenItem;
 
@@ -39,6 +40,11 @@ public class HumanBehavior : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         sight = GetComponent<Sight>();
         anim = GetComponent<Animator>();
+
+                // Check which objects are currently grabbable
+        rangeEvent = GetComponentInChildren<CollisionEventTransmitter>();
+        rangeEvent.onTriggerEnter += (Collider other) => { inRange.Add(other.transform.gameObject); };
+        rangeEvent.onTriggerExit += (Collider other) => { inRange.Remove(other.transform.gameObject); };
     }
 
     void ChangeState(HumanState newState)
@@ -99,6 +105,14 @@ public class HumanBehavior : MonoBehaviour
         }
     }
 
+    bool IsObjectInRange(GameObject obj)
+    {
+        foreach(GameObject o in inRange)
+        {
+            if(o == obj) return true;
+        }
+        return false;
+    }
 
     void StateUpdate()
     {
@@ -114,7 +128,16 @@ public class HumanBehavior : MonoBehaviour
                 break;
 
             case HumanState.Collecting:
-                agent.destination = seenItem.transform.position;
+                if(IsObjectInRange(seenItem.gameObject))
+                {
+                    Destroy(seenItem.gameObject);
+                    MoveTo(GetNextWaypoint());
+                    ChangeState(HumanState.Walking);
+                }
+                else
+                {   
+                    agent.destination = seenItem.transform.position;
+                }
                 break;
         }
     }
@@ -129,12 +152,6 @@ public class HumanBehavior : MonoBehaviour
             case HumanState.Chasing:
                 //seenPlayer.DropHeldObject();
                 MoveTo(GetNextWaypoint());
-                break;
-
-            case HumanState.Collecting:
-                Destroy(seenItem.gameObject);
-                MoveTo(GetNextWaypoint());
-                ChangeState(HumanState.Walking);
                 break;
         }
     }
