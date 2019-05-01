@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_PropsUnlit
+  m_Name: M_Nape
   m_Shader: {fileID: 4800000, guid: 22e68748395012247afca7f96d7b8375, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
