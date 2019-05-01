@@ -330,7 +330,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sweatOrigin: {fileID: 3895687372857623772}
-  particle: {fileID: 0}
+  maxdropCount: 10
+  minburstInterval: 0.2
+  maxBurstInterval: 0.7
 --- !u!1 &4643777608830530455
 GameObject:
   m_ObjectHideFlags: 0

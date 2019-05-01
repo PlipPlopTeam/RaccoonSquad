@@ -7,10 +7,10 @@ public class Sweat : MonoBehaviour
     public Transform sweatOrigin;
     ParticleSystem particle;
 
-    [Header("Maximum Effort")]
-    int dropCount = 20;
-    float minburstInterval = 0.5f;
-    float maxBurstInterval = 1.5f;
+    [Header("Effort Settings")]
+    public int maxDropCount = 20;
+    public float minBurstInterval = 0.25f;
+    public float maxBurstInterval = 1f;
 
     void Awake()
     {
@@ -40,12 +40,8 @@ public class Sweat : MonoBehaviour
     public void Set(float effort)
     {
         ParticleSystem.Burst b = particle.emission.GetBurst(0);
-
-        b.count = Mathf.Floor(effort * dropCount);
-        b.repeatInterval = maxBurstInterval - (effort * (maxBurstInterval - minburstInterval));
-
-        Debug.Log(b.count + " " + b.repeatInterval);
-
+        b.count = Mathf.Floor(effort * maxDropCount);
+        b.repeatInterval = maxBurstInterval - (effort * (maxBurstInterval - minBurstInterval));
         particle.emission.SetBurst(0, b);
     }
 }
