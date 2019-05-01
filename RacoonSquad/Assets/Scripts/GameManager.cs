@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using XInputDotNetPure;
 
 public class GameManager : MonoBehaviour
@@ -55,4 +56,54 @@ public class GameManager : MonoBehaviour
             pc.index = (PlayerIndex)i;
         }   
     }
+
+    //////////////////////////
+    ///
+    /// Cheats
+    /// 
+
+    private int bufferLength = 20;
+    private class Cheats : Dictionary<string, System.Action> { }
+    private string keyBuffer = string.Empty;
+    private Cheats cheats = new Cheats {
+        // Everything becomes grababble
+        {"GRABALL",  delegate{ foreach(var obj in FindObjectsOfType<GameObject>()){ if (obj.GetComponent<Grabbable>()==null) obj.AddComponent<Grabbable>(); } } },
+
+        // Resets the game
+        {"DEJAVU",  delegate{ SceneManager.LoadScene(SceneManager.GetActiveScene().name); } }
+    };
+
+    public static KeyCode KeyDown(bool getDef=false)
+    {
+        KeyCode def = KeyCode.Break;
+        if (getDef) return def;
+        foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode))) {
+            if ((int)key > 330) break;
+            if (Input.GetKeyDown(key)) return key;
+        }
+        return def;
+    }
+
+    private void LateUpdate()
+    {
+        if (Input.anyKeyDown) {
+            var key = KeyDown();
+            if (key != KeyDown(true)) {
+                keyBuffer += key.ToString();
+                while (keyBuffer.Length > bufferLength) keyBuffer = keyBuffer.Remove(0,1);
+                DetectCheat();
+            }
+        }
+    }
+
+    private void DetectCheat()
+    {
+        foreach(string cheatCode in cheats.Keys) {
+            if (keyBuffer.ToUpper().EndsWith(cheatCode)) {
+                cheats[cheatCode].Invoke();
+                return;
+            }
+        }
+    }
+
 }
