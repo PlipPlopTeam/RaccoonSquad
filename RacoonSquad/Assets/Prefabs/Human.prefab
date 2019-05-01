@@ -168,7 +168,7 @@ MonoBehaviour:
   velocityLerpSpeed: 10
   navTreshold: 1
   paths: []
-  inRange: []
+  handBone: {fileID: 8831432226034193923}
 --- !u!114 &1857843699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +319,12 @@ Transform:
 --- !u!4 &6358816739612426876 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7527340184345585624, guid: 5b6e7078cec145f46b0e620aa6dd1cda,
+    type: 3}
+  m_PrefabInstance: {fileID: 5743934341074311764}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8831432226034193923 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3835097692331199575, guid: 5b6e7078cec145f46b0e620aa6dd1cda,
     type: 3}
   m_PrefabInstance: {fileID: 5743934341074311764}
   m_PrefabAsset: {fileID: 0}

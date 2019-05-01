@@ -15,12 +15,13 @@ public class HumanBehavior : MonoBehaviour
     public float chaseSpeed;
     public float velocityLerpSpeed = 1f;
     public float navTreshold = 1f;
-
-    [Header("Path")]
     public List<Transform> paths;
 
+    [Header("Bones")]
+    public Transform handBone;
+
     // Variables
-    public List<GameObject> inRange = new List<GameObject>();
+    List<GameObject> inRange = new List<GameObject>();
     int currentWaypoint;
     float targetSpeed;
     // Referencies
@@ -147,7 +148,10 @@ public class HumanBehavior : MonoBehaviour
         Vector3 direction = obj.transform.position - transform.position;
         direction = new Vector3(direction.x, transform.position.y, direction.z);
         transform.forward = direction;
-        // Stops agent movement
+        look.LooseFocus();
+        
+        Grabbable grab = obj.GetComponent<Grabbable>();
+        if(grab != null) grab.BecomeHeldBy(handBone);
         ChangeState(HumanState.Thinking);
         anim.SetTrigger("Pickup");
         
