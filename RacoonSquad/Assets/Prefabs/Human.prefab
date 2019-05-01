@@ -55,8 +55,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 1.25, z: 1}
+  m_Radius: 1.2
+  m_Center: {x: 0, y: 1, z: 0.75}
 --- !u!1 &9007589511678584246
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,9 +68,10 @@ GameObject:
   - component: {fileID: 9007589511678584242}
   - component: {fileID: 9007589511678584241}
   - component: {fileID: 9007589511678584240}
+  - component: {fileID: 862487992}
   - component: {fileID: 9007589511678584247}
   - component: {fileID: 1857843699}
-  - component: {fileID: 862487992}
+  - component: {fileID: 2174619700233775202}
   m_Layer: 0
   m_Name: Human
   m_TagString: Untagged
@@ -104,10 +105,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1
-  m_Height: 5
+  m_Radius: 0.25
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 2.5, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!195 &9007589511678584240
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -130,44 +131,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &9007589511678584247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9007589511678584246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d76aba0071d002943be0f6958c9dcb80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state: 0
-  walkSpeed: 2
-  chaseSpeed: 5
-  velocityLerpSpeed: 10
-  navTreshold: 1
-  paths:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  headBone: {fileID: 6358816739612426876}
-  inRange: []
---- !u!114 &1857843699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9007589511678584246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a168b2336d8b49e408b13d5e52e289c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  headHeight: 1
-  fieldOfViewAngle: 110
-  range: 5
 --- !u!95 &862487992
 Animator:
   serializedVersion: 3
@@ -187,6 +150,56 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &9007589511678584247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9007589511678584246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d76aba0071d002943be0f6958c9dcb80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+  walkSpeed: 2
+  chaseSpeed: 5
+  velocityLerpSpeed: 10
+  navTreshold: 1
+  paths: []
+  inRange: []
+--- !u!114 &1857843699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9007589511678584246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a168b2336d8b49e408b13d5e52e289c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headHeight: 1
+  fieldOfViewAngle: 110
+  range: 5
+--- !u!114 &2174619700233775202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9007589511678584246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890984ae23d10fc4ba59f81f851d4947, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 6358816739612426876}
+  adjustment: {x: 0, y: 0, z: -90}
+  angleMax: 60
+  speed: 10
 --- !u!1 &9007589512087950731
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,10 +17,7 @@ public class HumanBehavior : MonoBehaviour
     public float navTreshold = 1f;
 
     [Header("Path")]
-    public Transform[] paths;
-
-    [Header("Bones")]
-    public Transform headBone;
+    public List<Transform> paths;
 
     // Variables
     public List<GameObject> inRange = new List<GameObject>();
@@ -30,6 +27,7 @@ public class HumanBehavior : MonoBehaviour
     GameObject mark;
     NavMeshAgent agent;
     Sight sight;
+    FocusLook look;
     Animator anim;
     CollisionEventTransmitter rangeEvent;
     PlayerController seenPlayer;
@@ -40,8 +38,9 @@ public class HumanBehavior : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         sight = GetComponent<Sight>();
         anim = GetComponent<Animator>();
+        look = GetComponent<FocusLook>();
 
-                // Check which objects are currently grabbable
+        // Check which objects are currently grabbable
         rangeEvent = GetComponentInChildren<CollisionEventTransmitter>();
         rangeEvent.onTriggerEnter += (Collider other) => { inRange.Add(other.transform.gameObject); };
         rangeEvent.onTriggerExit += (Collider other) => { inRange.Remove(other.transform.gameObject); };
@@ -71,7 +70,11 @@ public class HumanBehavior : MonoBehaviour
     void Start()
     {
         ChangeState(HumanState.Walking);
-        if(paths.Length > 0) MoveTo(0);
+        if (paths.Count > 0) MoveTo(0);
+        else {
+            // Creates dummy GO for pathfinding
+            paths.Add(Instantiate<GameObject>(new GameObject(), transform.position, Quaternion.identity).transform);
+        }
     }
     
     void Update()
@@ -88,23 +91,6 @@ public class HumanBehavior : MonoBehaviour
         if(Vector3.Distance(transform.position, agent.destination) < navTreshold) StateDestinationReached();
     }
 
-    void LateUpdate()
-    {
-        Vector3 lookDirection = Vector3.zero;
-
-        if(seenPlayer != null) lookDirection = (seenPlayer.transform.position - headBone.transform.position).normalized;
-        else if(seenItem != null) lookDirection = (headBone.transform.position - headBone.transform.position).normalized;
-
-        if(lookDirection != Vector3.zero)
-        {
-            if(Vector3.Angle(lookDirection, transform.forward) < 60f)
-            {
-                headBone.forward = lookDirection;
-                headBone.Rotate(new Vector3(0f, 0f, -90f));
-            }
-        }
-    }
-
     bool IsObjectInRange(GameObject obj)
     {
         foreach(GameObject o in inRange)
@@ -116,6 +102,7 @@ public class HumanBehavior : MonoBehaviour
 
     void StateUpdate()
     {
+        CleanSeenItem();
         switch(state)
         {
             case HumanState.Walking:
@@ -139,6 +126,13 @@ public class HumanBehavior : MonoBehaviour
                     agent.destination = seenItem.transform.position;
                 }
                 break;
+        }
+    }
+    void CleanSeenItem()
+    {
+        // Security fallback
+        if (seenItem == null) {
+            ChangeState(HumanState.Walking);
         }
     }
     void StateDestinationReached()
@@ -176,16 +170,21 @@ public class HumanBehavior : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         Unmark();
+        
+        if (seenPlayer == null) {
+            yield break;
+        }
 
         seenItem = seenPlayer.GetHeldObject();
         if(seenItem != null)
         {
+            look.FocusOn(seenItem.transform);
             ChangeState(HumanState.Chasing);
         }
         else
         {
             ChangeState(HumanState.Walking);
-            if(paths.Length > 0) MoveTo(0);
+            if(paths.Count > 0) MoveTo(0);
         }
         // Return to normal state or chasing
     }
@@ -194,8 +193,7 @@ public class HumanBehavior : MonoBehaviour
     void Mark()
     {
         if(mark != null) Destroy(mark);
-        mark = Instantiate(Library.instance.exclamationMarkPrefab, transform);
-        mark.transform.localPosition = new Vector3(0f, 5.25f, 0f);
+        mark = Instantiate(Library.instance.exclamationMarkPrefab, transform.position + new Vector3(0f, 2f, 0f), Quaternion.identity, transform);
     }
     void Unmark()
     {
@@ -218,19 +216,20 @@ public class HumanBehavior : MonoBehaviour
     void SpotRaccoon(PlayerController pc)
     {
         seenPlayer = pc;
+        look.FocusOn(seenPlayer.transform);
         StartCoroutine(Suprised(seenPlayer.transform.position));
     }
 
     int GetNextWaypoint()
     {
         int waypoint = currentWaypoint + 1;
-        if(waypoint >= paths.Length) waypoint = 0;
+        if(waypoint >= paths.Count) waypoint = 0;
         return waypoint;
     }
 
     void MoveTo(int waypointIndex)
     {
-        if(paths.Length == 0) return;
+        if(paths.Count == 0) return;
         agent.destination = paths[waypointIndex].position;
         currentWaypoint = waypointIndex;
     }

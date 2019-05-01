@@ -214,8 +214,8 @@ public class PlayerController : MonoBehaviour
     void GrabObject(Grabbable prop)
     {
         float headHeight = 
-            collider.bounds.extents.y / 2f 
-            + prop.collider.bounds.extents.y / 2f 
+            collider.bounds.extents.y
+            + prop.collider.bounds.extents.y 
             - prop.collider.bounds.center.y 
             + collider.bounds.center.y;
 
@@ -251,6 +251,11 @@ public class PlayerController : MonoBehaviour
 
     bool IsAnythingAtRange()
     {
+        foreach(var prop in objectsAtRange.ToArray()) {
+            if (prop == null) {
+                objectsAtRange.Remove(prop);
+            }
+        }
         return objectsAtRange.Count > 0;
     }
 }
