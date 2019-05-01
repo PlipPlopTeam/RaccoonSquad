@@ -1,8 +1,18 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: a1194b586c0984d448eca17db774e797
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
+=======
+guid: 779f25e8708603645afba6ce93878cfe
+ModelImporter:
+  serializedVersion: 25
+  internalIDToNameTable:
+  - first:
+      74: 1827226128182048838
+    second: narutoRun
+>>>>>>> e45f4dbcaec4bf20c43c8372e8eba22bcba81516
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -30,7 +40,40 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
+<<<<<<< HEAD
     clipAnimations: []
+=======
+    clipAnimations:
+    - serializedVersion: 16
+      name: narutoRun
+      takeName: Take 001
+      internalID: 1827226128182048838
+      firstFrame: 2
+      lastFrame: 2
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+>>>>>>> e45f4dbcaec4bf20c43c8372e8eba22bcba81516
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -86,7 +129,11 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+<<<<<<< HEAD
   animationType: 0
+=======
+  animationType: 2
+>>>>>>> e45f4dbcaec4bf20c43c8372e8eba22bcba81516
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
