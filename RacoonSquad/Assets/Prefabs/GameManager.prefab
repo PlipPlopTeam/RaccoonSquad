@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &697883227056900206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 697883227056900204}
+  - component: {fileID: 697883227056900207}
+  - component: {fileID: 697883227056900205}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &697883227056900204
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697883227056900206}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.75927734, y: -0.75341797, z: 0.39404297}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &697883227056900207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697883227056900206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51ed84641ae35324eab1cfe5aa34245b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lobby: 0
+  playerCount: 1
+--- !u!114 &697883227056900205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697883227056900206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 374228f56b3e1be46b265e350bdd427a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  racoonPrefab: {fileID: 4643777608409574412, guid: 9c9ca2ff9baf4e944ada28b4bc222b95,
+    type: 3}
+  exclamationMarkPrefab: {fileID: 6681665629629748997, guid: e0f424959e752364f98c97ebb6d81ad9,
+    type: 3}
+  sweatParticle: {fileID: 5340588666996514706, guid: 53d3fca919db0cf4f91f2519db4054a3,
+    type: 3}
