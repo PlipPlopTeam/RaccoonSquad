@@ -18,7 +18,7 @@ public class Sweat : MonoBehaviour
         particle = Instantiate(Library.instance.sweatParticle, sweatOrigin).GetComponent<ParticleSystem>();
 
         particle.gameObject.transform.localPosition = Vector3.zero;
-        particle.gameObject.transform.localEulerAngles = Vector3.zero;
+        particle.transform.up = Vector3.up;
 
         if(particle == null) Destroy(this);
 
