@@ -17,7 +17,7 @@ public class HumanBehavior : MonoBehaviour
     public float navTreshold = 1f;
 
     [Header("Path")]
-    public Transform[] paths;
+    public List<Transform> paths;
 
     [Header("Bones")]
     public Transform headBone;
@@ -71,7 +71,11 @@ public class HumanBehavior : MonoBehaviour
     void Start()
     {
         ChangeState(HumanState.Walking);
-        if(paths.Length > 0) MoveTo(0);
+        if (paths.Count > 0) MoveTo(0);
+        else {
+            // Creates dummy GO for pathfinding
+            paths.Add(Instantiate<GameObject>(new GameObject(), transform.position, Quaternion.identity).transform);
+        }
     }
     
     void Update()
@@ -185,7 +189,7 @@ public class HumanBehavior : MonoBehaviour
         else
         {
             ChangeState(HumanState.Walking);
-            if(paths.Length > 0) MoveTo(0);
+            if(paths.Count > 0) MoveTo(0);
         }
         // Return to normal state or chasing
     }
@@ -224,13 +228,13 @@ public class HumanBehavior : MonoBehaviour
     int GetNextWaypoint()
     {
         int waypoint = currentWaypoint + 1;
-        if(waypoint >= paths.Length) waypoint = 0;
+        if(waypoint >= paths.Count) waypoint = 0;
         return waypoint;
     }
 
     void MoveTo(int waypointIndex)
     {
-        if(paths.Length == 0) return;
+        if(paths.Count == 0) return;
         agent.destination = paths[waypointIndex].position;
         currentWaypoint = waypointIndex;
     }
