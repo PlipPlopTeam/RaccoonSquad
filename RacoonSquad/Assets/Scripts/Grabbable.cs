@@ -16,10 +16,10 @@ public class Grabbable : MonoBehaviour
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-        if (rigidbody == null) rigidbody = gameObject.AddComponent<Rigidbody>();
-
         collider = GetComponent<Collider>();
+
         if(collider == null) collider = gameObject.AddComponent<BoxCollider>();
+        if (rigidbody == null) rigidbody = gameObject.AddComponent<Rigidbody>();
     }
 
     public void BecomeHeldBy(Transform _transform, Vector3 offset=new Vector3())
