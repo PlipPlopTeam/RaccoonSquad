@@ -83,7 +83,6 @@ public class HumanBehavior : MonoBehaviour
         agent.speed = Mathf.Lerp(agent.speed, targetSpeed, velocityLerpSpeed * Time.deltaTime);
         anim.SetFloat("Speed", agent.speed/chaseSpeed);
 
-
         // Different update depending on the current state
         StateUpdate();
 
@@ -114,16 +113,8 @@ public class HumanBehavior : MonoBehaviour
                 break;
 
             case HumanState.Collecting:
-                if(IsObjectInRange(seenItem.gameObject))
-                {
-                    Destroy(seenItem.gameObject);
-                    MoveTo(GetNextWaypoint());
-                    ChangeState(HumanState.Walking);
-                }
-                else
-                {   
-                    agent.destination = seenItem.transform.position;
-                }
+                if(IsObjectInRange(seenItem.gameObject)) StartCoroutine(PickUp(seenItem.gameObject));
+                else agent.destination = seenItem.transform.position;
                 break;
         }
     }
@@ -142,10 +133,29 @@ public class HumanBehavior : MonoBehaviour
         }
     }
 
+    IEnumerator PickUp(GameObject obj)
+    {
+        // Look at the object
+        Vector3 direction = obj.transform.position - transform.position;
+        direction = new Vector3(direction.x, transform.position.y, direction.z);
+        transform.forward = direction;
+        // Stops agent movement
+        ChangeState(HumanState.Thinking);
+        anim.SetTrigger("Pickup");
+        
+        yield return new WaitForSeconds(1f);
+
+        Destroy(seenItem.gameObject);
+        // Return to normal state
+        ChangeState(HumanState.Walking);
+        if(paths.Count > 0) MoveTo(0);
+    }
+
+
     IEnumerator Suprised(Vector3 position)
     {
         // Look at the intresting thing
-        Vector3 direction = seenPlayer.transform.position - transform.position;
+        Vector3 direction = position - transform.position;
         direction = new Vector3(direction.x, transform.position.y, direction.z);
         transform.forward = direction;
 
