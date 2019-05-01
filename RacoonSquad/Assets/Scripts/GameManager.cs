@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
     private string keyBuffer = string.Empty;
     private Cheats cheats = new Cheats {
         // Everything becomes grababble
-        {"GRABALL",  delegate{ foreach(var obj in FindObjectsOfType<GameObject>()){ obj.AddComponent<Grabbable>(); } } },
+        {"GRABALL",  delegate{ foreach(var obj in FindObjectsOfType<GameObject>()){ if (obj.GetComponent<Grabbable>()==null) obj.AddComponent<Grabbable>(); } } },
 
         // Resets the game
         {"DEJAVU",  delegate{ SceneManager.LoadScene(SceneManager.GetActiveScene().name); } }
