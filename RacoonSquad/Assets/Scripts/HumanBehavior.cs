@@ -198,8 +198,7 @@ public class HumanBehavior : MonoBehaviour
     void Mark()
     {
         if(mark != null) Destroy(mark);
-        mark = Instantiate(Library.instance.exclamationMarkPrefab, transform);
-        mark.transform.localPosition = new Vector3(0f, 5.25f, 0f);
+        mark = Instantiate(Library.instance.exclamationMarkPrefab, headBone.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity, transform);
     }
     void Unmark()
     {
