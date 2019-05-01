@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     [Header("Visuals")]
     public float aimRotationSpeed = 5f;
 
+    Sweat sweat;
     CollisionEventTransmitter grabCollisions;
     Grabbable heldObject;
     Vector3 targetOrientation;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
         aimLight = GetComponentInChildren<Light>();
+        sweat = GetComponentInChildren<Sweat>();
 
         // Check which objects are currently grabbable
         grabCollisions = GetComponentInChildren<CollisionEventTransmitter>();
@@ -102,6 +104,7 @@ public class PlayerController : MonoBehaviour
         if (IsHolding()) {
             // Slows down racoon if object carried is too heavy
             weightModifier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
+            sweat.Set(1 - weightModifier);
         }
 
         rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime * weightModifier);
@@ -187,6 +190,8 @@ public class PlayerController : MonoBehaviour
         GrabObject(
             GetBestObjectAtRange()
         );
+
+        sweat.Activate();
     }
 
     Grabbable GetBestObjectAtRange()
@@ -222,6 +227,8 @@ public class PlayerController : MonoBehaviour
     {
         heldObject.BecomeDropped();
         heldObject = null;
+
+        sweat.Desactivate();
     }
 
     void ThrowHeldObject(float force)
