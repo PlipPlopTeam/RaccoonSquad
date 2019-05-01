@@ -214,8 +214,8 @@ public class PlayerController : MonoBehaviour
     void GrabObject(Grabbable prop)
     {
         float headHeight = 
-            collider.bounds.extents.y / 2f 
-            + prop.collider.bounds.extents.y / 2f 
+            collider.bounds.extents.y
+            + prop.collider.bounds.extents.y 
             - prop.collider.bounds.center.y 
             + collider.bounds.center.y;
 
