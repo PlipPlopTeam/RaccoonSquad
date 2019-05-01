@@ -101,6 +101,7 @@ public class HumanBehavior : MonoBehaviour
 
     void StateUpdate()
     {
+        CleanSeenItem();
         switch(state)
         {
             case HumanState.Walking:
@@ -116,6 +117,13 @@ public class HumanBehavior : MonoBehaviour
                 if(IsObjectInRange(seenItem.gameObject)) StartCoroutine(PickUp(seenItem.gameObject));
                 else agent.destination = seenItem.transform.position;
                 break;
+        }
+    }
+    void CleanSeenItem()
+    {
+        // Security fallback
+        if (seenItem == null) {
+            ChangeState(HumanState.Walking);
         }
     }
     void StateDestinationReached()
@@ -172,6 +180,10 @@ public class HumanBehavior : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         Unmark();
+        
+        if (seenPlayer == null) {
+            yield break;
+        }
 
         seenItem = seenPlayer.GetHeldObject();
         if(seenItem != null)
