@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public bool lobby = false;
     public int playerCount;
+    public LevelMaster level;
 
     void Awake()
     {
@@ -19,10 +20,17 @@ public class GameManager : MonoBehaviour
     {   
         if(lobby)
         {
-            InterfaceManager.instance.CreateLobby();
+            try {
+                InterfaceManager.instance.CreateLobby();
+            }
+            catch (System.Exception e){
+                Debug.LogWarning("Could not create the lobby :\n" + e.ToString());
+            }
         }
         else
         {
+            // Initialize goal score etc...
+            level = new LevelMaster();
             DebugSpawnControllers();
         }
     }
