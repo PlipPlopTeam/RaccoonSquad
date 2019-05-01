@@ -921,7 +921,7 @@ MonoBehaviour:
   collider: {fileID: 0}
   racoonValue: 1
   humanValue: 1
-  weight: 10
+  weight: 200
 --- !u!1001 &935379919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2231,6 +2231,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9007589511678584247, guid: 10ab846bb84345e4a97d4c4c20eede6f,
+        type: 3}
+      propertyPath: paths.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9007589511678584247, guid: 10ab846bb84345e4a97d4c4c20eede6f,
         type: 3}
