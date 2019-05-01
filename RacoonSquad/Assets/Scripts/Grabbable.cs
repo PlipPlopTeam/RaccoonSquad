@@ -15,8 +15,19 @@ public class Grabbable : MonoBehaviour
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
+        // Check if rigidbody has been referenced
+        if(rigidbody == null) 
+        {
+            rigidbody = GetComponent<Rigidbody>();
+            // If there is no rigidbody in this gameObject
+            if(rigidbody == null) rigidbody = gameObject.AddComponent<Rigidbody>();
+        }
+
+        if(collider == null) 
+        {
+            collider = GetComponent<Collider>();
+            if(collider == null) collider = gameObject.AddComponent<BoxCollider>();
+        }
     }
 
     public void BecomeHeldBy(Transform _transform, Vector3 offset=new Vector3())
