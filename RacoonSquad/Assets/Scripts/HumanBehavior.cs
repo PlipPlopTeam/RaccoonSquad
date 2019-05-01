@@ -19,9 +19,6 @@ public class HumanBehavior : MonoBehaviour
     [Header("Path")]
     public List<Transform> paths;
 
-    [Header("Bones")]
-    public Transform headBone;
-
     // Variables
     public List<GameObject> inRange = new List<GameObject>();
     int currentWaypoint;
@@ -30,6 +27,7 @@ public class HumanBehavior : MonoBehaviour
     GameObject mark;
     NavMeshAgent agent;
     Sight sight;
+    FocusLook look;
     Animator anim;
     CollisionEventTransmitter rangeEvent;
     PlayerController seenPlayer;
@@ -40,8 +38,9 @@ public class HumanBehavior : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         sight = GetComponent<Sight>();
         anim = GetComponent<Animator>();
+        look = GetComponent<FocusLook>();
 
-                // Check which objects are currently grabbable
+        // Check which objects are currently grabbable
         rangeEvent = GetComponentInChildren<CollisionEventTransmitter>();
         rangeEvent.onTriggerEnter += (Collider other) => { inRange.Add(other.transform.gameObject); };
         rangeEvent.onTriggerExit += (Collider other) => { inRange.Remove(other.transform.gameObject); };
@@ -90,23 +89,6 @@ public class HumanBehavior : MonoBehaviour
 
         // Check if the human has reach his destination
         if(Vector3.Distance(transform.position, agent.destination) < navTreshold) StateDestinationReached();
-    }
-
-    void LateUpdate()
-    {
-        Vector3 lookDirection = Vector3.zero;
-
-        if(seenPlayer != null) lookDirection = (seenPlayer.transform.position - headBone.transform.position).normalized;
-        else if(seenItem != null) lookDirection = (headBone.transform.position - headBone.transform.position).normalized;
-
-        if(lookDirection != Vector3.zero)
-        {
-            if(Vector3.Angle(lookDirection, transform.forward) < 60f)
-            {
-                headBone.forward = lookDirection;
-                headBone.Rotate(new Vector3(0f, 0f, -90f));
-            }
-        }
     }
 
     bool IsObjectInRange(GameObject obj)
@@ -184,6 +166,7 @@ public class HumanBehavior : MonoBehaviour
         seenItem = seenPlayer.GetHeldObject();
         if(seenItem != null)
         {
+            look.FocusOn(seenItem.transform);
             ChangeState(HumanState.Chasing);
         }
         else
@@ -198,8 +181,7 @@ public class HumanBehavior : MonoBehaviour
     void Mark()
     {
         if(mark != null) Destroy(mark);
-        mark = Instantiate(Library.instance.exclamationMarkPrefab, transform);
-        mark.transform.localPosition = new Vector3(0f, 5.25f, 0f);
+        mark = Instantiate(Library.instance.exclamationMarkPrefab, transform.position + new Vector3(0f, 2f, 0f), Quaternion.identity, transform);
     }
     void Unmark()
     {
@@ -222,6 +204,7 @@ public class HumanBehavior : MonoBehaviour
     void SpotRaccoon(PlayerController pc)
     {
         seenPlayer = pc;
+        look.FocusOn(seenPlayer.transform);
         StartCoroutine(Suprised(seenPlayer.transform.position));
     }
 
