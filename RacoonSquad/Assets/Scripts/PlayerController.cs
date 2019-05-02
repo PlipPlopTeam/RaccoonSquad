@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using XInputDotNetPure;
 
+public class SpeedModifier
+{
+    public float value;
+    public int ticket;
+}
+
 public class PlayerController : MonoBehaviour
 {
     [Header("Inputs")]
@@ -14,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 100f;
     public float carryCapacity = 10f;
     [Range(0, 1)] public float minimumWeightedSpeedFactor = 0.7f;
+    List<SpeedModifier> speedModifiers = new List<SpeedModifier>();
     float targetSpeed;
     float currentSpeed;
 
@@ -66,7 +73,6 @@ public class PlayerController : MonoBehaviour
         grabCollisions = GetComponentInChildren<CollisionEventTransmitter>();
         grabCollisions.onTriggerEnter += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Add(grab); };
         grabCollisions.onTriggerExit += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Remove(grab); };
-        
     }
 
     void Start()
@@ -94,18 +100,58 @@ public class PlayerController : MonoBehaviour
         }
     } // Change the color of the nose of the capsule to differentiate players (debug purpose)
 
-
-    public Grabbable GetHeldObject()
+// Handle the adding and removing of speed effects on the player
+#region SPEED MODIFIER
+    float ApplySpeedModifiers()
     {
-        return heldObject;
+        float modifySpeed = 1f;
+        if (IsHolding()) {
+            // Slows down racoon if object carried is too heavy
+            modifySpeed = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
+            sweat.Set(1 - modifySpeed);
+        }
+        foreach(SpeedModifier modifier in speedModifiers) modifySpeed *= modifier.value;
+        return modifySpeed;
     }
+    public int AddSpeedModifier(float value, int ticket)
+    {
+        if(value < 0) value = 0f;
+
+        SpeedModifier nsm = new SpeedModifier();
+        nsm.value = value;
+        nsm.ticket = ticket;
+        speedModifiers.Add(nsm);
+        return nsm.ticket;
+    }
+    public void RemoveSpeedModifier(int ticket)
+    {
+        SpeedModifier rsm = FindSpeedModifier(ticket);
+        if(rsm != null && speedModifiers.Contains(rsm)) 
+        {
+            speedModifiers.Remove(rsm);
+        }
+    }
+    SpeedModifier FindSpeedModifier(int ticket)
+    {
+        foreach(SpeedModifier modifier in speedModifiers)
+        {
+            if(modifier.ticket == ticket) return modifier;
+        }
+        return null;
+    }
+#endregion 
+
 
     void Update()
     {
         var state = GamePad.GetState(index);
         CheckInputs(state);
         UpdateThrowPreview();
+        UpdateHead();
+    }
 
+    void UpdateHead()
+    {
         if(heldObject == null)
         {
             Grabbable g = GetBestObjectAtRange();
@@ -141,18 +187,10 @@ public class PlayerController : MonoBehaviour
         // Calculate the direction of the movement depending on the gamepad inputs
         Vector2 direction = new Vector2(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
 
-        float weightModifier = 1f;
-        if (IsHolding()) {
-            // Slows down racoon if object carried is too heavy
-            weightModifier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
-            sweat.Set(1 - weightModifier);
-        }
-
-
         targetSpeed = direction.magnitude * speed;
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedLerpSpeed);
 
-        transform.position += new Vector3(direction.x, 0f, direction.y) * currentSpeed * Time.deltaTime * weightModifier;
+        transform.position += new Vector3(direction.x, 0f, direction.y) * currentSpeed * Time.deltaTime * ApplySpeedModifiers();
         anim.SetFloat("Speed", targetSpeed/speed);
 
         // If the player is aiming
@@ -209,6 +247,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+
+
+#region GRAB AND THROW
+
     void AccumulateThrowForce(float max=1f)
     {
         throwAccumulatedForce = Mathf.Clamp(
@@ -262,6 +305,11 @@ public class PlayerController : MonoBehaviour
         lineRenderer.positionCount = 0;
     }
 
+    public Grabbable GetHeldObject()
+    {
+        return heldObject;
+    }
+
     void GrabBestObjectAtRange()
     {
         GrabObject(
@@ -284,7 +332,8 @@ public class PlayerController : MonoBehaviour
         return bestProp;
     }
 
-    Vector2 GetStickDirection(GamePadThumbSticks.StickValue val) {
+    Vector2 GetStickDirection(GamePadThumbSticks.StickValue val)
+    {
         return new Vector2(val.X, val.Y);
     }
 
@@ -295,11 +344,8 @@ public class PlayerController : MonoBehaviour
             + prop.GetComponent<Collider>().bounds.extents.y/2
             + collider.bounds.center.y;
 
-        //Vector3 pos = new Vector3(prop.transform.position.x, prop.transform.position.y + headHeight, prop.transform.position.z);
-
         prop.BecomeHeldBy(transform, new Vector3(0f, headHeight, 0f));
         heldObject = prop;
-
         // Visuals
         sweat.Activate();
         anim.SetBool("Carrying", true);
@@ -309,7 +355,6 @@ public class PlayerController : MonoBehaviour
     {
         heldObject.BecomeDropped();
         heldObject = null;
-
         // Visuals
         sweat.Desactivate();
         anim.SetBool("Carrying", false);
@@ -346,4 +391,6 @@ public class PlayerController : MonoBehaviour
         }
         return objectsAtRange.Count > 0;
     }
+#endregion
+
 }

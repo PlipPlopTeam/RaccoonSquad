@@ -349,8 +349,8 @@ MonoBehaviour:
   jumpForce: 2000
   carryCapacity: 10
   minimumWeightedSpeedFactor: 0.51
-  speedLerpSpeed: 10
-  orientationLerpSpeed: 15
+  speedLerpSpeed: 15
+  orientationLerpSpeed: 25
   objectsAtRange: []
   throwForceMultiplier: 10
   throwVerticality: 0.3

@@ -22,6 +22,7 @@ public class HumanBehavior : MonoBehaviour
 
     // Variables
     List<GameObject> inRange = new List<GameObject>();
+    List<SpeedModifier> speedModifiers = new List<SpeedModifier>();
     int currentWaypoint;
     float targetSpeed;
     // Referencies
@@ -88,6 +89,7 @@ public class HumanBehavior : MonoBehaviour
     {
         // Lerp agent speed for a more organic effect
         agent.speed = Mathf.Lerp(agent.speed, targetSpeed, velocityLerpSpeed * Time.deltaTime);
+        agent.speed *= ApplySpeedModifiers();
         anim.SetFloat("Speed", agent.velocity.magnitude/chaseSpeed);
 
         // Different update depending on the current state
@@ -272,4 +274,40 @@ public class HumanBehavior : MonoBehaviour
         lastSeenPlayer = pc;
         StartCoroutine(WaitAndForgetPlayer(5f));
     }
+
+    // Handle the adding and removing of speed effects on the player
+#region SPEED MODIFIER
+    float ApplySpeedModifiers()
+    {
+        float modifySpeed = 1f;
+        foreach(SpeedModifier modifier in speedModifiers) modifySpeed *= modifier.value;
+        return modifySpeed;
+    }
+    public int AddSpeedModifier(float value, int ticket)
+    {
+        if(value < 0) value = 0f;
+
+        SpeedModifier nsm = new SpeedModifier();
+        nsm.value = value;
+        nsm.ticket = ticket;
+        speedModifiers.Add(nsm);
+        return nsm.ticket;
+    }
+    public void RemoveSpeedModifier(int ticket)
+    {
+        SpeedModifier rsm = FindSpeedModifier(ticket);
+        if(rsm != null && speedModifiers.Contains(rsm)) 
+        {
+            speedModifiers.Remove(rsm);
+        }
+    }
+    SpeedModifier FindSpeedModifier(int ticket)
+    {
+        foreach(SpeedModifier modifier in speedModifiers)
+        {
+            if(modifier.ticket == ticket) return modifier;
+        }
+        return null;
+    }
+#endregion 
 }
