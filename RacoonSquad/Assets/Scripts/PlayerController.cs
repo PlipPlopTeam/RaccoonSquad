@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     public MeshRenderer noseRenderer;
 
     [Header("Locomotion")]
-    public float speedForce = 25f;
+    public float speed = 25f;
+    public float jumpForce = 100f;
     public float orientationLerpSpeed = 10f;
     public float carryCapacity = 10f;
     [Range(0, 1)] public float minimumWeightedSpeedFactor = 0.7f;
@@ -99,13 +100,30 @@ public class PlayerController : MonoBehaviour
     {
         CheckMovementInputs(state);
         CheckGrabInputs(state);
+        CheckJumpInputs(state);
+
         UpdateThrowPreview();
+    }
+
+    void CheckJumpInputs(GamePadState state)
+    {
+        if(state.Buttons.A == ButtonState.Pressed && IsGrounded())
+        {
+            rb.AddForce(Vector3.up * Time.deltaTime * jumpForce);
+            anim.SetTrigger("Jump");
+        }
+    }
+
+    bool IsGrounded()
+    {
+        if(Physics.Raycast(transform.position, -transform.up, 0.1f)) return true;
+        else return false;
     }
 
     void CheckMovementInputs(GamePadState state)
     {
         // Calculate the direction of the movement depending on the gamepad inputs
-        Vector2 direction = new Vector3(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
+        Vector2 direction = new Vector2(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
 
         float weightModifier = 1f;
         if (IsHolding()) {
@@ -113,7 +131,10 @@ public class PlayerController : MonoBehaviour
             weightModifier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
             sweat.Set(1 - weightModifier);
         }
-        rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime * weightModifier);
+
+        //rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speed * Time.deltaTime * weightModifier);
+
+        transform.position += new Vector3(direction.x, 0f, direction.y) * speed * Time.deltaTime * weightModifier;
         anim.SetFloat("Speed", direction.magnitude);
 
         // If the player is aiming
@@ -177,6 +198,7 @@ public class PlayerController : MonoBehaviour
                 0f,
                 max
             );
+        anim.SetFloat("ThrowPercentage", throwAccumulatedForce);
     }
 
     void UpdateThrowPreview()
@@ -253,14 +275,14 @@ public class PlayerController : MonoBehaviour
             + prop.GetComponent<Collider>().bounds.extents.y/2
             + collider.bounds.center.y;
 
-
         //Vector3 pos = new Vector3(prop.transform.position.x, prop.transform.position.y + headHeight, prop.transform.position.z);
 
         prop.BecomeHeldBy(rightHandBone);
         heldObject = prop;
 
+        // Visuals
         sweat.Activate();
-        anim.SetLayerWeight(1, 1);
+        anim.SetBool("Carrying", true);
     }
 
     void DropHeldObject()
@@ -268,8 +290,9 @@ public class PlayerController : MonoBehaviour
         heldObject.BecomeDropped();
         heldObject = null;
 
+        // Visuals
         sweat.Desactivate();
-        anim.SetLayerWeight(1, 0);
+        anim.SetBool("Carrying", false);
     }
 
     void ThrowHeldObject(float force)
@@ -282,7 +305,11 @@ public class PlayerController : MonoBehaviour
                 transform.up,
                 throwVerticality 
             )* force, ForceMode.Impulse
-       );
+        );
+
+        throwAccumulatedForce = 0;
+        anim.SetFloat("ThrowPercentage", 0);
+        anim.SetTrigger("ThrowAction");
     }
 
     bool IsHolding()
