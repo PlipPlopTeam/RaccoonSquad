@@ -66,7 +66,12 @@ MonoBehaviour:
     type: 3}
   hitFX: {fileID: 3914065392152726493, guid: f609e9ca307071446aa4ac2ca3f91e14, type: 3}
   sounds:
-  - name: 
-    clip: {fileID: 0}
+  - name: debug_music
+    clip: {fileID: 8300000, guid: 8233a79e37722b347b05de4b670af957, type: 3}
+    loop: 1
+  - name: debug_sound
+    clip: {fileID: 8300000, guid: 0a319017abeb79040b59ae3c92ff8efc, type: 3}
     loop: 0
-    unique: 0
+  - name: debug_sound_looping
+    clip: {fileID: 8300000, guid: 05ca16aceedc00a43b6c5b1e74c6b258, type: 3}
+    loop: 1
