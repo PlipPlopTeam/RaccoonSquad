@@ -76,13 +76,19 @@ Material:
     - _Resolution: 100
     - _ShadowStep: 0.01
     - _ShadowValue: 0.203
+    - _ShakeDistance: 0.1
+    - _ShakeEffect: 0
+    - _ShakeSpeed: 10
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _WorldScale: 4.6
     - _ZWrite: 1
+    - _tess: 3
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LightColor: {r: 1, g: 0.80307394, b: 0.7028302, a: 1}
     - _ShadowColor: {r: 0.08410467, g: 0.1936975, b: 0.6603774, a: 1}
+    - _ShakeDirection: {r: 1, g: 0, b: 0, a: 0}
