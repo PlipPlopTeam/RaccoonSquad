@@ -39,6 +39,12 @@ public class Grabbable : MonoBehaviour
         return isHeld;
     }
 
+
+    public Prop GetProp()
+    {
+        return prop;
+	}
+	
     public bool IsFlying()
     {
         if(prop.rigidbody.velocity.magnitude > 0.1f)
