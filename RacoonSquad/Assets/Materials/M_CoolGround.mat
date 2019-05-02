@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Nape
-  m_Shader: {fileID: 4800000, guid: 22e68748395012247afca7f96d7b8375, type: 3}
+  m_Name: M_CoolGround
+  m_Shader: {fileID: 4800000, guid: ee5822ab12187b445be397ae2bdf2dcf, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,10 +19,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Atlas:
-        m_Texture: {fileID: 2800000, guid: 030e0bda3bfaefb46a98838ef3693dd8, type: 3}
-        m_Scale: {x: 2, y: 2}
-        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -51,6 +47,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 5077ec7d1adfedc45b5fb0d85a8cee26, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 1.55, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -67,14 +67,14 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LightStep: 0.7
+    - _LightStep: 0.16
     - _LightValue: 0.182
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Resolution: 100
-    - _ShadowStep: 0.01
+    - _Scale: 0.03
+    - _ShadowStep: 0.15
     - _ShadowValue: 0.203
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -83,6 +83,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorA: {r: 0.2901961, g: 0.61960787, b: 0.3529412, a: 1}
+    - _ColorB: {r: 0.066082254, g: 0.31132078, b: 0.20913804, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LightColor: {r: 1, g: 0.80307394, b: 0.7028302, a: 1}
     - _ShadowColor: {r: 0.08410467, g: 0.1936975, b: 0.6603774, a: 1}
+    - _Tipcolor: {r: 0.3047348, g: 0.6037736, b: 0.36169457, a: 1}
