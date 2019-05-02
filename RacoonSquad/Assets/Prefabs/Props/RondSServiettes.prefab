@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5503430012252506500}
   - component: {fileID: 5372918265838846385}
   - component: {fileID: 7946419075755506345}
+  - component: {fileID: 7000586342793954948}
   m_Layer: 0
   m_Name: RondSServiettes
   m_TagString: Untagged
@@ -60,7 +61,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   racoonValue: 1
   humanValue: 1
-  weight: 10
+  weight: 1
+--- !u!114 &7000586342793954948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2575210180730978329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!1001 &6106460903343523342
 PrefabInstance:
   m_ObjectHideFlags: 0

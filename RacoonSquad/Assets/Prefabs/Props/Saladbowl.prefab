@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 709891605554031657}
   - component: {fileID: 2140293046778984}
   - component: {fileID: 1662417760832347082}
+  - component: {fileID: -6387659114360462840}
   m_Layer: 0
   m_Name: Saladbowl
   m_TagString: Untagged
@@ -61,6 +62,20 @@ MonoBehaviour:
   racoonValue: 1
   humanValue: 1
   weight: 1
+--- !u!114 &-6387659114360462840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 283201106666294086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!1001 &1782432949600451319
 PrefabInstance:
   m_ObjectHideFlags: 0

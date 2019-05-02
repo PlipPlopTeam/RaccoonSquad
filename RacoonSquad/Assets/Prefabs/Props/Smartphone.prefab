@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5650851321821030952}
   - component: {fileID: 8891807840229946509}
   - component: {fileID: 4598662641689327542}
+  - component: {fileID: -7156044491075878354}
   m_Layer: 0
   m_Name: Smartphone
   m_TagString: Untagged
@@ -61,6 +62,20 @@ MonoBehaviour:
   racoonValue: 1
   humanValue: 1
   weight: 1
+--- !u!114 &-7156044491075878354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7236588018011239770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!1001 &3435910714006775421
 PrefabInstance:
   m_ObjectHideFlags: 0

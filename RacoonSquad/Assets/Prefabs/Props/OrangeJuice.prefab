@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 619023205083851869}
   - component: {fileID: 5252873599390556466}
   - component: {fileID: 2028642354482980196}
+  - component: {fileID: 8328598447163964626}
   m_Layer: 0
   m_Name: OrangeJuice
   m_TagString: Untagged
@@ -61,6 +62,20 @@ MonoBehaviour:
   racoonValue: 1
   humanValue: 1
   weight: 2
+--- !u!114 &8328598447163964626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2321003331680001892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!1001 &8861450016926823777
 PrefabInstance:
   m_ObjectHideFlags: 0
