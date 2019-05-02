@@ -82,7 +82,7 @@ public class HumanBehavior : MonoBehaviour
     {
         // Lerp agent speed for a more organic effect
         agent.speed = Mathf.Lerp(agent.speed, targetSpeed, velocityLerpSpeed * Time.deltaTime);
-        anim.SetFloat("Speed", agent.speed/chaseSpeed);
+        anim.SetFloat("Speed", agent.velocity.magnitude/chaseSpeed);
 
         // Different update depending on the current state
         StateUpdate();
@@ -115,8 +115,19 @@ public class HumanBehavior : MonoBehaviour
                 break;
 
             case HumanState.Collecting:
-                if(IsObjectInRange(seenItem.gameObject) && !seenItem.IsFlying()) StartCoroutine(PickUp(seenItem.gameObject));
-                else agent.destination = seenItem.transform.position;
+                if(agent.velocity.magnitude > 0.01f) 
+                {
+                    agent.destination = seenItem.transform.position;
+                    if(IsObjectInRange(seenItem.gameObject) && !seenItem.IsFlying()) StartCoroutine(PickUp(seenItem.gameObject));                 
+                }
+                else
+                {
+                    seenItem = null;
+                    seenPlayer = null;
+                    ChangeState(HumanState.Walking);
+                    MoveTo(GetNextWaypoint());
+                }
+
                 break;
         }
     }
