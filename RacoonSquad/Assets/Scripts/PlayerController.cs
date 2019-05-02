@@ -98,10 +98,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(!activated) return;
-
         var state = GamePad.GetState(index);
-        CheckInputs(state);
+        
+        if(activated) CheckInputs(state);
 
         UpdateThrowPreview();
         UpdateHead();
@@ -147,7 +146,11 @@ public class PlayerController : MonoBehaviour
         targetSpeed = direction.magnitude * speed;
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedLerpSpeed);
 
-        transform.position += new Vector3(direction.x, 0f, direction.y) * currentSpeed * Time.deltaTime * movementSpeed.GetMultiplier();
+        float weightSpeedMultiplier = 1f;
+        if(IsHolding()) weightSpeedMultiplier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
+        sweat.Set(1 - weightSpeedMultiplier);
+
+        transform.position += new Vector3(direction.x, 0f, direction.y) * currentSpeed * Time.deltaTime * movementSpeed.GetMultiplier() * weightSpeedMultiplier;
         anim.SetFloat("Speed", targetSpeed/speed);
 
         // If the player is aiming
@@ -353,6 +356,8 @@ public class PlayerController : MonoBehaviour
     public void Stun(float duration)
     {
         activated = false;
+        duration = Mathf.Clamp(duration, 0f, 3f);
+        anim.SetFloat("Speed", 0f);
         StartCoroutine(WaitAndWakeUp(duration));
     }
 
@@ -360,5 +365,11 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         activated = true;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+        if(rb != null && rb.velocity.magnitude > 1f) Stun(rb.velocity.magnitude);
     }
 }

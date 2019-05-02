@@ -93,7 +93,7 @@ public class HumanBehavior : MonoBehaviour
         // Lerp agent speed for a more organic effect
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, velocityLerpSpeed * Time.deltaTime);
         agent.speed = currentSpeed * movementSpeed.GetMultiplier();
-        anim.SetFloat("Speed", agent.velocity.magnitude/chaseSpeed);
+        anim.SetFloat("Speed", agent.speed/chaseSpeed);
 
         // Different update depending on the current state
         StateUpdate();
@@ -233,24 +233,18 @@ public class HumanBehavior : MonoBehaviour
     {
         seenPlayer = pc;
         look.FocusOn(seenPlayer.transform);
-
         if(seenPlayer != lastSeenPlayer) RememberPlayer(seenPlayer);
         else if(seenPlayer.GetHeldObject() == null) yield break;
-
         SuprisedBy(seenPlayer.transform.position);
-
         Mark();
-        yield return new WaitForSeconds(1f);
-        Unmark();
         
-        if (seenPlayer == null) yield break;
+        yield return new WaitForSeconds(2f);
 
+        Unmark();
+        if (seenPlayer == null) yield break;
         seenItem = seenPlayer.GetHeldObject();
         if(seenItem != null) ChangeState(HumanState.Chasing);
-        else
-        {
-            ChangeState(HumanState.Walking);
-        }
+        else ChangeState(HumanState.Walking);
     }
 
     int GetNextWaypoint()
@@ -277,5 +271,27 @@ public class HumanBehavior : MonoBehaviour
     {
         lastSeenPlayer = pc;
         StartCoroutine(WaitAndForgetPlayer(5f));
+    }
+
+    public void Stun(float duration)
+    {
+        look.LooseFocus();
+        anim.SetTrigger("Hit");
+        ChangeState(HumanState.Thinking);
+
+        duration = Mathf.Clamp(duration, 0f, 3f);
+        StartCoroutine(WaitAndWakeUp(duration));
+    }
+
+    IEnumerator WaitAndWakeUp(float time)
+    {
+        yield return new WaitForSeconds(time);
+        ChangeState(HumanState.Walking);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+        if(rb != null && rb.velocity.magnitude > 1f) Stun(rb.velocity.magnitude);
     }
 }
