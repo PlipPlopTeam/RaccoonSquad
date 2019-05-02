@@ -109,7 +109,6 @@ public class PlayerController : MonoBehaviour
     {
         if(state.Buttons.A == ButtonState.Pressed && IsGrounded())
         {
-            print("jump");
             rb.AddForce(Vector3.up * Time.deltaTime * jumpForce);
             anim.SetTrigger("Jump");
         }
