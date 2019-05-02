@@ -9,9 +9,9 @@ public class FocusLook : MonoBehaviour
     public float angleMax = 60f;
     public float speed = 0.1f;
 
+    [HideInInspector] public bool isFocused;
     Transform transformTarget;
     Vector3 positionTarget;
-
     Vector3 targetDirection;
 
     void Awake()
@@ -40,11 +40,13 @@ public class FocusLook : MonoBehaviour
     {
         LooseFocus();
         positionTarget = position;
+        isFocused = true;
     }
     public void FocusOn(Transform transform)
     {
         LooseFocus();
         transformTarget = transform;
+        isFocused = true;
     }
 
     // LOOSE FOCUS
@@ -53,5 +55,6 @@ public class FocusLook : MonoBehaviour
         targetDirection = transform.forward;
         positionTarget = Vector3.zero;
         transformTarget = null;
+        isFocused = false;
     }
 }
