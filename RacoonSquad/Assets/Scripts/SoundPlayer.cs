@@ -10,7 +10,6 @@ public class SoundPlayer : MonoBehaviour
         public string name;
         public AudioClip clip;
         public bool loop = false;
-        public bool unique = false;
     }
 
     static AudioSource source;
@@ -24,44 +23,116 @@ public class SoundPlayer : MonoBehaviour
     }
 
     // General function
-    public static void Play(AudioClip clip, AudioSource source, float volume = 1f, float pitch = 1f)
+    static void PlayClipOnce(AudioClip clip, AudioSource source, float volume = 1f, float pitch = 1f)
     {
         source.pitch = pitch;
         source.PlayOneShot(clip, volume);
     }
 
-    // Specifics
-    public static void Play(string soundName, float volume=1f)
+    static void LoopClip(AudioClip clip, float volume = 1f, float pitch = 1f, AudioSource src=null)
     {
-        Play(GetAudioClipFromName(soundName), source, volume);
+        if (src == null) {
+            var g = new GameObject();
+            src = g.AddComponent<AudioSource>();
+        }
+        src.loop = true;
+        src.pitch = pitch;
+        src.volume = volume;
+        src.clip = clip;
+        src.Play();
+    }
+
+    static void PlaySound(Sound snd, float volume=1f, float pitch = 1f, AudioSource src=null)
+    {
+        if (source == null) { source = Camera.main.gameObject.AddComponent<AudioSource>(); }
+        if (src == null) { src = source; }
+        
+        if (snd.loop) {
+            MakeUnique(snd);
+            LoopClip(snd.clip, volume, pitch, src);
+        }
+        else {
+            PlayClipOnce(snd.clip, src, volume, pitch);
+        }
+    }
+
+    // Public Specifics
+    public static void Play(string soundName, float volume=1f, float pitch=1f)
+    {
+        var snd = GetSoundFromName(soundName);
+        PlaySound(snd, volume, pitch);
     }
 
     public static void PlayWithRandomPitch(string soundName, float volume = 1f)
     {
-        Play(GetAudioClipFromName(soundName), source, volume, RandomPitch()); 
+        PlaySound(GetSoundFromName(soundName), volume, RandomPitch()); 
     }
 
-    public static void PlayAtPosition(string soundName, Vector3 position, bool randomPitch=false, float volume = 1f)
+    public static void PlaySoundAttached(string soundName, Transform parent, float volume = 1f, bool randomPitch = false)
+    {
+        var snd = GetSoundFromName(soundName);
+        var clip = snd.clip;
+
+        var g = new GameObject();
+        var source = g.AddComponent<AudioSource>();
+        source.spatialBlend = 1f;
+        source.minDistance = 2000f;
+        source.maxDistance = 2000.1f;
+        if (snd.loop == false) {
+            g.AddComponent<DestroyAfter>().lifespan = clip.length + 1f;
+        }
+        g.transform.parent = parent;
+        g.transform.localPosition = new Vector3();
+
+        PlaySound(snd, volume, randomPitch ? RandomPitch() : 1f, source);
+    }
+
+    public static void PlayAtPosition(string soundName, Vector3 position, float volume = 1f, bool randomPitch = false)
     {
         var g = new GameObject();
-        var clip = GetAudioClipFromName(soundName);
-        var source = g.AddComponent<AudioSource>();
-        g.AddComponent<DestroyAfter>().lifespan = clip.length + 1f;
         g.transform.position = position;
 
-        Play(clip, source, volume, randomPitch ? RandomPitch() : 1f); 
+        var snd = GetSoundFromName(soundName);
+        var clip = snd.clip;
+        if (snd.loop == false) {
+            g.AddComponent<DestroyAfter>().lifespan = clip.length + 1f;
+        }
+
+        PlaySoundAttached(soundName, g.transform, volume, randomPitch);
+    }
+
+    // utilities
+
+    public static void StopEverySound()
+    {
+        foreach (var src in FindObjectsOfType<AudioSource>()) {
+            src.Stop();
+            if (src == source) continue;
+            Destroy(src.gameObject);
+        }
     }
 
     static float RandomPitch()
     {
-        return 1 - 0.05f + Random.value / 10; // +/- 0.05
+        return 1 - 0.2f + Random.value / 2.5f; // +/- 0.2
     }
 
-    static AudioClip GetAudioClipFromName(string name)
+    static void MakeUnique(Sound sound)
+    {
+        foreach(var src in FindObjectsOfType<AudioSource>()) {
+            if (src.clip == sound.clip) {
+                src.Stop();
+                if (src == source) continue;
+                Destroy(src.gameObject);
+            }
+        }
+    }
+
+    static Sound GetSoundFromName(string name)
     {
         foreach(Sound s in Library.instance.sounds)
         {
-            if(s.name == name) return s.clip;
+            if(s.name == name) return s;
         }
         throw new MissingSoundException("COULD NOT FIND SOUND NAMED [" + name + "]\nDid you type the name correctly?");
     }
