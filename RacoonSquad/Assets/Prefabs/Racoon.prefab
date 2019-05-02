@@ -347,9 +347,10 @@ MonoBehaviour:
   noseRenderer: {fileID: 7993783367142797260}
   speed: 5
   jumpForce: 2000
-  orientationLerpSpeed: 35
   carryCapacity: 10
   minimumWeightedSpeedFactor: 0.51
+  speedLerpSpeed: 10
+  orientationLerpSpeed: 15
   objectsAtRange: []
   throwForceMultiplier: 10
   throwVerticality: 0.3

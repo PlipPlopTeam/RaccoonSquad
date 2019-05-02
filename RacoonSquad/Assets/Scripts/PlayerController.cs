@@ -12,9 +12,14 @@ public class PlayerController : MonoBehaviour
     [Header("Locomotion")]
     public float speed = 25f;
     public float jumpForce = 100f;
-    public float orientationLerpSpeed = 10f;
     public float carryCapacity = 10f;
     [Range(0, 1)] public float minimumWeightedSpeedFactor = 0.7f;
+    float targetSpeed;
+    float currentSpeed;
+
+    [Header("Lerps")]
+    public float speedLerpSpeed = 10f;
+    public float orientationLerpSpeed = 10f;
 
     [Header("Grabbotion")]
     public List<Grabbable> objectsAtRange = new List<Grabbable>();
@@ -143,19 +148,21 @@ public class PlayerController : MonoBehaviour
             sweat.Set(1 - weightModifier);
         }
 
-        //rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speed * Time.deltaTime * weightModifier);
 
-        transform.position += new Vector3(direction.x, 0f, direction.y) * speed * Time.deltaTime * weightModifier;
-        anim.SetFloat("Speed", direction.magnitude);
+        targetSpeed = direction.magnitude * speed;
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedLerpSpeed);
+
+        transform.position += new Vector3(direction.x, 0f, direction.y) * currentSpeed * Time.deltaTime * weightModifier;
+        anim.SetFloat("Speed", targetSpeed/speed);
 
         // If the player is aiming
-        if(state.ThumbSticks.Right.X != 0 || state.ThumbSticks.Right.Y != 0)
+        if(Mathf.Abs(state.ThumbSticks.Right.X) > 0.05f || Mathf.Abs(state.ThumbSticks.Right.Y) > 0.05f)
         {
             targetOrientation = new Vector3(state.ThumbSticks.Right.X, 0f, state.ThumbSticks.Right.Y);
         }
-        else if(direction.x != 0 || direction.y != 0) // If the player movement axis are still flowing
+        else if(Mathf.Abs(state.ThumbSticks.Left.X) > 0.05f || Mathf.Abs(state.ThumbSticks.Left.Y) > 0.05f)
         {
-            targetOrientation = new Vector3(direction.x, 0f, direction.y);
+            targetOrientation = new Vector3(state.ThumbSticks.Left.X, 0f, state.ThumbSticks.Left.Y);
         }
 
         // Rotate the character towards his movement direction
