@@ -64,3 +64,9 @@ MonoBehaviour:
     type: 3}
   sweatParticle: {fileID: 5340588666996514706, guid: 53d3fca919db0cf4f91f2519db4054a3,
     type: 3}
+  hitFX: {fileID: 3914065392152726493, guid: f609e9ca307071446aa4ac2ca3f91e14, type: 3}
+  sounds:
+  - name: 
+    clip: {fileID: 0}
+    loop: 0
+    unique: 0

@@ -38,4 +38,9 @@ public class Grabbable : MonoBehaviour
     {
         return isHeld;
     }
+
+    public Prop GetProp()
+    {
+        return prop;
+    }
 }
