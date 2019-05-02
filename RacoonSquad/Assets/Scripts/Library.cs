@@ -12,6 +12,10 @@ public class Library : MonoBehaviour
 
     [Header("Particles")]
     public GameObject sweatParticle;
+    public GameObject hitFX;
+
+    [Header("Sounds")]
+    public List<SoundPlayer.Sound> sounds;
 
     void Awake()
     {

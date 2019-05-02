@@ -5,11 +5,11 @@
     <e p="C:\Users\doria\Documents\GitHub\RacoonSquad\RacoonSquad" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="FocusLook.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Bin.cs" t="Include" />
           <e p="CameraController.cs" t="Include" />
           <e p="CollisionEventTransmitter.cs" t="Include" />
+          <e p="FocusLook.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
           <e p="GoalZone.cs" t="Include" />
           <e p="Grabbable.cs" t="Include" />
@@ -20,6 +20,8 @@
           <e p="Lobby.cs" t="Include" />
           <e p="PlayerController.cs" t="Include" />
           <e p="PlayerInputs.cs" t="Include" />
+          <e p="PostProcess.cs" t="Include" />
+          <e p="Prop.cs" t="Include" />
           <e p="Sight.cs" t="Include" />
           <e p="SoundManager.cs" t="Include" />
           <e p="Sweat.cs" t="Include" />
@@ -32,8 +34,12 @@
         </e>
         <e p="Shaders" t="Include">
           <e p="S_DissolveParticle.shader" t="Include" />
+          <e p="S_HiddenRaccoon.shader" t="Include" />
+          <e p="S_ToonLit_CutOut.shader" t="Include" />
+          <e p="Shader02.shader" t="Include" />
           <e p="Shader10.shader" t="Include" />
         </e>
+        <e p="ShakeTest.cs" t="Include" />
       </e>
       <e p="Library" t="ExcludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />

@@ -5,13 +5,16 @@ using UnityEngine;
 public class LevelMaster
 {
     public int currentScore = 0;
-
     int maximumScore = 0;
 
     public LevelMaster()
     {
         foreach(var prop in Object.FindObjectsOfType<Grabbable>()) {
             maximumScore += prop.racoonValue;
+            prop.GetProp().onHit += (x) => {
+                // Play Sound
+                GameObject.Instantiate(Library.instance.hitFX, x.GetContact(0).point, Library.instance.hitFX.transform.rotation);
+            };
         }        
     }
 
