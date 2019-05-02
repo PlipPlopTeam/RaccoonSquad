@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6937427662992153741}
   - component: {fileID: 24062617205288702}
   - component: {fileID: 8358083356251612033}
+  - component: {fileID: -7827014633462521032}
   m_Layer: 0
   m_Name: Fruits
   m_TagString: Untagged
@@ -61,6 +62,20 @@ MonoBehaviour:
   racoonValue: 1
   humanValue: 1
   weight: 5
+--- !u!114 &-7827014633462521032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104385856187359844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!1001 &3530185134041028904
 PrefabInstance:
   m_ObjectHideFlags: 0

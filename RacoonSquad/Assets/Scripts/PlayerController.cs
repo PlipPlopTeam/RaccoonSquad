@@ -5,10 +5,9 @@ using XInputDotNetPure;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerIndex index;
 
     [Header("Inputs")]
-    [Range(0,1)]public float grabTriggerThreshold = 0.3f;
+    public PlayerIndex index;
     public MeshRenderer noseRenderer;
 
     [Header("Locomotion")]
@@ -26,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Visuals")]
     public float aimRotationSpeed = 5f;
+    public float aimSpotLag = 0.05f;
 
     [Header("Bones")]
     public Transform rightHandBone;
@@ -38,17 +38,17 @@ public class PlayerController : MonoBehaviour
     Vector3 targetOrientation;
     Rigidbody rb;
     Light aimLight;
+    LineRenderer lineRenderer;
     new CapsuleCollider collider;
     float throwAccumulatedForce = 0f;
-    float throwAimForceCorrection = 0.9f; // Band-aid correction to make the spotlight aiming more accurate
-
+    bool acceptThrowCommands = true;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
         anim = GetComponent<Animator>();
-
+        lineRenderer = GetComponent<LineRenderer>();
         aimLight = GetComponentInChildren<Light>();
         sweat = GetComponentInChildren<Sweat>();
 
@@ -157,20 +157,19 @@ public class PlayerController : MonoBehaviour
         bool isAccumulating = false;
         var rightStickAmplitude = GetStickDirection(state.ThumbSticks.Right).magnitude;
 
-        if (state.Triggers.Right > grabTriggerThreshold) {
-            // Trigger is pressed
-            if (IsHolding()) {
-                // Nothing - keep holding
-                if (rightStickAmplitude > 0.1f) {
-                    isAccumulating = true;
-                }
-            }
-            else if (IsAnythingAtRange()) {
-                // Grab the highest object
-                GrabBestObjectAtRange();
+        if (IsHolding()) {
+            // Accumulate force
+            if (rightStickAmplitude > 0.1f) {
+                isAccumulating = true;
             }
         }
-        else {
+
+        if (state.Buttons.RightShoulder == ButtonState.Released) acceptThrowCommands = true;
+
+        else if (state.Buttons.RightShoulder == ButtonState.Pressed && acceptThrowCommands) {
+            acceptThrowCommands = false;
+
+            // Launch is ordered
             if (IsHolding()) {
                 if (rightStickAmplitude > 0.1f) {
                     ThrowHeldObject(throwAccumulatedForce * throwForceMultiplier);
@@ -179,8 +178,11 @@ public class PlayerController : MonoBehaviour
                     DropHeldObject();
                 }
             }
+            else if (IsAnythingAtRange()) {
+                // Grab the highest object
+                GrabBestObjectAtRange();
+            }
         }
-
         // Increases throw force over time, or resets it
         if (isAccumulating) {
             AccumulateThrowForce(rightStickAmplitude);
@@ -202,16 +204,45 @@ public class PlayerController : MonoBehaviour
 
     void UpdateThrowPreview()
     {
+        float throwAimForceCorrection = 1f - throwVerticality; // Band-aid correction to make the spotlight aiming more accurate
+
         aimLight.enabled = false;
         if (throwAccumulatedForce > 0f) {
             aimLight.transform.localEulerAngles = new Vector3(90f, aimLight.transform.localEulerAngles.y + Time.deltaTime*aimRotationSpeed, 0f);
-            aimLight.transform.localPosition = new Vector3(
-                0f,
-                aimLight.transform.localPosition.y,
-                throwAccumulatedForce * throwForceMultiplier * throwAimForceCorrection
+            aimLight.transform.localPosition = Vector3.Lerp(
+                aimLight.transform.localPosition,
+                new Vector3(
+                    0f,
+                    aimLight.transform.localPosition.y,
+                    throwAccumulatedForce * throwForceMultiplier * throwAimForceCorrection
+                ),
+                1f - aimSpotLag
             );
+            
             aimLight.enabled = true;
+
+            lineRenderer.positionCount = 2;
+            lineRenderer.SetPositions(
+                // Adding 0.01f to Y to avoid Z-fight
+                new Vector3[] {
+                    transform.position + new Vector3(0f, 0.05f, 0f),
+                    Vector3.Lerp(
+                        transform.position + new Vector3(0f, 0.1f, 0f),
+                        new Vector3( aimLight.transform.position.x, transform.position.y+0.1f,  aimLight.transform.position.z),
+                        0.92f
+                    )
+                }
+            );
         }
+        else {
+            ResetThrowPreview();
+        }
+    }
+
+    void ResetThrowPreview()
+    {
+        aimLight.transform.localPosition = new Vector3(0f, aimLight.transform.localPosition.y, 0f);
+        lineRenderer.positionCount = 0;
     }
 
     void GrabBestObjectAtRange()
@@ -241,9 +272,8 @@ public class PlayerController : MonoBehaviour
     void GrabObject(Grabbable prop)
     {
         float headHeight = 
-            collider.bounds.extents.y
-            + prop.GetComponent<Collider>().bounds.extents.y 
-            - prop.GetComponent<Collider>().bounds.center.y 
+            collider.height/2
+            + prop.GetComponent<Collider>().bounds.extents.y/2
             + collider.bounds.center.y;
 
         //Vector3 pos = new Vector3(prop.transform.position.x, prop.transform.position.y + headHeight, prop.transform.position.z);

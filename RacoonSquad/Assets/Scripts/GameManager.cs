@@ -68,23 +68,13 @@ public class GameManager : MonoBehaviour
     private Cheats cheats = new Cheats {
         // Everything becomes grababble
         {"GRABALL",
-            delegate {
-            foreach (var obj in FindObjectsOfType<GameObject>()){
-                if (
-                obj.GetComponent<Grabbable>()==null && 
-                obj.GetComponent<RectTransform>()==null &&
-                obj.GetComponent<MeshRenderer>()!= null &&
-                obj.GetComponentInParent<PlayerController>() == null &&
-                obj.name != "Ground"){
-                    obj.AddComponent<Grabbable>();
-                    obj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                }
-            }
-        } },
+            delegate { foreach (var obj in FindObjectsOfType<Prop>()){ obj.gameObject.AddComponent<Grabbable>();}}
+        },
 
         // Resets the game
         {"DEJAVU",
-            delegate { SceneManager.LoadScene(SceneManager.GetActiveScene().name); } }
+            delegate { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
+        }
     };
 
     public static KeyCode KeyDown(bool getDef=false)
