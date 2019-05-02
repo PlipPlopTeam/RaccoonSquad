@@ -757,6 +757,7 @@ MonoBehaviour:
   racoonPrefab: {fileID: 4643777608409574412, guid: 9c9ca2ff9baf4e944ada28b4bc222b95,
     type: 3}
   exclamationMarkPrefab: {fileID: 0}
+  sweatParticle: {fileID: 0}
 --- !u!1001 &1854579431
 PrefabInstance:
   m_ObjectHideFlags: 0
