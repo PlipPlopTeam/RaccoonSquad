@@ -305,9 +305,11 @@ public class PlayerController : MonoBehaviour
                 transform.up,
                 throwVerticality 
             )* force, ForceMode.Impulse
-       );
+        );
 
-       anim.SetTrigger("ThrowAction");
+        throwAccumulatedForce = 0;
+        anim.SetFloat("ThrowPercentage", 0);
+        anim.SetTrigger("ThrowAction");
     }
 
     bool IsHolding()
