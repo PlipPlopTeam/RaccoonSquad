@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
     public float aimRotationSpeed = 5f;
     public float aimSpotLag = 0.05f;
 
+    [Header("Bones")]
+    public Transform rightHandBone;
+    public Transform leftHandBone;
+
     Sweat sweat;
     Animator anim;
     CollisionEventTransmitter grabCollisions;
@@ -249,10 +253,14 @@ public class PlayerController : MonoBehaviour
             + prop.GetComponent<Collider>().bounds.extents.y/2
             + collider.bounds.center.y;
 
-        prop.BecomeHeldBy(transform, new Vector3(0f, headHeight, 0f));
+
+        //Vector3 pos = new Vector3(prop.transform.position.x, prop.transform.position.y + headHeight, prop.transform.position.z);
+
+        prop.BecomeHeldBy(rightHandBone);
         heldObject = prop;
 
         sweat.Activate();
+        anim.SetLayerWeight(1, 1);
     }
 
     void DropHeldObject()
@@ -261,6 +269,7 @@ public class PlayerController : MonoBehaviour
         heldObject = null;
 
         sweat.Desactivate();
+        anim.SetLayerWeight(1, 0);
     }
 
     void ThrowHeldObject(float force)
