@@ -21,6 +21,8 @@ public class FocusLook : MonoBehaviour
 
     void LateUpdate()
     {
+        if(!isFocused) return;
+
         Vector3 direction = transform.forward;
 
         if(transformTarget != null) 
