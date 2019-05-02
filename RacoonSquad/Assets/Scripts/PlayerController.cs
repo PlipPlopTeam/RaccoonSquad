@@ -266,8 +266,10 @@ public class PlayerController : MonoBehaviour
     {
         float bestHeight = Mathf.NegativeInfinity;
         Grabbable bestProp = null;
-        foreach(var prop in objectsAtRange) {
-            if (prop.transform.position.y > bestHeight) {
+        foreach(var prop in objectsAtRange) 
+        {
+            if(prop.transform.position.y > bestHeight)
+            {
                 bestProp = prop;
                 bestHeight = prop.transform.position.y;
             }
@@ -296,7 +298,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Carrying", true);
     }
 
-    void DropHeldObject()
+    public void DropHeldObject()
     {
         heldObject.BecomeDropped();
         heldObject = null;
@@ -323,7 +325,7 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("ThrowAction");
     }
 
-    bool IsHolding()
+    public bool IsHolding()
     {
         return heldObject != null;
     }
