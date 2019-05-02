@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5363644255654955936
 Transform:
@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundedThreshold: 0.01
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
 --- !u!1001 &4957509034638589635
@@ -71,6 +72,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_FlowerSquarePot
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 654c1f96f366e05489473a0692278d19,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 654c1f96f366e05489473a0692278d19,
         type: 3}
