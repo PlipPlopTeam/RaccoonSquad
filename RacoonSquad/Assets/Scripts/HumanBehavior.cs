@@ -115,7 +115,7 @@ public class HumanBehavior : MonoBehaviour
                 break;
 
             case HumanState.Collecting:
-                if(IsObjectInRange(seenItem.gameObject)) StartCoroutine(PickUp(seenItem.gameObject));
+                if(IsObjectInRange(seenItem.gameObject) && !seenItem.IsFlying()) StartCoroutine(PickUp(seenItem.gameObject));
                 else agent.destination = seenItem.transform.position;
                 break;
         }

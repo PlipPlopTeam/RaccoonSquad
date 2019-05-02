@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2077747319009416976}
   - component: {fileID: 3202954812204218711}
   - component: {fileID: 5434171861914819389}
+  - component: {fileID: -3146240946269392003}
   m_Layer: 0
   m_Name: GrabbableProp2
   m_TagString: Untagged
@@ -46,7 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2c093d04dfc6b40959eb51825e4cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 0}
+  racoonValue: 1
+  humanValue: 1
+  weight: 10
 --- !u!136 &3202954812204218711
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -77,6 +80,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-3146240946269392003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034533749439570175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!1 &3803941996823804809
 GameObject:
   m_ObjectHideFlags: 0
