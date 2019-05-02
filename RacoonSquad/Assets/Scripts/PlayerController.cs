@@ -215,8 +215,8 @@ public class PlayerController : MonoBehaviour
     {
         float headHeight = 
             collider.bounds.extents.y
-            + prop.collider.bounds.extents.y 
-            - prop.collider.bounds.center.y 
+            + prop.GetComponent<Collider>().bounds.extents.y 
+            - prop.GetComponent<Collider>().bounds.center.y 
             + collider.bounds.center.y;
 
         prop.BecomeHeldBy(transform, new Vector3(0f, headHeight, 0f));
@@ -235,7 +235,7 @@ public class PlayerController : MonoBehaviour
     {
         var prop = heldObject;
         DropHeldObject();
-        prop.rigidbody.AddForce(
+        prop.GetComponent<Rigidbody>().AddForce(
             Vector3.Lerp(
                 transform.forward,
                 transform.up,
