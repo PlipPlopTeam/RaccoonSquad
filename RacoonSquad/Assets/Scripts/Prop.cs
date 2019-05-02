@@ -28,6 +28,8 @@ public class Prop : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if(onHit == null) return;
+        
         if ((IsGrounded() || collision.collider.name == "Ground") && onHit.GetInvocationList().Length > 0) {
             onHit.Invoke(collision);
         }
