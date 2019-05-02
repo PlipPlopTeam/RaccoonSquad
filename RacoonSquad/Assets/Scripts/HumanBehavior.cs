@@ -219,10 +219,7 @@ public class HumanBehavior : MonoBehaviour
         foreach(GameObject go in seens)
         {
             PlayerController pc = go.GetComponent<PlayerController>();
-            if(pc != null)
-            {
-                StartCoroutine(SpotRaccoon(pc));
-            }
+            if(pc != null && !pc.hidden) StartCoroutine(SpotRaccoon(pc));
         }
     }
 

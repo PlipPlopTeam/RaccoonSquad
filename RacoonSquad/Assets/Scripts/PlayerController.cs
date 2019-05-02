@@ -5,7 +5,6 @@ using XInputDotNetPure;
 
 public class PlayerController : MonoBehaviour
 {
-
     [Header("Inputs")]
     public PlayerIndex index;
     public MeshRenderer noseRenderer;
@@ -31,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public Transform rightHandBone;
     public Transform leftHandBone;
 
+
     Sweat sweat;
     FocusLook look;
     Animator anim;
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     LineRenderer lineRenderer;
     new CapsuleCollider collider;
 
-
+    public bool hidden;
     float throwAccumulatedForce = 0f;
     bool acceptThrowCommands = true;
 
