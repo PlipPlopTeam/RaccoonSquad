@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6013595108230017141}
   - component: {fileID: 4721072511302162790}
   - component: {fileID: 7203177191685136183}
+  - component: {fileID: -6096929077327845803}
   m_Layer: 0
   m_Name: GrabbableProp1
   m_TagString: Untagged
@@ -59,7 +60,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2c093d04dfc6b40959eb51825e4cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 0}
+  racoonValue: 1
+  humanValue: 1
+  weight: 10
 --- !u!54 &7203177191685136183
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -76,6 +79,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-6096929077327845803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3429245492722629467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!1 &7495678131605331996
 GameObject:
   m_ObjectHideFlags: 0
