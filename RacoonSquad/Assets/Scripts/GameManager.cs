@@ -74,7 +74,13 @@ public class GameManager : MonoBehaviour
         // Resets the game
         {"DEJAVU",
             delegate { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
-        }
+        },
+
+        {"MUSIC", delegate { SoundPlayer.Play("debug_music"); }},
+        {"STOP", delegate { SoundPlayer.StopEverySound(); }},
+        {"PSOUND", delegate { SoundPlayer.Play("debug_sound"); }},
+        {"RPITCH", delegate { SoundPlayer.PlayWithRandomPitch("debug_sound"); }},
+        {"LOOPME", delegate { SoundPlayer.PlaySoundAttached("debug_sound_looping", FindObjectOfType<PlayerController>().transform); }},
     };
 
     public static KeyCode KeyDown(bool getDef=false)

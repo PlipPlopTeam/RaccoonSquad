@@ -388,7 +388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   head: {fileID: 5485492825789802871}
   adjustment: {x: 0, y: 0, z: -90}
-  angleMax: 80
+  angleMax: 70
   speed: 0.1
   isFocused: 0
 --- !u!1 &4643777608966351597
