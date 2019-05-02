@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     LineRenderer lineRenderer;
     new CapsuleCollider collider;
 
-    public bool hidden;
+    [HideInInspector] public bool hidden;
     float throwAccumulatedForce = 0f;
     bool acceptThrowCommands = true;
 

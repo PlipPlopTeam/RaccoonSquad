@@ -358,6 +358,7 @@ MonoBehaviour:
   aimSpotLag: 0.05
   rightHandBone: {fileID: 1489341281763553494}
   leftHandBone: {fileID: 8467635245106963551}
+  hidden: 0
 --- !u!114 &-6301478079525434283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +391,7 @@ MonoBehaviour:
   head: {fileID: 5485492825789802871}
   adjustment: {x: 0, y: 0, z: -90}
   angleMax: 70
-  speed: 0.1
+  speed: 10
   isFocused: 0
 --- !u!114 &-5474987778970382729
 MonoBehaviour:
@@ -523,6 +524,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4643777608966351596}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: a1194b586c0984d448eca17db774e797,
+        type: 3}
+      propertyPath: m_Name
+      value: SK_Raccoon
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: a1194b586c0984d448eca17db774e797,
+        type: 3}
+      propertyPath: m_Name
+      value: SK_Raccoon
+      objectReference: {fileID: 0}
+    - target: {fileID: -5812105590314323576, guid: a1194b586c0984d448eca17db774e797,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5812105590314323576, guid: a1194b586c0984d448eca17db774e797,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8498998248236325518, guid: a1194b586c0984d448eca17db774e797,
+        type: 3}
+      propertyPath: m_Name
+      value: Tail
+      objectReference: {fileID: 0}
+    - target: {fileID: -8498998248236325518, guid: a1194b586c0984d448eca17db774e797,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8498998248236325518, guid: a1194b586c0984d448eca17db774e797,
+        type: 3}
+      propertyPath: m_Name
+      value: Tail
+      objectReference: {fileID: 0}
+    - target: {fileID: -8498998248236325518, guid: a1194b586c0984d448eca17db774e797,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a1194b586c0984d448eca17db774e797,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -576,46 +617,6 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: a1194b586c0984d448eca17db774e797,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: a1194b586c0984d448eca17db774e797,
-        type: 3}
-      propertyPath: m_Name
-      value: SK_Raccoon
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: a1194b586c0984d448eca17db774e797,
-        type: 3}
-      propertyPath: m_Name
-      value: SK_Raccoon
-      objectReference: {fileID: 0}
-    - target: {fileID: -8498998248236325518, guid: a1194b586c0984d448eca17db774e797,
-        type: 3}
-      propertyPath: m_Name
-      value: Tail
-      objectReference: {fileID: 0}
-    - target: {fileID: -8498998248236325518, guid: a1194b586c0984d448eca17db774e797,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8498998248236325518, guid: a1194b586c0984d448eca17db774e797,
-        type: 3}
-      propertyPath: m_Name
-      value: Tail
-      objectReference: {fileID: 0}
-    - target: {fileID: -8498998248236325518, guid: a1194b586c0984d448eca17db774e797,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -5812105590314323576, guid: a1194b586c0984d448eca17db774e797,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -5812105590314323576, guid: a1194b586c0984d448eca17db774e797,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
