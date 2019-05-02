@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public float aimRotationSpeed = 5f;
 
     Sweat sweat;
+    Animator anim;
     CollisionEventTransmitter grabCollisions;
     Grabbable heldObject;
     Vector3 targetOrientation;
@@ -41,6 +42,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
+        anim = GetComponent<Animator>();
+
         aimLight = GetComponentInChildren<Light>();
         sweat = GetComponentInChildren<Sweat>();
 
@@ -106,8 +109,8 @@ public class PlayerController : MonoBehaviour
             weightModifier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
             sweat.Set(1 - weightModifier);
         }
-
         rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime * weightModifier);
+        anim.SetFloat("Speed", direction.magnitude);
 
         // If the player is aiming
         if(state.ThumbSticks.Right.X != 0 || state.ThumbSticks.Right.Y != 0)
@@ -118,7 +121,6 @@ public class PlayerController : MonoBehaviour
         {
             targetOrientation = new Vector3(direction.x, 0f, direction.y);
         }
-
 
         // Rotate the character towards his movement direction
         transform.forward = Vector3.Lerp(transform.forward, targetOrientation, Time.deltaTime * orientationLerpSpeed);
