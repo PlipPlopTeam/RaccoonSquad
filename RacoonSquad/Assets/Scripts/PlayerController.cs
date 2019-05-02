@@ -12,6 +12,7 @@ public class SpeedModifier
 public class PlayerController : MonoBehaviour
 {
     [Header("Inputs")]
+    bool activated = true;
     public PlayerIndex index;
     public MeshRenderer noseRenderer;
 
@@ -144,8 +145,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if(!activated) return;
+
         var state = GamePad.GetState(index);
         CheckInputs(state);
+
         UpdateThrowPreview();
         UpdateHead();
     }
@@ -393,4 +397,15 @@ public class PlayerController : MonoBehaviour
     }
 #endregion
 
+    public void Stun(float duration)
+    {
+        activated = false;
+        StartCoroutine(WaitAndWakeUp(duration));
+    }
+
+    IEnumerator WaitAndWakeUp(float time)
+    {
+        yield return new WaitForSeconds(time);
+        activated = true;
+    }
 }

@@ -128,6 +128,7 @@ public class HumanBehavior : MonoBehaviour
                 {
                     if(IsObjectInRange(seenPlayer.gameObject)) 
                     {
+                        seenPlayer.Stun(2f);
                         seenPlayer.DropHeldObject();
                         ChangeState(HumanState.Walking);
                     }
