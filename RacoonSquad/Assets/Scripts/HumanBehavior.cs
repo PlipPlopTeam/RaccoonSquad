@@ -123,7 +123,7 @@ public class HumanBehavior : MonoBehaviour
     void CleanSeenItem()
     {
         // Security fallback
-        if (seenItem == null) {
+        if (seenItem == null && seenPlayer == null) {
             ChangeState(HumanState.Walking);
         }
     }

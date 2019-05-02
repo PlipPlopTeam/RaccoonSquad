@@ -26,7 +26,12 @@ public class PlayerController : MonoBehaviour
     [Header("Visuals")]
     public float aimRotationSpeed = 5f;
 
+    [Header("Bones")]
+    public Transform rightHandBone;
+    public Transform leftHandBone;
+
     Sweat sweat;
+    Animator anim;
     CollisionEventTransmitter grabCollisions;
     Grabbable heldObject;
     Vector3 targetOrientation;
@@ -41,6 +46,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
+        anim = GetComponent<Animator>();
+
         aimLight = GetComponentInChildren<Light>();
         sweat = GetComponentInChildren<Sweat>();
 
@@ -106,8 +113,8 @@ public class PlayerController : MonoBehaviour
             weightModifier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
             sweat.Set(1 - weightModifier);
         }
-
         rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speedForce * Time.deltaTime * weightModifier);
+        anim.SetFloat("Speed", direction.magnitude);
 
         // If the player is aiming
         if(state.ThumbSticks.Right.X != 0 || state.ThumbSticks.Right.Y != 0)
@@ -118,7 +125,6 @@ public class PlayerController : MonoBehaviour
         {
             targetOrientation = new Vector3(direction.x, 0f, direction.y);
         }
-
 
         // Rotate the character towards his movement direction
         transform.forward = Vector3.Lerp(transform.forward, targetOrientation, Time.deltaTime * orientationLerpSpeed);
@@ -190,8 +196,6 @@ public class PlayerController : MonoBehaviour
         GrabObject(
             GetBestObjectAtRange()
         );
-
-        sweat.Activate();
     }
 
     Grabbable GetBestObjectAtRange()
@@ -219,8 +223,14 @@ public class PlayerController : MonoBehaviour
             - prop.GetComponent<Collider>().bounds.center.y 
             + collider.bounds.center.y;
 
-        prop.BecomeHeldBy(transform, new Vector3(0f, headHeight, 0f));
+
+        //Vector3 pos = new Vector3(prop.transform.position.x, prop.transform.position.y + headHeight, prop.transform.position.z);
+
+        prop.BecomeHeldBy(rightHandBone);
         heldObject = prop;
+
+        sweat.Activate();
+        anim.SetLayerWeight(1, 1);
     }
 
     void DropHeldObject()
@@ -229,6 +239,7 @@ public class PlayerController : MonoBehaviour
         heldObject = null;
 
         sweat.Desactivate();
+        anim.SetLayerWeight(1, 0);
     }
 
     void ThrowHeldObject(float force)

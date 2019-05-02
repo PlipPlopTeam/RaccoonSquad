@@ -19,7 +19,7 @@ public class Grabbable : MonoBehaviour
 
     public void BecomeHeldBy(Transform _transform, Vector3 offset=new Vector3())
     {
-        transform.parent = _transform;
+        transform.SetParent(_transform);
         transform.localPosition = offset;
         prop.rigidbody.isKinematic = true;
         gameObject.layer = LayerMask.NameToLayer("NoPlayerCollision");
