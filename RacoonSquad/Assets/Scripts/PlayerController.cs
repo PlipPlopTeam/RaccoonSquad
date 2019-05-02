@@ -288,7 +288,7 @@ public class PlayerController : MonoBehaviour
 
         //Vector3 pos = new Vector3(prop.transform.position.x, prop.transform.position.y + headHeight, prop.transform.position.z);
 
-        prop.BecomeHeldBy(rightHandBone);
+        prop.BecomeHeldBy(transform, new Vector3(0f, headHeight, 0f));
         heldObject = prop;
 
         // Visuals
