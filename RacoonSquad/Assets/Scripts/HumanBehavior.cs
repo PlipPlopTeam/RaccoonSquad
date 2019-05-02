@@ -32,6 +32,7 @@ public class HumanBehavior : MonoBehaviour
     Animator anim;
     CollisionEventTransmitter rangeEvent;
     PlayerController seenPlayer;
+    PlayerController lastSeenPlayer;
     Grabbable seenItem;
 
     void Awake()
@@ -52,7 +53,11 @@ public class HumanBehavior : MonoBehaviour
         switch(newState)
         {
             case HumanState.Walking:
+                seenItem = null;
+                seenPlayer = null;
                 targetSpeed = walkSpeed;
+                look.LooseFocus();
+                MoveTo(currentWaypoint);
                 break;
             case HumanState.Thinking:
                 targetSpeed = 0;
@@ -70,19 +75,20 @@ public class HumanBehavior : MonoBehaviour
 
     void Start()
     {
-        ChangeState(HumanState.Walking);
-        if (paths.Count > 0) MoveTo(0);
-        else {
+        if (paths.Count <= 0)
+        {
             // Creates dummy GO for pathfinding
             paths.Add(Instantiate<GameObject>(new GameObject(), transform.position, Quaternion.identity).transform);
         }
+
+        ChangeState(HumanState.Walking);
     }
     
     void Update()
     {
         // Lerp agent speed for a more organic effect
         agent.speed = Mathf.Lerp(agent.speed, targetSpeed, velocityLerpSpeed * Time.deltaTime);
-        anim.SetFloat("Speed", agent.speed/chaseSpeed);
+        anim.SetFloat("Speed", agent.velocity.magnitude/chaseSpeed);
 
         // Different update depending on the current state
         StateUpdate();
@@ -111,22 +117,40 @@ public class HumanBehavior : MonoBehaviour
 
             case HumanState.Chasing:
                 agent.destination = seenPlayer.transform.position;
-                if(seenPlayer.GetHeldObject() == null) ChangeState(HumanState.Collecting);
+                if(seenPlayer.GetHeldObject() == null) 
+                {
+                    look.FocusOn(seenItem.transform);
+                    ChangeState(HumanState.Collecting);
+                }
+                else
+                {
+                    if(IsObjectInRange(seenPlayer.gameObject)) 
+                    {
+                        seenPlayer.DropHeldObject();
+                        ChangeState(HumanState.Walking);
+                    }
+                }
                 break;
 
             case HumanState.Collecting:
-                if(IsObjectInRange(seenItem.gameObject) && !seenItem.IsFlying()) StartCoroutine(PickUp(seenItem.gameObject));
-                else agent.destination = seenItem.transform.position;
+                if(agent.velocity.magnitude > 0.01f) 
+                {
+                    agent.destination = seenItem.transform.position;
+                    if(IsObjectInRange(seenItem.gameObject) && !seenItem.IsFlying()) StartCoroutine(PickUp(seenItem.gameObject));                 
+                }
+                else
+                {
+                    ChangeState(HumanState.Walking);
+                }
                 break;
         }
     }
+
     void CleanSeenItem()
     {
-        // Security fallback
-        if (seenItem == null && seenPlayer == null) {
-            ChangeState(HumanState.Walking);
-        }
+        if(seenItem == null && seenPlayer == null) ChangeState(HumanState.Walking);
     }
+
     void StateDestinationReached()
     {
         switch(state)
@@ -163,8 +187,7 @@ public class HumanBehavior : MonoBehaviour
         if(paths.Count > 0) MoveTo(0);
     }
 
-
-    IEnumerator Suprised(Vector3 position)
+    void SuprisedBy(Vector3 position)
     {
         // Look at the intresting thing
         Vector3 direction = position - transform.position;
@@ -175,32 +198,8 @@ public class HumanBehavior : MonoBehaviour
         agent.destination = transform.position;
         anim.SetTrigger("Suprised");
 
-        // Put a mark on his head
-        Mark();
-
         ChangeState(HumanState.Thinking);
         // Trigger Animation
-        
-        yield return new WaitForSeconds(1f);
-
-        Unmark();
-        
-        if (seenPlayer == null) {
-            yield break;
-        }
-
-        seenItem = seenPlayer.GetHeldObject();
-        if(seenItem != null)
-        {
-            look.FocusOn(seenItem.transform);
-            ChangeState(HumanState.Chasing);
-        }
-        else
-        {
-            ChangeState(HumanState.Walking);
-            if(paths.Count > 0) MoveTo(0);
-        }
-        // Return to normal state or chasing
     }
 
     // EXCLAMATION MARK ABOVE HEAD
@@ -220,18 +219,32 @@ public class HumanBehavior : MonoBehaviour
         foreach(GameObject go in seens)
         {
             PlayerController pc = go.GetComponent<PlayerController>();
-            if(pc != null)
-            {
-                SpotRaccoon(pc);
-            }
+            if(pc != null && !pc.hidden) StartCoroutine(SpotRaccoon(pc));
         }
     }
 
-    void SpotRaccoon(PlayerController pc)
+    IEnumerator SpotRaccoon(PlayerController pc)
     {
         seenPlayer = pc;
         look.FocusOn(seenPlayer.transform);
-        StartCoroutine(Suprised(seenPlayer.transform.position));
+
+        if(seenPlayer != lastSeenPlayer) RememberPlayer(seenPlayer);
+        else if(seenPlayer.GetHeldObject() == null) yield break;
+
+        SuprisedBy(seenPlayer.transform.position);
+
+        Mark();
+        yield return new WaitForSeconds(1f);
+        Unmark();
+        
+        if (seenPlayer == null) yield break;
+
+        seenItem = seenPlayer.GetHeldObject();
+        if(seenItem != null) ChangeState(HumanState.Chasing);
+        else
+        {
+            ChangeState(HumanState.Walking);
+        }
     }
 
     int GetNextWaypoint()
@@ -246,5 +259,17 @@ public class HumanBehavior : MonoBehaviour
         if(paths.Count == 0) return;
         agent.destination = paths[waypointIndex].position;
         currentWaypoint = waypointIndex;
+    }
+
+    IEnumerator WaitAndForgetPlayer(float time)
+    {
+        yield return new WaitForSeconds(time);
+        lastSeenPlayer = null;
+    }
+
+    void RememberPlayer(PlayerController pc)
+    {
+        lastSeenPlayer = pc;
+        StartCoroutine(WaitAndForgetPlayer(5f));
     }
 }
