@@ -4,25 +4,24 @@ using UnityEngine;
 
 public class Grabbable : MonoBehaviour
 {
-    public new Rigidbody rigidbody;
-    public new Collider collider;
-
     public int racoonValue = 1;
     public int humanValue = 1;
-
+    [Range(0f, 200f)] public float weight = 10f;
     bool isHeld = false;
+
+    Prop prop;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
+        prop = GetComponent<Prop>();
+        if(prop == null) Destroy(this);
     }
 
     public void BecomeHeldBy(Transform _transform, Vector3 offset=new Vector3())
     {
-        transform.parent = _transform;
+        transform.SetParent(_transform);
         transform.localPosition = offset;
-        rigidbody.isKinematic = true;
+        prop.rigidbody.isKinematic = true;
         gameObject.layer = LayerMask.NameToLayer("NoPlayerCollision");
         isHeld = true;
     }
@@ -30,7 +29,7 @@ public class Grabbable : MonoBehaviour
     public void BecomeDropped()
     {
         transform.parent = null;
-        rigidbody.isKinematic = false;
+        prop.rigidbody.isKinematic = false;
         gameObject.layer = 0; // Default layer
         isHeld = false;
     }

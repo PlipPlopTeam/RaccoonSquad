@@ -10,6 +10,9 @@ public class Library : MonoBehaviour
     public GameObject racoonPrefab;
     public GameObject exclamationMarkPrefab;
 
+    [Header("Particles")]
+    public GameObject sweatParticle;
+
     void Awake()
     {
         instance = this;

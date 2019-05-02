@@ -11,23 +11,35 @@ public class Sight : MonoBehaviour
     public GameObject[] Scan()
     {
         List<GameObject> objects = new List<GameObject>();
-
         Vector3 headPosition = transform.position + new Vector3(0f, headHeight, 0f);
 
-        RaycastHit[] hits;
-        hits = Physics.SphereCastAll(headPosition, range, transform.forward, Mathf.Infinity);
+        // Add object in range of being seen
+        RaycastHit[] sphereHits;
+        sphereHits = Physics.SphereCastAll(headPosition, range, transform.forward, range);
 
-        for(int i = 0; i < hits.Length; i++)
+        for(int i = 0; i < sphereHits.Length; i++)
         {
-            Vector3 direction = hits[i].transform.position - headPosition;
+            // Checks if the object is in front of the sight
+            Vector3 direction = sphereHits[i].transform.position - headPosition;
             float angle = Vector3.Angle(direction, transform.forward);
-
             if(angle < fieldOfViewAngle * 0.5f)
             {
-                objects.Add(hits[i].transform.gameObject);
+
+                // Check if an object is hiding the seen object from the sight
+                RaycastHit[] rayHits;
+                rayHits = Physics.RaycastAll(headPosition, direction, range, 5, QueryTriggerInteraction.Ignore);
+
+                bool seen = true;
+                foreach(RaycastHit hit in rayHits)
+                {
+                    if(hit.transform != transform && hit.transform != sphereHits[i].transform) 
+                    {
+                        if(Vector3.Distance(headPosition, sphereHits[i].transform.position) > Vector3.Distance(headPosition, hit.point)) seen = false;
+                    }
+                }
+                if(seen) objects.Add(sphereHits[i].transform.gameObject);
             }
         }
-
         return objects.ToArray();
     }
 }
