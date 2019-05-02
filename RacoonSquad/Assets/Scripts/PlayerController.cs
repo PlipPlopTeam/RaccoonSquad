@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     public Transform leftHandBone;
 
     Sweat sweat;
+    FocusLook look;
     Animator anim;
     CollisionEventTransmitter grabCollisions;
     Grabbable heldObject;
@@ -40,6 +41,8 @@ public class PlayerController : MonoBehaviour
     Light aimLight;
     LineRenderer lineRenderer;
     new CapsuleCollider collider;
+
+
     float throwAccumulatedForce = 0f;
     bool acceptThrowCommands = true;
 
@@ -49,6 +52,8 @@ public class PlayerController : MonoBehaviour
         collider = GetComponent<CapsuleCollider>();
         anim = GetComponent<Animator>();
         lineRenderer = GetComponent<LineRenderer>();
+        look = GetComponent<FocusLook>();
+
         aimLight = GetComponentInChildren<Light>();
         sweat = GetComponentInChildren<Sweat>();
 
@@ -94,6 +99,14 @@ public class PlayerController : MonoBehaviour
     {
         var state = GamePad.GetState(index);
         CheckInputs(state);
+        UpdateThrowPreview();
+
+        if(heldObject == null)
+        {
+            Grabbable g = GetBestObjectAtRange();
+            if(g != null) look.FocusOn(g.transform);
+            else if(look.isFocused) look.LooseFocus();
+        }
     }
 
     void CheckInputs(GamePadState state)
@@ -101,8 +114,6 @@ public class PlayerController : MonoBehaviour
         CheckMovementInputs(state);
         CheckGrabInputs(state);
         CheckJumpInputs(state);
-
-        UpdateThrowPreview();
     }
 
     void CheckJumpInputs(GamePadState state)
