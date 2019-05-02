@@ -9,23 +9,13 @@ public class Slower : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        PlayerController pc = other.gameObject.GetComponent<PlayerController>();
-        if(pc != null) pc.AddSpeedModifier(slow, this.GetInstanceID());
-        else
-        {
-            HumanBehavior hb = other.gameObject.GetComponent<HumanBehavior>();
-            if(hb != null) hb.AddSpeedModifier(slow, this.GetInstanceID());
-        }
+        MovementSpeed ms = other.gameObject.GetComponent<MovementSpeed>();
+        if(ms != null) ms.AddSpeedModifier(slow, this.GetInstanceID());
     }
 
     void OnTriggerExit(Collider other)
     {
-        PlayerController pc = other.gameObject.GetComponent<PlayerController>();
-        if(pc != null) pc.RemoveSpeedModifier(this.GetInstanceID());
-        else
-        {
-            HumanBehavior hb = other.gameObject.GetComponent<HumanBehavior>();
-            if(hb != null) hb.RemoveSpeedModifier(this.GetInstanceID());
-        }
+        MovementSpeed ms = other.gameObject.GetComponent<MovementSpeed>();
+        if(ms != null) ms.RemoveSpeedModifier(this.GetInstanceID());
     }
 }

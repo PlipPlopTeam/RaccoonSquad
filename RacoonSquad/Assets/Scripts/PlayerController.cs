@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using XInputDotNetPure;
 
-public class SpeedModifier
-{
-    public float value;
-    public int ticket;
-}
-
 public class PlayerController : MonoBehaviour
 {
     [Header("Inputs")]
@@ -21,7 +15,6 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 100f;
     public float carryCapacity = 10f;
     [Range(0, 1)] public float minimumWeightedSpeedFactor = 0.7f;
-    List<SpeedModifier> speedModifiers = new List<SpeedModifier>();
     float targetSpeed;
     float currentSpeed;
 
@@ -43,7 +36,7 @@ public class PlayerController : MonoBehaviour
     public Transform rightHandBone;
     public Transform leftHandBone;
 
-
+    MovementSpeed movementSpeed;
     Sweat sweat;
     FocusLook look;
     Animator anim;
@@ -69,6 +62,8 @@ public class PlayerController : MonoBehaviour
 
         aimLight = GetComponentInChildren<Light>();
         sweat = GetComponentInChildren<Sweat>();
+
+        movementSpeed = gameObject.AddComponent<MovementSpeed>();
 
         // Check which objects are currently grabbable
         grabCollisions = GetComponentInChildren<CollisionEventTransmitter>();
@@ -100,48 +95,6 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     } // Change the color of the nose of the capsule to differentiate players (debug purpose)
-
-// Handle the adding and removing of speed effects on the player
-#region SPEED MODIFIER
-    float ApplySpeedModifiers()
-    {
-        float modifySpeed = 1f;
-        if (IsHolding()) {
-            // Slows down racoon if object carried is too heavy
-            modifySpeed = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
-            sweat.Set(1 - modifySpeed);
-        }
-        foreach(SpeedModifier modifier in speedModifiers) modifySpeed *= modifier.value;
-        return modifySpeed;
-    }
-    public int AddSpeedModifier(float value, int ticket)
-    {
-        if(value < 0) value = 0f;
-
-        SpeedModifier nsm = new SpeedModifier();
-        nsm.value = value;
-        nsm.ticket = ticket;
-        speedModifiers.Add(nsm);
-        return nsm.ticket;
-    }
-    public void RemoveSpeedModifier(int ticket)
-    {
-        SpeedModifier rsm = FindSpeedModifier(ticket);
-        if(rsm != null && speedModifiers.Contains(rsm)) 
-        {
-            speedModifiers.Remove(rsm);
-        }
-    }
-    SpeedModifier FindSpeedModifier(int ticket)
-    {
-        foreach(SpeedModifier modifier in speedModifiers)
-        {
-            if(modifier.ticket == ticket) return modifier;
-        }
-        return null;
-    }
-#endregion 
-
 
     void Update()
     {
@@ -194,7 +147,7 @@ public class PlayerController : MonoBehaviour
         targetSpeed = direction.magnitude * speed;
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedLerpSpeed);
 
-        transform.position += new Vector3(direction.x, 0f, direction.y) * currentSpeed * Time.deltaTime * ApplySpeedModifiers();
+        transform.position += new Vector3(direction.x, 0f, direction.y) * currentSpeed * Time.deltaTime * movementSpeed.GetMultiplier();
         anim.SetFloat("Speed", targetSpeed/speed);
 
         // If the player is aiming
