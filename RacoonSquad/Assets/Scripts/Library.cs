@@ -17,6 +17,7 @@ public class Library : MonoBehaviour
     [Header("Particles")]
     public GameObject sweatParticle;
     public GameObject hitFX;
+    public List<Color> playersColors;
 
     [Header("Materials")]
     public Material boardMaterial;

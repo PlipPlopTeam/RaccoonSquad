@@ -58,8 +58,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374228f56b3e1be46b265e350bdd427a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobbyScene: {fileID: 0}
-  levels: []
+  lobbyScene: {fileID: 102900000, guid: d2c58d8d5e691644ab58bd3f51a29f6a, type: 3}
+  levels:
+  - {fileID: 102900000, guid: 855b8ba67d9298c4ab0f9a32525d598f, type: 3}
+  - {fileID: 102900000, guid: b664e578235d40e40a246c341e7fdb00, type: 3}
   racoonPrefab: {fileID: 4643777608409574412, guid: 9c9ca2ff9baf4e944ada28b4bc222b95,
     type: 3}
   exclamationMarkPrefab: {fileID: 6681665629629748997, guid: e0f424959e752364f98c97ebb6d81ad9,
@@ -67,7 +69,11 @@ MonoBehaviour:
   sweatParticle: {fileID: 4555859333002654280, guid: 661c764e8994a984d8acdd2e179973a3,
     type: 3}
   hitFX: {fileID: 3914065392152726493, guid: f609e9ca307071446aa4ac2ca3f91e14, type: 3}
-  boardMaterial: {fileID: 2100000, guid: 11dc93ef25a432a4fafec5433c7f8fb1, type: 2}
+  playersColors:
+  - {r: 0.24056602, g: 0.7652617, b: 1, a: 1}
+  - {r: 1, g: 0.43867922, b: 0.43867922, a: 1}
+  - {r: 0.25, g: 1, b: 0.50387055, a: 1}
+  - {r: 1, g: 0.79171216, b: 0.3537736, a: 1}
   sounds:
   - name: debug_music
     clip: {fileID: 8300000, guid: 8233a79e37722b347b05de4b670af957, type: 3}
