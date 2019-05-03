@@ -10,18 +10,26 @@ public class HumanBehavior : MonoBehaviour
     [Header("State")]
     public HumanState state;
 
-    [Header("Settings")]
+    [Header("Movement")]
     public float walkSpeed;
     public float chaseSpeed;
     public float velocityLerpSpeed = 1f;
     public float navTreshold = 1f;
     public List<Transform> paths;
 
+    [Header("Settings")]
+    public float reactionTime = 1f;
+    public float forgetTime = 5f;
+    public float minStunDuration = 0.5f;
+    public float maxStunDuration = 2f;
+    public float stunVelocityTreshold = 1f;
+
     [Header("Bones")]
     public Transform handBone;
 
     // Variables
     List<GameObject> inRange = new List<GameObject>();
+    bool stun;
     int currentWaypoint;
     float targetSpeed;
     float currentSpeed;
@@ -113,6 +121,8 @@ public class HumanBehavior : MonoBehaviour
 
     void StateUpdate()
     {
+        if(stun) return;
+
         CleanSeenItem();
         switch(state)
         {
@@ -187,6 +197,7 @@ public class HumanBehavior : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
 
+
         Destroy(seenItem.gameObject);
         // Return to normal state
         ChangeState(HumanState.Walking);
@@ -238,10 +249,11 @@ public class HumanBehavior : MonoBehaviour
         SuprisedBy(seenPlayer.transform.position);
         Mark();
         
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(reactionTime);
 
         Unmark();
-        if (seenPlayer == null) yield break;
+        if (seenPlayer == null || stun) yield break;
+
         seenItem = seenPlayer.GetHeldObject();
         if(seenItem != null) ChangeState(HumanState.Chasing);
         else ChangeState(HumanState.Walking);
@@ -270,7 +282,7 @@ public class HumanBehavior : MonoBehaviour
     void RememberPlayer(PlayerController pc)
     {
         lastSeenPlayer = pc;
-        StartCoroutine(WaitAndForgetPlayer(5f));
+        StartCoroutine(WaitAndForgetPlayer(forgetTime));
     }
 
     public void Stun(float duration)
@@ -278,20 +290,22 @@ public class HumanBehavior : MonoBehaviour
         look.LooseFocus();
         anim.SetTrigger("Hit");
         ChangeState(HumanState.Thinking);
-
-        duration = Mathf.Clamp(duration, 0f, 3f);
+        agent.destination = transform.position;
+        duration = Mathf.Clamp(duration, minStunDuration, maxStunDuration);
         StartCoroutine(WaitAndWakeUp(duration));
+        stun = true;
     }
 
     IEnumerator WaitAndWakeUp(float time)
     {
         yield return new WaitForSeconds(time);
         ChangeState(HumanState.Walking);
+        stun = false;
     }
 
     void OnCollisionEnter(Collision collision)
     {
         Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
-        if(rb != null && rb.velocity.magnitude > 1f) Stun(rb.velocity.magnitude);
+        if(rb != null && rb.velocity.magnitude > stunVelocityTreshold) Stun(rb.velocity.magnitude);
     }
 }
