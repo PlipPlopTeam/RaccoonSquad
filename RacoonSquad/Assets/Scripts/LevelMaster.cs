@@ -10,7 +10,7 @@ public class LevelMaster
     public LevelMaster()
     {
         SoundPlayer.StopEverySound();
-        SoundPlayer.Play("amb_suburbs_cars", 0.3f);
+        SoundPlayer.Play("amb_suburbs_cars", 0.8f);
         SoundPlayer.Play("mus_funkstyle_04", 0.1f);
 
         foreach(var prop in Object.FindObjectsOfType<Grabbable>()) {
