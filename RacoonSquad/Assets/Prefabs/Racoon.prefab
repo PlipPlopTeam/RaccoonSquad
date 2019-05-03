@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: -6301478079525434283}
   - component: {fileID: -2884497170863900365}
   - component: {fileID: -5474987778970382729}
+  - component: {fileID: -5327514102757087213}
   m_Layer: 9
   m_Name: Racoon
   m_TagString: Untagged
@@ -319,6 +320,33 @@ MonoBehaviour:
   groundedThreshold: 0.01
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+--- !u!114 &-5327514102757087213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4643777608409574412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 624b99fe1e8a4194caf25db18f2a8455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emotions:
+  - name: Dizzy
+    frames:
+    - {fileID: 2800000, guid: 03aa833496d294a45ac46933c639c5e5, type: 3}
+    - {fileID: 2800000, guid: c3d31d43ed23a7a49b460df12bee7a89, type: 3}
+    - {fileID: 2800000, guid: d525b813610b92c4cba9dc8562b0d63a, type: 3}
+    - {fileID: 2800000, guid: c68f7e025e18d4746917c890e384f739, type: 3}
+    - {fileID: 2800000, guid: b4edcdcf4a856814f8e7327946bad0e6, type: 3}
+    - {fileID: 2800000, guid: a1fa053ece40d8d4c82ab10f70dd4c70, type: 3}
+    - {fileID: 2800000, guid: fb5fc847090c5114caae0eee9a883b9b, type: 3}
+    - {fileID: 2800000, guid: 733ce10b8ea4a3845bb7538e312a5b38, type: 3}
+    speed: 0.05
+  headTransform: {fileID: 5485492825789802871}
+  adjustment: {x: 0, y: 0.35, z: 0}
+  size: 0.5
 --- !u!1 &4643777608966351597
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,6 +30,7 @@ public class EmotionRenderer : MonoBehaviour
     void Start()
     {
         board = CreateBoard();
+        Hide();
     }
 
     Board CreateBoard()
@@ -44,8 +45,6 @@ public class EmotionRenderer : MonoBehaviour
         // Mesh Filter
         newBoard.obj.AddComponent<MeshFilter>().mesh = Library.instance.primitiveQuadMesh;
         // Transform adjustment
-        newBoard.obj.transform.SetParent(transform);
-        newBoard.obj.transform.localPosition = new Vector3(0f, headTransform.position.y, 0f) + adjustment;
         newBoard.obj.transform.localScale *= size;
 
         return newBoard;
@@ -55,6 +54,7 @@ public class EmotionRenderer : MonoBehaviour
     {
         // Face camera
         board.obj.transform.forward = -(Camera.main.transform.position - board.obj.transform.position);
+        board.obj.transform.position = headTransform.position + adjustment;
 
         // Animation
         if(emotion != null)
@@ -77,7 +77,6 @@ public class EmotionRenderer : MonoBehaviour
         frameIndex = 0;
         board.mr.material.mainTexture = emotion.frames[0];
         board.obj.SetActive(true);
-
     }
 
     public void Hide()
@@ -103,10 +102,5 @@ public class EmotionRenderer : MonoBehaviour
             if(e.name == name) return e;
         }
         return null;
-    }
-
-    void OnDestroy()
-    {
-        Destroy(board.mr.material);
     }
 }
