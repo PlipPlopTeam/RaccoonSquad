@@ -19,14 +19,15 @@ public class LevelMaster
         SoundPlayer.Play("amb_suburbs_cars", 0.8f);
         SoundPlayer.Play("mus_funkstyle_04", 0.1f);
 
-        foreach(var prop in Object.FindObjectsOfType<Grabbable>()) {
+        foreach(var prop in Object.FindObjectsOfType<Grabbable>())
+        {
             maximumScore += prop.racoonValue;
             prop.GetProp().onHit += (x) => {
                 SoundPlayer.PlayWithRandomPitch("fb_raccoon_bumping", 0.1f);
                 GameObject.Instantiate(Library.instance.hitFX, x.GetContact(0).point, Library.instance.hitFX.transform.rotation);
                 soundAt.Invoke(x.GetContact(0).point);
             };
-        }        
+        }
     }
 
     public void Score(Grabbable prop)
@@ -35,7 +36,7 @@ public class LevelMaster
         gatheredObjects.Add(prop.gameObject);
         currentScore += prop.racoonValue;
 
-        if(currentScore % (spawnPlayerCount * 10) == 0) 
+        if((float)gatheredObjects.Count % (spawnPlayerCount * 10) == 0) 
         {
             spawnPlayerCount++;
             GameManager.instance.SpawnHuman();
