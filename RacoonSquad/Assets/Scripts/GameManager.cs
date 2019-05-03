@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject lobbyPrefab;
     public int playerCount;
     public LevelMaster level;
+    public LevelMaster previousLevel;
 
     int currentLevel = -1;
     List<Player> players = new List<Player>();
@@ -57,6 +58,8 @@ public class GameManager : MonoBehaviour
                 }
             }
             else {
+                previousLevel = level;
+
                 // Initialize goal score etc...
                 level = new LevelMaster();
                 if (players.Count > 0) {
@@ -79,19 +82,31 @@ public class GameManager : MonoBehaviour
     {
         lobby = false;
         currentLevel++;
-        SceneManager.LoadSceneAsync(Library.instance.levels[currentLevel].name);
+        SceneManager.LoadSceneAsync(
+            Library.instance.levels[currentLevel]
+        );
     }
 
     public void GoToLobby()
     {
         players.Clear();
-        SceneManager.LoadScene(Library.instance.lobbyScene.name);
+        SceneManager.LoadScene(Library.instance.lobbyScene);
         lobby = true;
     }
 
     public void GameOver()
     {
         Instantiate(Library.instance.gameOverPrefab);
+    }
+
+    public void Win()
+    {
+        Instantiate(Library.instance.winPrefab);
+    }
+
+    public void GoToWinScene()
+    {
+        SceneManager.LoadScene(Library.instance.winScene);
     }
 
     //////////////////////////
