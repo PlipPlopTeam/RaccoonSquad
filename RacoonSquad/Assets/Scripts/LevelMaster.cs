@@ -35,7 +35,7 @@ public class LevelMaster
         gatheredObjects.Add(prop.gameObject);
         currentScore += prop.racoonValue;
 
-        if(currentScore % spawnPlayerCount * 10 == 0) 
+        if(currentScore % (spawnPlayerCount * 10) == 0) 
         {
             spawnPlayerCount++;
             GameManager.instance.SpawnHuman();
