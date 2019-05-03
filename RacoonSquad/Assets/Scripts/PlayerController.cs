@@ -73,6 +73,11 @@ public class PlayerController : MonoBehaviour
         grabCollisions.onTriggerEnter += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Add(grab); };
         grabCollisions.onTriggerExit += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Remove(grab); };
 
+        ReloadColor();
+    }
+
+    public void ReloadColor()
+    {
         color = Library.instance.playersColors[(int)index];
     }
 

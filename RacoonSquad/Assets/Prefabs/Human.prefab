@@ -181,8 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
-  walkSpeed: 2
-  chaseSpeed: 5
+  walkSpeed: 3
+  chaseSpeed: 6
   velocityLerpSpeed: 10
   navTreshold: 1
   paths: []
