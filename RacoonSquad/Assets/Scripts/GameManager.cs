@@ -98,6 +98,7 @@ public class GameManager : MonoBehaviour
     public void NextLevel()
     {
         try {
+            ClearStoredProps();
             lobby = false;
             currentLevel++;
             SceneManager.LoadSceneAsync(
@@ -113,10 +114,23 @@ public class GameManager : MonoBehaviour
 
     public void GoToLobby()
     {
+        ClearStoredProps();
+
         currentLevel = -1;
         players.Clear();
         SceneManager.LoadScene(Library.instance.lobbyScene);
         lobby = true;
+    }
+
+    void ClearStoredProps()
+    {
+        for (int i = 0; i < GameManager.instance.transform.childCount; i++) {
+            var child = GameManager.instance.transform.GetChild(i).gameObject.GetComponent<Prop>();
+            if (child == null) {
+                continue;
+            }
+            Destroy(GameManager.instance.transform.GetChild(i).gameObject);
+        }
     }
 
     public void GameOver()
