@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         else {
             // Initialize goal score etc...
             level = new LevelMaster();
-            SpawnPlayers();
+            DebugSpawnControllers();
         }
     }
 
@@ -141,9 +141,7 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < playerCount; i++)
         {
-            PlayerController pc = Instantiate(Library.instance.racoonPrefab).GetComponent<PlayerController>();
-            pc.gameObject.name = "Racoon_" + i;
-            pc.index = (PlayerIndex)i;
+            SpawnPlayer((PlayerIndex)i);
         }   
     }
 
