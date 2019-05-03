@@ -34,9 +34,9 @@ public class HumanBehavior : MonoBehaviour
     float targetSpeed;
     float currentSpeed;
     // Referencies
-    GameObject mark;
     NavMeshAgent agent;
     Sight sight;
+    EmotionRenderer emotion;
     MovementSpeed movementSpeed;
     FocusLook look;
     Animator anim;
@@ -51,6 +51,7 @@ public class HumanBehavior : MonoBehaviour
         sight = GetComponent<Sight>();
         anim = GetComponent<Animator>();
         look = GetComponent<FocusLook>();
+        emotion = GetComponent<EmotionRenderer>();
 
         movementSpeed = gameObject.AddComponent<MovementSpeed>();
 
@@ -75,6 +76,7 @@ public class HumanBehavior : MonoBehaviour
                 targetSpeed = 0;
                 break;
             case HumanState.Chasing:
+                emotion.Show("Suprised");
                 targetSpeed = chaseSpeed;
                 break;
             case HumanState.Collecting:
@@ -219,17 +221,6 @@ public class HumanBehavior : MonoBehaviour
         // Trigger Animation
     }
 
-    // EXCLAMATION MARK ABOVE HEAD
-    void Mark()
-    {
-        if(mark != null) Destroy(mark);
-        mark = Instantiate(Library.instance.exclamationMarkPrefab, transform.position + new Vector3(0f, 2f, 0f), Quaternion.identity, transform);
-    }
-    void Unmark()
-    {
-        if(mark != null) Destroy(mark);
-    }
-
     void ScanRacoons()
     {
         GameObject[] seens = sight.Scan();
@@ -247,11 +238,12 @@ public class HumanBehavior : MonoBehaviour
         if(seenPlayer != lastSeenPlayer) RememberPlayer(seenPlayer);
         else if(seenPlayer.GetHeldObject() == null) yield break;
         SuprisedBy(seenPlayer.transform.position);
-        Mark();
+        emotion.Show("Think");
         
         yield return new WaitForSeconds(reactionTime);
 
-        Unmark();
+        emotion.Hide();
+        
         if (seenPlayer == null || stun) yield break;
 
         seenItem = seenPlayer.GetHeldObject();

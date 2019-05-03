@@ -18,6 +18,9 @@ public class Library : MonoBehaviour
     public GameObject sweatParticle;
     public GameObject hitFX;
 
+    [Header("Materials")]
+    public Material boardMaterial;
+
     [Header("Sounds")]
     public List<SoundPlayer.Sound> sounds;
 
