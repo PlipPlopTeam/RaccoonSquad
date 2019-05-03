@@ -153,7 +153,7 @@ public class HumanBehavior : MonoBehaviour
                         seenPlayer.transform.localPosition = Vector3.zero;
                         ChangeState(HumanState.Thinking);
 
-                        CameraController.instance.Set(transform.position, 10f);
+                        CameraController.instance.Set(transform.position, 25f);
                         anim.SetBool("Carrying", true);
                     }
                 }

@@ -29,7 +29,7 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * lerpSpeed);
-        cam.transform.position = Vector3.Lerp(cam.transform.position, directionToPivot * distance, Time.deltaTime * lerpSpeed) + transform.position;
+        cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, directionToPivot * distance, Time.deltaTime * lerpSpeed);
     }
 
     public void Set(Vector3 newPoint, float newDistance)
