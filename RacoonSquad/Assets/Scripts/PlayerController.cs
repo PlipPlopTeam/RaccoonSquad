@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     [Header("Bones")]
     public Transform rightHandBone;
     public Transform leftHandBone;
+    public Transform headBone;
 
     MovementSpeed movementSpeed;
     Sweat sweat;
@@ -47,6 +48,8 @@ public class PlayerController : MonoBehaviour
     Light aimLight;
     LineRenderer lineRenderer;
     new CapsuleCollider collider;
+    Cosmetic hat;
+    Color color;
 
     [HideInInspector] public bool hidden;
     float throwAccumulatedForce = 0f;
@@ -73,27 +76,12 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        LoadNoseColor();
+        LoadColor();
     }
 
-    void LoadNoseColor()
+    void LoadColor()
     {
-        noseRenderer.material = Instantiate(noseRenderer.material);
-        switch(index)
-        {
-            case PlayerIndex.One:
-                noseRenderer.material.color = Color.blue;
-                break;
-            case PlayerIndex.Two:
-                noseRenderer.material.color = Color.red;
-                break;
-            case PlayerIndex.Three:
-                noseRenderer.material.color = Color.green;
-                break;
-            case PlayerIndex.Four:
-                noseRenderer.material.color = Color.yellow;
-                break;
-        }
+        color = Library.instance.playersColors[(int)index];
     } // Change the color of the nose of the capsule to differentiate players (debug purpose)
 
     void Update()
@@ -129,6 +117,8 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector3.up * Time.deltaTime * jumpForce);
             anim.SetTrigger("Jump");
+            // c'est un peu étrange, j'ai l'impression qu'il en lance deux ou trois en même temps
+        //  SoundPlayer.PlayWithRandomPitch("fb_raccoon_hop", 0.2f);
         }
     }
 
@@ -176,6 +166,8 @@ public class PlayerController : MonoBehaviour
             // Accumulate force
             if (rightStickAmplitude > 0.1f) {
                 isAccumulating = true;
+                // ça ne rend pas bien, mais je crois que j'ai mis le son dans la mauvaise ligne
+             //   SoundPlayer.PlayAtPosition("fb_raccoon_charging_toss", transform.position, 0.3f, true);
             }
         }
 
@@ -283,6 +275,7 @@ public class PlayerController : MonoBehaviour
         Grabbable bestProp = null;
         foreach(var prop in objectsAtRange) 
         {
+            if (IsWearing() && prop.GetProp() == hat.GetProp()) continue;
             if(prop.transform.position.y > bestHeight)
             {
                 bestProp = prop;
@@ -297,8 +290,34 @@ public class PlayerController : MonoBehaviour
         return new Vector2(val.X, val.Y);
     }
 
+    bool IsWearing()
+    {
+        return hat != null;
+    }
+
+    void Unwear()
+    {
+        hat.BecomeDropped();
+        hat = null;
+    }
+
+    void Wear(Grabbable prop)
+    {
+        if (IsWearing()) {
+            Unwear();
+        }
+        var cos = prop.GetComponent<Cosmetic>();
+        cos.BecomeWeared(headBone, color);
+        hat = cos;
+    }
+
     void GrabObject(Grabbable prop)
     {
+        if (prop.IsCosmetic()) {
+            Wear(prop);
+            return;
+        }
+
         float headHeight = 
             collider.height/2
             + prop.GetComponent<Collider>().bounds.extents.y/2
@@ -309,6 +328,7 @@ public class PlayerController : MonoBehaviour
         // Visuals
         sweat.Activate();
         anim.SetBool("Carrying", true);
+        SoundPlayer.PlayWithRandomPitch("fb_raccoon_grabbing", 0.5f);
     }
 
     public void DropHeldObject()
@@ -318,6 +338,8 @@ public class PlayerController : MonoBehaviour
         // Visuals
         sweat.Desactivate();
         anim.SetBool("Carrying", false);
+        // le son est trop proche du grab, je vais voir pour changer ça
+      // SoundPlayer.PlayWithRandomPitch("si_raccoon_droping_item", 0.5f);
     }
 
     void ThrowHeldObject(float force)
@@ -335,6 +357,7 @@ public class PlayerController : MonoBehaviour
         throwAccumulatedForce = 0;
         anim.SetFloat("ThrowPercentage", 0);
         anim.SetTrigger("ThrowAction");
+        SoundPlayer.PlayWithRandomPitch("fb_raccoon_tossing", 0.5f);
     }
 
     public bool IsHolding()
@@ -345,14 +368,32 @@ public class PlayerController : MonoBehaviour
     bool IsAnythingAtRange()
     {
         foreach(var prop in objectsAtRange.ToArray()) {
-            if (prop == null) {
+            ///////
+            //  Removing non grabbable grabbable objects
+            if (
+                // Prop has disappeared
+                prop == null || // or
+                (
+                    // This is my hat!
+                    IsWearing() 
+                    && prop.GetProp() == hat.GetProp()
+                )   
+                ||  // or
+                (
+                    // Hat is taken!
+                    prop.IsCosmetic() &&
+                    prop.GetComponent<Cosmetic>().IsWeared()
+                )
+            ){
                 objectsAtRange.Remove(prop);
             }
+            //
+            ///////
         }
         return objectsAtRange.Count > 0;
     }
-#endregion
-
+    #endregion
+    
     public void Stun(float duration)
     {
         activated = false;
