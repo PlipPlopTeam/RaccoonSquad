@@ -7765,36 +7765,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6445522983900603325, guid: dfc49b414bf8b944a837162819c96695,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 24.32
-      objectReference: {fileID: 0}
-    - target: {fileID: 4269445776420048270, guid: dfc49b414bf8b944a837162819c96695,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4269445776420048270, guid: dfc49b414bf8b944a837162819c96695,
-        type: 3}
-      propertyPath: m_Materials.Array.data[1]
-      value: 
-      objectReference: {fileID: 2100000, guid: 3543aa18e1e65f64c9c5e17a3f3b964f, type: 2}
-    - target: {fileID: 4269445776420048270, guid: dfc49b414bf8b944a837162819c96695,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 773e3c08b4ac2da4d950e42500438230, type: 2}
-    - target: {fileID: 7273166171466569948, guid: dfc49b414bf8b944a837162819c96695,
-        type: 3}
-      propertyPath: speed
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7273166171466569948, guid: dfc49b414bf8b944a837162819c96695,
-        type: 3}
-      propertyPath: maxTimer
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfc49b414bf8b944a837162819c96695, type: 3}
 --- !u!4 &2073777138954266981
