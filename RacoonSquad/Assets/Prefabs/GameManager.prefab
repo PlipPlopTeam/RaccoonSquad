@@ -153,6 +153,9 @@ MonoBehaviour:
   - name: mus_caught
     clip: {fileID: 8300000, guid: bcc51031b7799cb40802d4970d706d86, type: 3}
     loop: 0
+  - name: si_step
+    clip: {fileID: 8300000, guid: e7fe27c0f9c2d9f47a278a2f54cc7a68, type: 3}
+    loop: 0
   cosmetics:
   - {fileID: 4170486490838146260, guid: 8b5d1ffc0fcc308478f8d5c525f77ffd, type: 3}
   - {fileID: 2817270856750924431, guid: 907d4cdcd849b7549be919daf2bd0954, type: 3}
@@ -161,3 +164,8 @@ MonoBehaviour:
   - {fileID: 5567768548801125812, guid: 8c63e54c1fc402243be7fd4f5aed3358, type: 3}
   - {fileID: 8075688160220449981, guid: 8da2c3dabaefb9c46a81773af1cb77f5, type: 3}
   primitiveQuadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  tierColors:
+  - {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0.25866985, g: 0, b: 1, a: 1}
+  - {r: 0.82945275, g: 1, b: 0, a: 1}
