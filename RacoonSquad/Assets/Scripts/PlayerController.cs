@@ -405,4 +405,17 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(time);
         activated = true;
     }
+
+    public void Die()
+    {
+        DropHeldObject();
+        activated = false;
+        anim.SetFloat("Speed", 0f);
+    }
+
+    public void KillPhysics()
+    {
+        rb.isKinematic = true;
+        collider.isTrigger = true;
+    }
 }
