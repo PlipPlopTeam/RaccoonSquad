@@ -238,7 +238,7 @@ public class HumanBehavior : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
 
-        Destroy(seenItem.gameObject);
+        if(seenItem != null && seenItem.gameObject != null) Destroy(seenItem.gameObject);
         // Return to normal state
         ChangeState(HumanState.Walking);
         if(paths.Count > 0) MoveTo(0);
