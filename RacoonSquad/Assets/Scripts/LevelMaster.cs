@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelMaster
 {
-    List<GameObject> gatheredObjects;
+    List<GameObject> gatheredObjects = new List<GameObject>();
     int humanScore = 0;
     int maximumScore = 0;
     int currentScore = 0;
