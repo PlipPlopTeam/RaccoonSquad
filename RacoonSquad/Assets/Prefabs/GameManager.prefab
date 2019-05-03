@@ -74,6 +74,7 @@ MonoBehaviour:
   - {r: 1, g: 0.43867922, b: 0.43867922, a: 1}
   - {r: 0.25, g: 1, b: 0.50387055, a: 1}
   - {r: 1, g: 0.79171216, b: 0.3537736, a: 1}
+  boardMaterial: {fileID: 2100000, guid: 11dc93ef25a432a4fafec5433c7f8fb1, type: 2}
   sounds:
   - name: debug_music
     clip: {fileID: 8300000, guid: 8233a79e37722b347b05de4b670af957, type: 3}
