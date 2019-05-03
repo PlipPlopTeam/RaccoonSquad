@@ -366,10 +366,4 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(time);
         activated = true;
     }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
-        if(rb != null && rb.velocity.magnitude > 1f) Stun(rb.velocity.magnitude);
-    }
 }
