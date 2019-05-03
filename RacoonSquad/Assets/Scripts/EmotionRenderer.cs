@@ -82,7 +82,8 @@ public class EmotionRenderer : MonoBehaviour
     public void Hide()
     {
         emotion = null;
-        board.obj.SetActive(false);
+
+        if(board != null) board.obj.SetActive(false);
     }
 
     void NextFrame()

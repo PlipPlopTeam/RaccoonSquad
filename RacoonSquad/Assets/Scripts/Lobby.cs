@@ -25,7 +25,7 @@ public class Lobby : MonoBehaviour
             _i++;
         }
     }
-
+	
     void Update()
     {
         for(int i = 0; i < 4; i++)

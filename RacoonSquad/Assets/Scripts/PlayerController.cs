@@ -448,7 +448,10 @@ public class PlayerController : MonoBehaviour
     public void KillPhysics()
     {
         rb.isKinematic = true;
+        rb.useGravity = false;
         collider.isTrigger = true;
+
+        Destroy(GetComponent<Prop>().obstacle);
     }
 
     public bool IsDead()

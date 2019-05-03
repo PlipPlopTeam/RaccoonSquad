@@ -7,12 +7,15 @@ public class Library : MonoBehaviour
     public static Library instance;
 
     [Header("Scenes")]
-    public Object lobbyScene;
-    public List<Object> levels;
+    public string lobbyScene;
+    public string winScene;
+    public List<string> levels;
 
     [Header("Prefabs")]
     public GameObject racoonPrefab;
+    public GameObject humanPrefab;
     public GameObject gameOverPrefab;
+    public GameObject winPrefab;
 
     [Header("Particles")]
     public GameObject sweatParticle;

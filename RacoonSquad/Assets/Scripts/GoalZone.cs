@@ -11,6 +11,8 @@ class AbsorbedObject
 
 public class GoalZone : MonoBehaviour
 {
+    public List<PlayerController> racoonsInside = new List<PlayerController>();
+
     public MeshRenderer jaugeMeshRenderer;
     public Transform receptorTransform;
 
@@ -65,11 +67,12 @@ public class GoalZone : MonoBehaviour
                 tierColor = Library.instance.tierColors[2];
                 break;
         }
-        targetJaugeValue =  (float)GameManager.instance.level.currentScore / tierMaxScore;
+        targetJaugeValue =  (float)GameManager.instance.level.GetScore() / tierMaxScore;
         currentJaugeValue = Mathf.Lerp(currentJaugeValue, targetJaugeValue, Time.deltaTime * jaugeLerpSpeed);
         jaugeMeshRenderer.material.SetFloat("_Value", currentJaugeValue);
         jaugeMeshRenderer.material.SetColor("_ColorB", tierColor);
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -83,6 +86,12 @@ public class GoalZone : MonoBehaviour
                 pc.DropHeldObject();
                 Absorb(prop);
             }
+            racoonsInside.RemoveAll(o=>o==pc);
+            racoonsInside.Add(pc);
+
+            if (racoonsInside.Count == GameManager.instance.GetPlayers().Count) {
+                CheckWin();
+            }
         }
         else {
             // A prop
@@ -90,6 +99,15 @@ public class GoalZone : MonoBehaviour
             if (prop && !prop.IsHeld()) {
                 Absorb(prop);
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var pc = other.GetComponent<PlayerController>();
+
+        if (pc != null) {
+            racoonsInside.RemoveAll(o => o == pc);
         }
     }
 
@@ -113,9 +131,15 @@ public class GoalZone : MonoBehaviour
                 GameManager.instance.NextLevel();
             }
         }
-        else
-        {
-            GameManager.instance.level.currentScore += grabbable.racoonValue;
+        else {
+            GameManager.instance.level.Score(grabbable);
+        }
+    }
+
+    void CheckWin()
+    {
+        if (GameManager.instance.level.GetScore() >= GameManager.instance.level.GetBronzeTier()) {
+            GameManager.instance.Win();
         }
     }
 }
