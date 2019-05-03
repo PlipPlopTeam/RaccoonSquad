@@ -16,10 +16,15 @@ public class Lobby : MonoBehaviour
 
     void Start()
     {
+        print("coucou");
+
         float amplitude = 5f;
+        float _offset = 1.3f;
+        int _i = 0;
         foreach(var cosmetic in Library.instance.cosmetics) {
             //Spawn every hat
-            Instantiate(cosmetic, new Vector3(Random.value* amplitude - amplitude/2, 0.3f, Random.value*amplitude - amplitude/2), Quaternion.identity);
+            Instantiate(cosmetic, new Vector3( 4 +_offset * _i, 1,10), Quaternion.identity);
+            _i++;
         }
     }
 
