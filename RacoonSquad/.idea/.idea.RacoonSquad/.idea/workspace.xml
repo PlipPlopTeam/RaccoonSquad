@@ -33,30 +33,45 @@
       <file leaf-file-name="PlayerController.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/PlayerController.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+            <state relative-caret-position="175">
+              <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
               <folding>
-                <marker date="1556892953029" expanded="false" signature="6:102" ph="..." />
-                <marker date="1556892953029" expanded="true" signature="149:13273" ph="{...}" />
-                <marker date="1556892953029" expanded="true" signature="13264:13271" ph="{...}" />
+                <marker date="1556899224835" expanded="false" signature="6:102" ph="..." />
+                <marker date="1556899224835" expanded="true" signature="149:13376" ph="{...}" />
+                <marker date="1556899224835" expanded="true" signature="13367:13374" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Road.cs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Road.cs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Assets/Scripts/Road.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="22" column="16" lean-forward="true" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
+            <state relative-caret-position="258">
+              <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
               <folding>
-                <marker date="1556893753647" expanded="false" signature="6:78" ph="..." />
-                <marker date="1556893753647" expanded="true" signature="113:1420" ph="{...}" />
-                <marker date="1556893753647" expanded="true" signature="367:470" ph="{...}" />
-                <marker date="1556893753647" expanded="true" signature="498:1417" ph="{...}" />
-                <marker date="1556893753647" expanded="true" signature="829:935" ph="{...}" />
-                <marker date="1556893753647" expanded="true" signature="948:1054" ph="{...}" />
-                <marker date="1556893753647" expanded="true" signature="1077:1241" ph="{...}" />
+                <marker date="1556894035020" expanded="false" signature="6:78" ph="..." />
+                <marker date="1556894035020" expanded="true" signature="113:1420" ph="{...}" />
+                <marker date="1556894035020" expanded="true" signature="367:470" ph="{...}" />
+                <marker date="1556894035020" expanded="true" signature="498:1417" ph="{...}" />
+                <marker date="1556894035020" expanded="true" signature="829:935" ph="{...}" />
+                <marker date="1556894035020" expanded="true" signature="948:1054" ph="{...}" />
+                <marker date="1556894035020" expanded="true" signature="1077:1241" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tricycle_Raccoon.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/tricycle_Raccoon.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="7" column="16" lean-forward="true" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+              <folding>
+                <marker date="1556900287927" expanded="false" signature="6:78" ph="..." />
+                <marker date="1556900287927" expanded="true" signature="125:299" ph="{...}" />
+                <marker date="1556900287927" expanded="true" signature="197:218" ph="{...}" />
+                <marker date="1556900287927" expanded="true" signature="276:297" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -70,6 +85,7 @@
     </findStrings>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/tricycle_Raccoon.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Sweat.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Road.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
@@ -81,6 +97,7 @@
         <option value="$PROJECT_DIR$/Assets/ShakeTest.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Road.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/tricycle_Raccoon.cs" />
       </list>
     </option>
   </component>
@@ -238,28 +255,41 @@
     <entry file="file://$PROJECT_DIR$/Assets/ShakeTest.cs" />
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/PlayerController.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+        <state relative-caret-position="175">
+          <caret line="47" column="30" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
           <folding>
-            <marker date="1556892953029" expanded="false" signature="6:102" ph="..." />
-            <marker date="1556892953029" expanded="true" signature="149:13273" ph="{...}" />
-            <marker date="1556892953029" expanded="true" signature="13264:13271" ph="{...}" />
+            <marker date="1556899224835" expanded="false" signature="6:102" ph="..." />
+            <marker date="1556899224835" expanded="true" signature="149:13376" ph="{...}" />
+            <marker date="1556899224835" expanded="true" signature="13367:13374" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Assets/Scripts/Road.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="22" column="16" lean-forward="true" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
+        <state relative-caret-position="258">
+          <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
           <folding>
-            <marker date="1556893753647" expanded="false" signature="6:78" ph="..." />
-            <marker date="1556893753647" expanded="true" signature="113:1420" ph="{...}" />
-            <marker date="1556893753647" expanded="true" signature="367:470" ph="{...}" />
-            <marker date="1556893753647" expanded="true" signature="498:1417" ph="{...}" />
-            <marker date="1556893753647" expanded="true" signature="829:935" ph="{...}" />
-            <marker date="1556893753647" expanded="true" signature="948:1054" ph="{...}" />
-            <marker date="1556893753647" expanded="true" signature="1077:1241" ph="{...}" />
+            <marker date="1556894035020" expanded="false" signature="6:78" ph="..." />
+            <marker date="1556894035020" expanded="true" signature="113:1420" ph="{...}" />
+            <marker date="1556894035020" expanded="true" signature="367:470" ph="{...}" />
+            <marker date="1556894035020" expanded="true" signature="498:1417" ph="{...}" />
+            <marker date="1556894035020" expanded="true" signature="829:935" ph="{...}" />
+            <marker date="1556894035020" expanded="true" signature="948:1054" ph="{...}" />
+            <marker date="1556894035020" expanded="true" signature="1077:1241" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/tricycle_Raccoon.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="7" column="16" lean-forward="true" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+          <folding>
+            <marker date="1556900287927" expanded="false" signature="6:78" ph="..." />
+            <marker date="1556900287927" expanded="true" signature="125:299" ph="{...}" />
+            <marker date="1556900287927" expanded="true" signature="197:218" ph="{...}" />
+            <marker date="1556900287927" expanded="true" signature="276:297" ph="{...}" />
           </folding>
         </state>
       </provider>
