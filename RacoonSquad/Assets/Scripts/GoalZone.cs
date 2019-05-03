@@ -9,18 +9,22 @@ public class GoalZone : MonoBehaviour
         var prop = other.GetComponent<Grabbable>();
         if (prop && !prop.IsHeld()) {
             Absorb(prop);
-            SoundPlayer.PlayWithRandomPitch("fb_scoring_loot", 1f);
         }
     }
 
     void Absorb(Grabbable prop)
     {
+        SoundPlayer.PlayWithRandomPitch("fb_scoring_loot", 1f);
+
         if (GameManager.instance.lobby) {
+            if (prop.tag == "GameStarter") {
+                GameManager.instance.NextLevel();
+            }
         }
         else {
             GameManager.instance.level.currentScore += prop.racoonValue;
-            Destroy(prop.gameObject);
         }
 
+        Destroy(prop.gameObject);
     }
 }

@@ -8,50 +8,115 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    //////////////////////////
+    ///
+    /// Defs
+    /// 
+
     public bool lobby = false;
+    public GameObject lobbyPrefab;
     public int playerCount;
     public LevelMaster level;
 
+    int currentLevel = -1;
+    List<Player> players = new List<Player>();
+
+    [System.Serializable]
+    public class Player {
+        public PlayerIndex index;
+        public int cosmetic;
+
+    }
+
+
+    //////////////////////////
+    ///
+    /// MonoBehaviour high level loop
+    /// 
+
     void Awake()
     {
+        // No dupes
+        if (FindObjectsOfType<GameManager>().Length > 1) {
+            DestroyImmediate(this);
+            return;
+        }
+
+        // Setting up the static & persistent parameters
+        DontDestroyOnLoad(this);
         instance = this;
     }
 
     void Start()
-    {   
-        if(lobby)
-        {
+    {
+        if (lobby) {
             try {
-                InterfaceManager.instance.CreateLobby();
+                Instantiate(lobbyPrefab, transform);
             }
-            catch (System.Exception e){
+            catch (System.Exception e) {
                 Debug.LogWarning("Could not create the lobby :\n" + e.ToString());
             }
         }
-        else
-        {
+        else {
             // Initialize goal score etc...
             level = new LevelMaster();
-            DebugSpawnControllers();
+            SpawnPlayers();
         }
     }
 
+    //////////////////////////
+    ///
+    /// Level flow
+    /// 
+
+    public void NextLevel()
+    {
+        currentLevel++;
+        SceneManager.LoadSceneAsync(Library.instance.levels[currentLevel].name);
+    }
+
+    public void GoToLobby()
+    {
+
+    }
+
+    //////////////////////////
+    ///
+    /// Player management
+    /// 
+
+    public bool PlayerExists(PlayerIndex index)
+    {
+        return players.Find(o => o.index == index) != null;
+    }
+
+    public List<Player> GetPlayers()
+    {
+        return new List<Player>(players.ToArray());
+    }
+
+    public void AddPlayer(Player player)
+    {
+        players.Add(player);
+    }
+    
+    public void UpdatePlayer(PlayerIndex index, Player player)
+    {
+        players.RemoveAll(o => o.index == index);
+        AddPlayer(player);
+    }
     public void GameOver()
     {
-        foreach(PlayerController pc in FindObjectsOfType<PlayerController>()) pc.Die();
+        foreach (PlayerController pc in FindObjectsOfType<PlayerController>()) pc.Die();
     }
 
-    public void SpawnPlayers(PlayerIndex[] players)
+
+    public void SpawnPlayers()
     {
-        for(int i = 0; i < players.Length; i++)
+        for(int i = 0; i < players.Count; i++)
         {
-            SpawnPlayer(players[i]);
+            SpawnPlayer(players[i].index);
         }   
-    }
-
-    public void SpawnPlayer(PlayerIndex player)
-    {
-        SpawnPlayer(player, new Vector3());
     }
 
     public void SpawnPlayer(PlayerIndex player, Vector3 position)
@@ -63,6 +128,15 @@ public class GameManager : MonoBehaviour
         pc.index = player;
     }
 
+    public void SpawnPlayer(PlayerIndex player)
+    {
+        SpawnPlayer(player, new Vector3());
+    }
+
+    //////////////////////////
+    ///
+    /// DEBUG
+    /// 
     public void DebugSpawnControllers()
     {
         for(int i = 0; i < playerCount; i++)

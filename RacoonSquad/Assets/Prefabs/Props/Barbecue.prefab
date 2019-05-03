@@ -59,8 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2c093d04dfc6b40959eb51825e4cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  racoonValue: 1
-  humanValue: 15
+  racoonValue: 5
+  humanValue: 150
   weight: 30
 --- !u!114 &6219905259907422536
 MonoBehaviour:

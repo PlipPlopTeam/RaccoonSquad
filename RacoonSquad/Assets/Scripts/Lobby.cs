@@ -9,53 +9,57 @@ public class Lobby : MonoBehaviour
 {
     public int minPlayers = 2;
 
-    List<PlayerIndex> players = new List<PlayerIndex>();
+    List<GameManager.Player> GetPlayers()
+    {
+        return GameManager.instance.GetPlayers();
+    }
+
+    void Start()
+    {
+        foreach(var cosmetic in Library.instance.cosmetics) {
+            Instantiate(cosmetic, new Vector3(Random.value*3 - 1.5f, 0.1f, Random.value*3 - 1.5f), Quaternion.identity);
+        }
+    }
 
     void Update()
     {
         for(int i = 0; i < 4; i++)
         {
             PlayerIndex controllerIndex = (PlayerIndex)i;
-            if(!players.Contains(controllerIndex) && GamePad.GetState(controllerIndex).Buttons.A == ButtonState.Pressed)
+            if (
+                !GameManager.instance.PlayerExists(controllerIndex) &&
+                GamePad.GetState(controllerIndex).Buttons.A == ButtonState.Pressed
+            )
             {
                 Join(controllerIndex);
             }
         }
-
-        /*
-        if(players.Count > 0 && GamePad.GetState(players[0]).Buttons.Start == ButtonState.Pressed)
-        {
-            StartGame();
-        }
-        */
     }
 
     void Join(PlayerIndex controllerIndex)
     {
-        players.Add(controllerIndex);
+        // Add player to the game
+        GameManager.instance.AddPlayer(new GameManager.Player() { index = controllerIndex });
+
+        // Spawn it
         foreach(var spawn in GameObject.FindObjectsOfType<PlayerSpawn>()) {
             if (spawn.playerIndex == controllerIndex) {
                 GameManager.instance.SpawnPlayer(controllerIndex, spawn.transform.position);
                 return;
             }
         }
-        GameManager.instance.SpawnPlayer(controllerIndex);
-    }
 
-    void StartGame()
-    {
-        // Loading first level
-        SceneManager.LoadSceneAsync(Library.instance.levels[0].name);
-        Destroy(gameObject);
+        // If no spawns, spawn it in the middle of the map
+        GameManager.instance.SpawnPlayer(controllerIndex);
     }
 
     public bool IsReady()
     {
-        return players.Count >= minPlayers;
+        return GetPlayers().Count >= minPlayers;
     }
 
     public int GetNeededPlayers()
     {
-        return minPlayers - players.Count;
+        return minPlayers - GetPlayers().Count;
     }
 }

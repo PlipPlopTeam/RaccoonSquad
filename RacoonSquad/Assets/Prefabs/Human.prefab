@@ -185,10 +185,7 @@ MonoBehaviour:
   chaseSpeed: 5
   velocityLerpSpeed: 10
   navTreshold: 1
-  paths:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  paths: []
   reactionTime: 1
   forgetTime: 5
   minStunDuration: 0.5
@@ -209,7 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headHeight: 1
   fieldOfViewAngle: 110
-  range: 1
+  range: 8
 --- !u!114 &2174619700233775202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,6 +301,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9007589512087950740}
     m_Modifications:
+    - target: {fileID: -927199367670048503, guid: 5b6e7078cec145f46b0e620aa6dd1cda,
+        type: 3}
+      propertyPath: m_Name
+      value: SK_Human
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 5b6e7078cec145f46b0e620aa6dd1cda,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -358,11 +360,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -927199367670048503, guid: 5b6e7078cec145f46b0e620aa6dd1cda,
-        type: 3}
-      propertyPath: m_Name
-      value: SK_Human
       objectReference: {fileID: 0}
     - target: {fileID: -941883518842354624, guid: 5b6e7078cec145f46b0e620aa6dd1cda,
         type: 3}

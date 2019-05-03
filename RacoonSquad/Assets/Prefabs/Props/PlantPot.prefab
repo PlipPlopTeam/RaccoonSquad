@@ -59,8 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2c093d04dfc6b40959eb51825e4cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  racoonValue: 1
-  humanValue: 1
+  racoonValue: 5
+  humanValue: 30
   weight: 10
 --- !u!114 &714547538141946413
 MonoBehaviour:
@@ -74,6 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundedThreshold: 0.01
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
 --- !u!1001 &434594052422196924
