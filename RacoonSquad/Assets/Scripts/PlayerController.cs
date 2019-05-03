@@ -337,7 +337,7 @@ public class PlayerController : MonoBehaviour
         sweat.Desactivate();
         anim.SetBool("Carrying", false);
         // le son est trop proche du grab, je vais voir pour changer ça
-      // SoundPlayer.PlayWithRandomPitch("si_raccoon_droping_item", 0.5f);
+      SoundPlayer.PlayWithRandomPitch("si_raccoon_droping_item", 0.5f);
     }
 
     void ThrowHeldObject(float force)
