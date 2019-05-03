@@ -125,7 +125,7 @@ public class HumanBehavior : MonoBehaviour
         // Lerp agent speed for a more organic effect
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, velocityLerpSpeed * Time.deltaTime);
         agent.speed = currentSpeed * movementSpeed.GetMultiplier();
-        anim.SetFloat("Speed", agent.velocity.magnitude/chaseSpeed);
+        anim.SetFloat("Speed", (agent.velocity.magnitude)/(chaseSpeed-walkSpeed));
 
         // Different update depending on the current state
         StateUpdate();
