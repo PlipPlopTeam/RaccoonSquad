@@ -54,7 +54,7 @@ public class LevelMaster
 
     public int GetBronzeTier()
     {
-        return Mathf.FloorToInt(maximumScore / 2f);
+        return Mathf.FloorToInt(maximumScore / 3f);
     }
 
     public int GetSilverTier()
