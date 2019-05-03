@@ -161,6 +161,9 @@ MonoBehaviour:
   - name: si_step
     clip: {fileID: 8300000, guid: e7fe27c0f9c2d9f47a278a2f54cc7a68, type: 3}
     loop: 0
+  - name: debug_music_2
+    clip: {fileID: 8300000, guid: 2dbaa32643e64ce4aaa70bd85029b2ca, type: 3}
+    loop: 1
   cosmetics:
   - {fileID: 4170486490838146260, guid: 8b5d1ffc0fcc308478f8d5c525f77ffd, type: 3}
   - {fileID: 2817270856750924431, guid: 907d4cdcd849b7549be919daf2bd0954, type: 3}
@@ -171,6 +174,6 @@ MonoBehaviour:
   primitiveQuadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   tierColors:
   - {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0.25866985, g: 0, b: 1, a: 1}
-  - {r: 0.82945275, g: 1, b: 0, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.4843376, g: 0.8301887, b: 0.3798505, a: 1}
+  - {r: 1, g: 0.92332065, b: 0, a: 1}
