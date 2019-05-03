@@ -22,7 +22,7 @@ public class Road : MonoBehaviour
     
     void Start()
     {
-        coloredMat = mat;        
+        coloredMat = Instantiate(mat);        
         
         StartCoroutine(CarTrip());
     }
