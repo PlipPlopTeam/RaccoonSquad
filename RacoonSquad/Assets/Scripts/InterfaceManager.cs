@@ -22,7 +22,7 @@ public class InterfaceManager : MonoBehaviour
     private void Update()
     {
         if (!GameManager.instance.lobby) {
-            completionSlider.value = (float)GameManager.instance.level.currentScore / GameManager.instance.level.GetGoldTier();
+            completionSlider.value = (float)GameManager.instance.level.GetScore() / GameManager.instance.level.GetGoldTier();
         }
     }
 }

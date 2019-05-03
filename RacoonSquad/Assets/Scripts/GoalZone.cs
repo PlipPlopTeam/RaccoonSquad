@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GoalZone : MonoBehaviour
 {
+    public List<PlayerController> racoonsInside = new List<PlayerController>();
+
     private void OnTriggerEnter(Collider other)
     {
         var pc = other.GetComponent<PlayerController>();
@@ -16,6 +18,12 @@ public class GoalZone : MonoBehaviour
                 Absorb(prop);
 
             }
+            racoonsInside.RemoveAll(o=>o==pc);
+            racoonsInside.Add(pc);
+
+            if (racoonsInside.Count == GameManager.instance.GetPlayers().Count) {
+                CheckWin();
+            }
         }
         else {
             // A prop
@@ -23,6 +31,15 @@ public class GoalZone : MonoBehaviour
             if (prop && !prop.IsHeld()) {
                 Absorb(prop);
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var pc = other.GetComponent<PlayerController>();
+
+        if (pc != null) {
+            racoonsInside.RemoveAll(o => o == pc);
         }
     }
 
@@ -36,9 +53,16 @@ public class GoalZone : MonoBehaviour
             }
         }
         else {
-            GameManager.instance.level.currentScore += prop.racoonValue;
+            GameManager.instance.level.Score(prop);
         }
 
         Destroy(prop.gameObject);
+    }
+
+    void CheckWin()
+    {
+        if (GameManager.instance.level.GetScore() >= GameManager.instance.level.GetBronzeTier()) {
+            GameManager.instance.Win();
+        }
     }
 }

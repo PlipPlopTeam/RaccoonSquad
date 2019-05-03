@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class LevelMaster
 {
-    public int currentScore = 0;
-
+    List<GameObject> gatheredObjects;
+    int humanScore = 0;
     int maximumScore = 0;
+    int currentScore = 0;
 
     public event System.Action<Vector3> soundAt;
 
@@ -24,6 +25,29 @@ public class LevelMaster
                 soundAt.Invoke(x.GetContact(0).point);
             };
         }        
+    }
+
+    public void Score(Grabbable prop)
+    {
+        humanScore += prop.humanValue;
+        gatheredObjects.Add(prop.gameObject);
+        currentScore += prop.racoonValue;
+    }
+
+    public int GetScore()
+    {
+        return currentScore;
+    }
+
+    public int GetDollars()
+    {
+        return humanScore;
+    }
+
+
+    public List<GameObject> GetGatheredObjects()
+    {
+        return new List<GameObject>(gatheredObjects.ToArray());
     }
 
     public int GetBronzeTier()

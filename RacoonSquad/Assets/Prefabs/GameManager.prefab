@@ -60,13 +60,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 374228f56b3e1be46b265e350bdd427a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobbyScene: {fileID: 102900000, guid: ac281fa5c3fc50b4bb52c8e46ae42ab7, type: 3}
+  lobbyScene: LevelLobby
+  winScene: WinScene
   levels:
-  - {fileID: 102900000, guid: ddc9e2dfd019b5e4cae0ad76f750b9a0, type: 3}
-  - {fileID: 102900000, guid: 855b8ba67d9298c4ab0f9a32525d598f, type: 3}
+  - Level0
+  - Level1
   racoonPrefab: {fileID: 4643777608409574412, guid: 9c9ca2ff9baf4e944ada28b4bc222b95,
     type: 3}
   gameOverPrefab: {fileID: 8094649263190153514, guid: f5312f51cb5644146a51923dc02edd01,
+    type: 3}
+  winPrefab: {fileID: 5076016488922473505, guid: cd979eb1f82571f44a1ce5dc3f2c3d3f,
     type: 3}
   sweatParticle: {fileID: 4555859333002654280, guid: 661c764e8994a984d8acdd2e179973a3,
     type: 3}
