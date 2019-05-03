@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 972718209458965457}
   - component: {fileID: 4449399213980783470}
   m_Layer: 0
-  m_Name: Bandana
+  m_Name: COS_Bandana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
   eulerRotationOffset: {x: 0, y: 0, z: 0}
+  uniqueID: 225436
 --- !u!114 &972718209458965457
 MonoBehaviour:
   m_ObjectHideFlags: 0
