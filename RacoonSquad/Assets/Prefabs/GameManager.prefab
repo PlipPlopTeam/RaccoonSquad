@@ -62,7 +62,7 @@ MonoBehaviour:
     type: 3}
   exclamationMarkPrefab: {fileID: 6681665629629748997, guid: e0f424959e752364f98c97ebb6d81ad9,
     type: 3}
-  sweatParticle: {fileID: 5340588666996514706, guid: 53d3fca919db0cf4f91f2519db4054a3,
+  sweatParticle: {fileID: 4555859333002654280, guid: 661c764e8994a984d8acdd2e179973a3,
     type: 3}
   hitFX: {fileID: 3914065392152726493, guid: f609e9ca307071446aa4ac2ca3f91e14, type: 3}
   sounds:
@@ -75,3 +75,63 @@ MonoBehaviour:
   - name: debug_sound_looping
     clip: {fileID: 8300000, guid: 05ca16aceedc00a43b6c5b1e74c6b258, type: 3}
     loop: 1
+  - name: amb_dogs_barking
+    clip: {fileID: 8300000, guid: 9af6a219217fc154ea196339104c03db, type: 3}
+    loop: 0
+  - name: amb_suburbs_cars
+    clip: {fileID: 8300000, guid: 705dcbd23fef256428b2b54b98585209, type: 3}
+    loop: 1
+  - name: fb_raccoon_bumping
+    clip: {fileID: 8300000, guid: 59cd67b28899913459c4dcd51c2b3253, type: 3}
+    loop: 0
+  - name: fb_raccoon_charging_toss
+    clip: {fileID: 8300000, guid: 3e716ce173d657f42ad1eb1f787632f2, type: 3}
+    loop: 0
+  - name: fb_raccoon_grabbing
+    clip: {fileID: 8300000, guid: cf3c1bf21fc98244ca48150565a1cf38, type: 3}
+    loop: 0
+  - name: fb_raccoon_hop
+    clip: {fileID: 8300000, guid: 4a75bfebfa61b414a8c70fa9ec35e4f1, type: 3}
+    loop: 0
+  - name: fb_scoring_loot
+    clip: {fileID: 8300000, guid: bdc0407d9cf6d6b41b38e21761f98425, type: 3}
+    loop: 0
+  - name: fb_raccoon_taunting
+    clip: {fileID: 8300000, guid: c71ff994ac46b934191bcc9dd40dab74, type: 3}
+    loop: 0
+  - name: fb_raccoon_tossing
+    clip: {fileID: 8300000, guid: d86e897d51699da4e899bc58dd181dcc, type: 3}
+    loop: 0
+  - name: mus_bossa
+    clip: {fileID: 8300000, guid: 3ef07818c0e7add46889424f0eff616f, type: 3}
+    loop: 1
+  - name: mus_funkstyle
+    clip: {fileID: 8300000, guid: 73d6ef9994062d14b97191e98a2239a8, type: 3}
+    loop: 1
+  - name: mus_funkstyle_02
+    clip: {fileID: 8300000, guid: ef7b4fce1e37a9a449e33a6e605216d4, type: 3}
+    loop: 1
+  - name: mus_funkstyle_03
+    clip: {fileID: 8300000, guid: 9a0f7eaf57ecf8e48aa919653c118211, type: 3}
+    loop: 1
+  - name: mus_funkstyle_04
+    clip: {fileID: 8300000, guid: 88ea17817762d5c4494d0843c9f18c98, type: 3}
+    loop: 1
+  - name: mus_jazzstyle
+    clip: {fileID: 8300000, guid: 7e517f55de86dba41ac40c1d9a45e3d9, type: 3}
+    loop: 1
+  - name: si_concerned_human
+    clip: {fileID: 8300000, guid: e841fc06968ad7a4cb93155319af85cb, type: 3}
+    loop: 0
+  - name: si_raccoon_droping_item
+    clip: {fileID: 8300000, guid: 7ec3ef034cdf81e4b974ec92893b159b, type: 3}
+    loop: 0
+  - name: si_lured_human
+    clip: {fileID: 8300000, guid: 4f2ee726dac9b4e41ad636a2a7d80b79, type: 3}
+    loop: 0
+  - name: si_raccoon_spotted
+    clip: {fileID: 8300000, guid: bbe4e3b03756382429a597fedd89b620, type: 3}
+    loop: 0
+  - name: si_stunned_human
+    clip: {fileID: 8300000, guid: 7e9b694a1ecc7dd499cb2b14a6e312bb, type: 3}
+    loop: 0
