@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     /// 
 
     public bool lobby = false;
+    public GameObject lobbyPrefab;
     public int playerCount;
     public LevelMaster level;
 
@@ -50,7 +51,7 @@ public class GameManager : MonoBehaviour
     {
         if (lobby) {
             try {
-                InterfaceManager.instance.CreateLobby();
+                Instantiate(lobbyPrefab, transform);
             }
             catch (System.Exception e) {
                 Debug.LogWarning("Could not create the lobby :\n" + e.ToString());

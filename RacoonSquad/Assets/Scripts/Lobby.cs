@@ -14,12 +14,22 @@ public class Lobby : MonoBehaviour
         return GameManager.instance.GetPlayers();
     }
 
+    void Start()
+    {
+        foreach(var cosmetic in Library.instance.cosmetics) {
+            Instantiate(cosmetic, new Vector3(Random.value*3 - 1.5f, 0.1f, Random.value*3 - 1.5f), Quaternion.identity);
+        }
+    }
+
     void Update()
     {
         for(int i = 0; i < 4; i++)
         {
             PlayerIndex controllerIndex = (PlayerIndex)i;
-            if(!GameManager.instance.PlayerExists(controllerIndex) && GamePad.GetState(controllerIndex).Buttons.A == ButtonState.Pressed)
+            if (
+                !GameManager.instance.PlayerExists(controllerIndex) &&
+                GamePad.GetState(controllerIndex).Buttons.A == ButtonState.Pressed
+            )
             {
                 Join(controllerIndex);
             }

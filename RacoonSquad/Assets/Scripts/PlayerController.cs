@@ -278,6 +278,7 @@ public class PlayerController : MonoBehaviour
         Grabbable bestProp = null;
         foreach(var prop in objectsAtRange) 
         {
+            if (prop == null) continue;
             if (IsWearing() && prop.GetProp() == hat.GetProp()) continue;
             if(prop.transform.position.y > bestHeight)
             {
@@ -311,6 +312,16 @@ public class PlayerController : MonoBehaviour
         }
         var cos = prop.GetComponent<Cosmetic>();
         cos.BecomeWeared(headBone, color);
+
+        // Update GM
+        GameManager.instance.UpdatePlayer(
+            index, 
+            new GameManager.Player() {
+                index = index,
+                cosmetic = Library.instance.cosmetics.FindIndex(o => o == prop.gameObject)
+            }
+        );
+
         hat = cos;
     }
 
