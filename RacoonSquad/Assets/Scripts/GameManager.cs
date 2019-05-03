@@ -230,6 +230,7 @@ public class GameManager : MonoBehaviour
         },
 
         {"MUSIC", delegate { SoundPlayer.Play("debug_music"); }},
+        {"KANOZIEV", delegate { SoundPlayer.Play("debug_music_2"); }},
         {"STOP", delegate { SoundPlayer.StopEverySound(); }},
         {"PSOUND", delegate { SoundPlayer.Play("debug_sound"); }},
         {"RPITCH", delegate { SoundPlayer.PlayWithRandomPitch("debug_sound"); }},

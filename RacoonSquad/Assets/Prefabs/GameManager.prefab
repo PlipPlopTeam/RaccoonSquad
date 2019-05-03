@@ -161,6 +161,9 @@ MonoBehaviour:
   - name: si_step
     clip: {fileID: 8300000, guid: e7fe27c0f9c2d9f47a278a2f54cc7a68, type: 3}
     loop: 0
+  - name: debug_music_2
+    clip: {fileID: 8300000, guid: 2dbaa32643e64ce4aaa70bd85029b2ca, type: 3}
+    loop: 1
   cosmetics:
   - {fileID: 4170486490838146260, guid: 8b5d1ffc0fcc308478f8d5c525f77ffd, type: 3}
   - {fileID: 2817270856750924431, guid: 907d4cdcd849b7549be919daf2bd0954, type: 3}
