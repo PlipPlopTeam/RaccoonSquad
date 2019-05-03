@@ -430,6 +430,8 @@ public class PlayerController : MonoBehaviour
         activated = false;
         dead = true;
         anim.SetFloat("Speed", 0f);
+        SoundPlayer.StopEverySound();
+        SoundPlayer.Play("mus_caught");
     }
 
     public void Hang()
