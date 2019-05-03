@@ -36,6 +36,7 @@ public class HumanBehavior : MonoBehaviour
     // Referencies
     NavMeshAgent agent;
     Sight sight;
+    Hearing ear;
     EmotionRenderer emotion;
     MovementSpeed movementSpeed;
     FocusLook look;
@@ -53,12 +54,22 @@ public class HumanBehavior : MonoBehaviour
         look = GetComponent<FocusLook>();
         emotion = GetComponent<EmotionRenderer>();
 
+        ear = gameObject.AddComponent<Hearing>();
+        ear.heard += (Vector3 position) => { this.OnHeard(position); };
+
         movementSpeed = gameObject.AddComponent<MovementSpeed>();
 
         // Check which objects are currently grabbable
         rangeEvent = GetComponentInChildren<CollisionEventTransmitter>();
         rangeEvent.onTriggerEnter += (Collider other) => { inRange.Add(other.transform.gameObject); };
         rangeEvent.onTriggerExit += (Collider other) => { inRange.Remove(other.transform.gameObject); };
+    }
+
+    void OnHeard(Vector3 position)
+    {   
+        Vector3 direction = position - transform.position;
+        direction = new Vector3(direction.x, transform.position.y, direction.z);
+        transform.forward = direction;
     }
 
     void ChangeState(HumanState newState)
