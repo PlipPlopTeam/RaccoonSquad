@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     Grabbable heldObject;
     Vector3 targetOrientation;
     Rigidbody rb;
-    Light aimLight;
+    public GameObject aimSprite;
     LineRenderer lineRenderer;
     new CapsuleCollider collider;
     Cosmetic hat;
@@ -63,7 +63,6 @@ public class PlayerController : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         look = GetComponent<FocusLook>();
 
-        aimLight = GetComponentInChildren<Light>();
         sweat = GetComponentInChildren<Sweat>();
 
         movementSpeed = gameObject.AddComponent<MovementSpeed>();
@@ -218,21 +217,20 @@ public class PlayerController : MonoBehaviour
     {
         float throwAimForceCorrection = 1f - throwVerticality; // Band-aid correction to make the spotlight aiming more accurate
 
-        aimLight.enabled = false;
+        aimSprite.SetActive(false);
         if (throwAccumulatedForce > 0f) {
-            aimLight.transform.localEulerAngles = new Vector3(90f, aimLight.transform.localEulerAngles.y + Time.deltaTime*aimRotationSpeed, 0f);
-            aimLight.transform.localPosition = Vector3.Lerp(
-                aimLight.transform.localPosition,
+            aimSprite.transform.localEulerAngles = new Vector3(90f, aimSprite.transform.localEulerAngles.y + Time.deltaTime*aimRotationSpeed, 0f);
+            aimSprite.transform.localPosition = Vector3.Lerp(
+                aimSprite.transform.localPosition,
                 new Vector3(
                     0f,
-                    aimLight.transform.localPosition.y,
+                    aimSprite.transform.localPosition.y,
                     throwAccumulatedForce * throwForceMultiplier * throwAimForceCorrection
                 ),
                 1f - aimSpotLag
             );
-            
-            aimLight.enabled = true;
 
+            aimSprite.SetActive(true);
             lineRenderer.positionCount = 2;
             lineRenderer.SetPositions(
                 // Adding 0.01f to Y to avoid Z-fight
@@ -240,7 +238,7 @@ public class PlayerController : MonoBehaviour
                     transform.position + new Vector3(0f, 0.05f, 0f),
                     Vector3.Lerp(
                         transform.position + new Vector3(0f, 0.1f, 0f),
-                        new Vector3( aimLight.transform.position.x, transform.position.y+0.1f,  aimLight.transform.position.z),
+                        new Vector3( aimSprite.transform.position.x, transform.position.y+0.1f,  aimSprite.transform.position.z),
                         0.92f
                     )
                 }
@@ -253,7 +251,7 @@ public class PlayerController : MonoBehaviour
 
     void ResetThrowPreview()
     {
-        aimLight.transform.localPosition = new Vector3(0f, aimLight.transform.localPosition.y, 0f);
+        aimSprite.transform.localPosition = new Vector3(0f, aimSprite.transform.localPosition.y, 0f);
         lineRenderer.positionCount = 0;
     }
 
