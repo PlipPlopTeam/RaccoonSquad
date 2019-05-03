@@ -31,6 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4764556247657150343}
+  - {fileID: 8123042689563590451}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -77,6 +78,101 @@ MonoBehaviour:
   groundedThreshold: 0.01
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+--- !u!1001 &354966570860060787
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4064071348525555070}
+    m_Modifications:
+    - target: {fileID: 2944417356796015064, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_Name
+      value: FX_BBQ_Smoke
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.273
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.049
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.313
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3515913039420859255, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: NoiseModule.frequency
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3515913039420859255, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: NoiseModule.octaves
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3515913039420859255, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: NoiseModule.strength.scalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3515913039420859255, guid: 6d0eb60a9763a4347909e91979479659,
+        type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: -0.05
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6d0eb60a9763a4347909e91979479659, type: 3}
+--- !u!4 &8123042689563590451 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8383380883025289024, guid: 6d0eb60a9763a4347909e91979479659,
+    type: 3}
+  m_PrefabInstance: {fileID: 354966570860060787}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &533023889868020893
 PrefabInstance:
   m_ObjectHideFlags: 0
