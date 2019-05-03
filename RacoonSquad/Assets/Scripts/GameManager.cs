@@ -102,13 +102,13 @@ public class GameManager : MonoBehaviour
         
         // This is insane
         catch {
-            currentLevel = -1;
             GoToLobby();
         }
     }
 
     public void GoToLobby()
     {
+        currentLevel = -1;
         players.Clear();
         SceneManager.LoadScene(Library.instance.lobbyScene);
         lobby = true;
