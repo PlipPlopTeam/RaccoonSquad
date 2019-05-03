@@ -8,9 +8,18 @@ public class GoalZone : MonoBehaviour
     {
         var prop = other.GetComponent<Grabbable>();
         if (prop && !prop.IsHeld()) {
+            Absorb(prop);
+        }
+    }
+
+    void Absorb(Grabbable prop)
+    {
+        if (GameManager.instance.lobby) {
+        }
+        else {
             GameManager.instance.level.currentScore += prop.racoonValue;
-            print(GameManager.instance.level.currentScore);
             Destroy(prop.gameObject);
         }
+
     }
 }

@@ -6,6 +6,10 @@ public class Library : MonoBehaviour
 {
     public static Library instance;
 
+    [Header("Scenes")]
+    public Object lobbyScene;
+    public List<Object> levels;
+
     [Header("Prefabs")]
     public GameObject racoonPrefab;
     public GameObject exclamationMarkPrefab;
