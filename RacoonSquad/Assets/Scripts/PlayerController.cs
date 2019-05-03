@@ -360,7 +360,7 @@ public class PlayerController : MonoBehaviour
         throwAccumulatedForce = 0;
         anim.SetFloat("ThrowPercentage", 0);
         anim.SetTrigger("ThrowAction");
-        SoundPlayer.PlayWithRandomPitch("fb_raccoon_tossing", 0.5f);
+        SoundPlayer.PlayWithRandomPitch("fb_raccoon_tossing", 0.2f);
     }
 
     public bool IsHolding()
