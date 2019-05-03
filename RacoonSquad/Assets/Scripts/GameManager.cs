@@ -85,8 +85,13 @@ public class GameManager : MonoBehaviour
     public void GoToLobby()
     {
         players.Clear();
-        SceneManager.LoadSceneAsync(Library.instance.lobbyScene.name);
+        SceneManager.LoadScene(Library.instance.lobbyScene.name);
         lobby = true;
+    }
+
+    public void GameOver()
+    {
+        Instantiate(Library.instance.gameOverPrefab);
     }
 
     //////////////////////////
@@ -113,11 +118,6 @@ public class GameManager : MonoBehaviour
     {
         players[players.FindIndex(o => o.index == index)] = player;
     }
-    public void GameOver()
-    {
-        foreach (PlayerController pc in FindObjectsOfType<PlayerController>()) pc.Die();
-    }
-
 
     public void SpawnPlayers()
     {

@@ -12,6 +12,7 @@ public class Library : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject racoonPrefab;
+    public GameObject gameOverPrefab;
 
     [Header("Particles")]
     public GameObject sweatParticle;
