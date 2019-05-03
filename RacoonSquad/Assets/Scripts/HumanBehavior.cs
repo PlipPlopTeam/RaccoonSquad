@@ -152,10 +152,10 @@ public class HumanBehavior : MonoBehaviour
                         seenPlayer.transform.forward = transform.forward;
 
                         seenPlayer.transform.localPosition = Vector3.zero;
-                        ChangeState(HumanState.Thinking);
+                        ChangeState(HumanState.Walking);
                         look.LooseFocus();
 
-                        CameraController.instance.Set(transform.position, 25f);
+                        CameraController.instance.FocusOn(transform, 25f);
                         anim.SetBool("Carrying", true);
 
                         GameManager.instance.GameOver();
