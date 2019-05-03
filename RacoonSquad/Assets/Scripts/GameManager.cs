@@ -93,11 +93,19 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        lobby = false;
-        currentLevel++;
-        SceneManager.LoadSceneAsync(
-            Library.instance.levels[currentLevel]
-        );
+        try {
+            lobby = false;
+            currentLevel++;
+            SceneManager.LoadSceneAsync(
+                Library.instance.levels[currentLevel]
+            );
+        }
+        
+        // This is insane
+        catch {
+            currentLevel = -1;
+            GoToLobby();
+        }
     }
 
     public void GoToLobby()
