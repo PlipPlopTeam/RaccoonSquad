@@ -145,3 +145,4 @@ MonoBehaviour:
   - name: si_stunned_human
     clip: {fileID: 8300000, guid: 7e9b694a1ecc7dd499cb2b14a6e312bb, type: 3}
     loop: 0
+  primitiveQuadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
