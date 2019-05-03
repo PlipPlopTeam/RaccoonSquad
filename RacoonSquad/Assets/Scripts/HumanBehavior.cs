@@ -70,6 +70,7 @@ public class HumanBehavior : MonoBehaviour
                 seenPlayer = null;
                 targetSpeed = walkSpeed;
                 look.LooseFocus();
+                emotion.Hide();
                 MoveTo(currentWaypoint);
                 break;
             case HumanState.Thinking:
@@ -85,7 +86,6 @@ public class HumanBehavior : MonoBehaviour
                 seenPlayer = null;
                 break;
         }
-
         state = newState;
     }
 
@@ -145,9 +145,20 @@ public class HumanBehavior : MonoBehaviour
                 {
                     if(IsObjectInRange(seenPlayer.gameObject)) 
                     {
-                        seenPlayer.Stun(2f);
-                        seenPlayer.DropHeldObject();
+                        seenPlayer.Die();
+                        seenPlayer.KillPhysics();
+                        seenPlayer.transform.SetParent(handBone);
+                        seenPlayer.transform.up = Vector3.up;
+                        seenPlayer.transform.forward = transform.forward;
+
+                        seenPlayer.transform.localPosition = Vector3.zero;
                         ChangeState(HumanState.Walking);
+                        look.LooseFocus();
+
+                        CameraController.instance.FocusOn(transform, 25f);
+                        anim.SetBool("Carrying", true);
+
+                        GameManager.instance.GameOver();
                     }
                 }
                 break;
@@ -230,7 +241,11 @@ public class HumanBehavior : MonoBehaviour
         foreach(GameObject go in seens)
         {
             PlayerController pc = go.GetComponent<PlayerController>();
-            if(pc != null && !pc.hidden) StartCoroutine(SpotRaccoon(pc));
+            if(pc != null && !pc.hidden && !pc.IsDead()) 
+            {
+                StartCoroutine(SpotRaccoon(pc));
+                break;
+            }
         }
     }
 

@@ -155,3 +155,4 @@ MonoBehaviour:
   - {fileID: 3160926698198728747, guid: 791b5b7404d28564f9dfb730a1ff85e8, type: 3}
   - {fileID: 3160926698198728747, guid: 774e8ee2274fedb43a0cd9cd3b9dd8b4, type: 3}
   - {fileID: 3160926698198728747, guid: 791b5b7404d28564f9dfb730a1ff85e8, type: 3}
+  primitiveQuadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}

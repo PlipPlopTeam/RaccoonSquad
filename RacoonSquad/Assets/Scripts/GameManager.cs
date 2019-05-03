@@ -99,12 +99,17 @@ public class GameManager : MonoBehaviour
     {
         players.Add(player);
     }
-
+    
     public void UpdatePlayer(PlayerIndex index, Player player)
     {
         players.RemoveAll(o => o.index == index);
         AddPlayer(player);
     }
+    public void GameOver()
+    {
+        foreach (PlayerController pc in FindObjectsOfType<PlayerController>()) pc.Die();
+    }
+
 
     public void SpawnPlayers()
     {
@@ -112,11 +117,6 @@ public class GameManager : MonoBehaviour
         {
             SpawnPlayer(players[i].index);
         }   
-    }
-
-    public void SpawnPlayer(PlayerIndex player)
-    {
-        SpawnPlayer(player, new Vector3());
     }
 
     public void SpawnPlayer(PlayerIndex player, Vector3 position)
@@ -128,7 +128,10 @@ public class GameManager : MonoBehaviour
         pc.index = player;
     }
 
-
+    public void SpawnPlayer(PlayerIndex player)
+    {
+        SpawnPlayer(player, new Vector3());
+    }
 
     //////////////////////////
     ///

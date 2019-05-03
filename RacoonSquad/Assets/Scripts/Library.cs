@@ -12,7 +12,6 @@ public class Library : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject racoonPrefab;
-    public GameObject exclamationMarkPrefab;
 
     [Header("Particles")]
     public GameObject sweatParticle;
@@ -25,8 +24,12 @@ public class Library : MonoBehaviour
     [Header("Sounds")]
     public List<SoundPlayer.Sound> sounds;
 
+
     [Header("Cosmetics")]
     public List<GameObject> cosmetics;
+	
+    [Header("Meshs")]
+    public Mesh primitiveQuadMesh;
 
     void Awake()
     {
