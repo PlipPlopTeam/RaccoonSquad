@@ -36,15 +36,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SpawnControllers(PlayerIndex[] players)
+    public void SpawnPlayers(PlayerIndex[] players)
     {
         for(int i = 0; i < players.Length; i++)
         {
-            PlayerController pc = Instantiate(Library.instance.racoonPrefab).GetComponent<PlayerController>();
-            pc.gameObject.name = "Racoon_" + players[i];
-
-            pc.index = players[i];
+            SpawnPlayer(players[i]);
         }   
+    }
+
+    public void SpawnPlayer(PlayerIndex player)
+    {
+        SpawnPlayer(player, new Vector3());
+    }
+
+    public void SpawnPlayer(PlayerIndex player, Vector3 position)
+    {
+
+        PlayerController pc = Instantiate(Library.instance.racoonPrefab, position, Quaternion.identity).GetComponent<PlayerController>();
+        pc.gameObject.name = "Racoon_" + player;
+
+        pc.index = player;
     }
 
     public void DebugSpawnControllers()
