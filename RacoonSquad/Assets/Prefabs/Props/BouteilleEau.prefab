@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 409056185660300321}
   - component: {fileID: 6066666280867392036}
   - component: {fileID: 345934473940708719}
+  - component: {fileID: 558667584777311863}
   m_Layer: 0
   m_Name: BouteilleEau
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7364824659077495466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4300225942218454860}
@@ -63,6 +64,19 @@ MonoBehaviour:
   groundedThreshold: 0.01
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+--- !u!65 &558667584777311863
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7364824659077495466}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.15, y: 0.5, z: 0.15}
+  m_Center: {x: 0, y: 0.05, z: 0}
 --- !u!1001 &9139998799475776598
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -93,7 +107,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 51b1e775e72fc134c9ecccff57f3168a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 51b1e775e72fc134c9ecccff57f3168a,
         type: 3}
@@ -103,12 +117,12 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 51b1e775e72fc134c9ecccff57f3168a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 51b1e775e72fc134c9ecccff57f3168a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 51b1e775e72fc134c9ecccff57f3168a,
         type: 3}
