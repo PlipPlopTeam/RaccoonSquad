@@ -252,6 +252,17 @@ MonoBehaviour:
     - {fileID: 2800000, guid: 52d886091078de444850dd9f7a1cd52c, type: 3}
     - {fileID: 2800000, guid: bfdf2eef84d47e04ba2910c3a075d020, type: 3}
     speed: 0.1
+  - name: Dizzy
+    frames:
+    - {fileID: 2800000, guid: 03aa833496d294a45ac46933c639c5e5, type: 3}
+    - {fileID: 2800000, guid: c3d31d43ed23a7a49b460df12bee7a89, type: 3}
+    - {fileID: 2800000, guid: d525b813610b92c4cba9dc8562b0d63a, type: 3}
+    - {fileID: 2800000, guid: c68f7e025e18d4746917c890e384f739, type: 3}
+    - {fileID: 2800000, guid: b4edcdcf4a856814f8e7327946bad0e6, type: 3}
+    - {fileID: 2800000, guid: a1fa053ece40d8d4c82ab10f70dd4c70, type: 3}
+    - {fileID: 2800000, guid: fb5fc847090c5114caae0eee9a883b9b, type: 3}
+    - {fileID: 2800000, guid: 733ce10b8ea4a3845bb7538e312a5b38, type: 3}
+    speed: 0.1
   headTransform: {fileID: 6358816739612426876}
   adjustment: {x: 0, y: 1, z: 0}
   size: 0.5

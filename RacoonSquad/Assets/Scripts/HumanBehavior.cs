@@ -243,7 +243,7 @@ public class HumanBehavior : MonoBehaviour
         yield return new WaitForSeconds(reactionTime);
 
         emotion.Hide();
-        
+
         if (seenPlayer == null || stun) yield break;
 
         seenItem = seenPlayer.GetHeldObject();
@@ -281,6 +281,7 @@ public class HumanBehavior : MonoBehaviour
     {
         look.LooseFocus();
         anim.SetTrigger("Hit");
+        emotion.Show("Dizzy");
         ChangeState(HumanState.Thinking);
         agent.destination = transform.position;
         duration = Mathf.Clamp(duration, minStunDuration, maxStunDuration);
@@ -291,6 +292,7 @@ public class HumanBehavior : MonoBehaviour
     IEnumerator WaitAndWakeUp(float time)
     {
         yield return new WaitForSeconds(time);
+        emotion.Hide();
         ChangeState(HumanState.Walking);
         stun = false;
     }
