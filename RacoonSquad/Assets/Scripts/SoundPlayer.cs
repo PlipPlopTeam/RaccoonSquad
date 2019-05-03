@@ -109,6 +109,17 @@ public class SoundPlayer
         }
     }
 
+    public static void StopSound(string soundName)
+    {
+        var snd = GetSoundFromName(soundName);
+        foreach (var src in GameObject.FindObjectsOfType<AudioSource>()) {
+            if (src.clip != snd.clip) continue;
+            src.Stop();
+            if (src == source) continue;
+            GameObject.Destroy(src.gameObject);
+        }
+    }
+
     static float RandomPitch()
     {
         return 1 - 0.2f + Random.value / 2.5f; // +/- 0.2
