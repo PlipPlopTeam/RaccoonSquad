@@ -72,17 +72,9 @@ public class PlayerController : MonoBehaviour
         grabCollisions = GetComponentInChildren<CollisionEventTransmitter>();
         grabCollisions.onTriggerEnter += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Add(grab); };
         grabCollisions.onTriggerExit += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Remove(grab); };
-    }
 
-    void Start()
-    {
-        LoadColor();
-    }
-
-    void LoadColor()
-    {
         color = Library.instance.playersColors[(int)index];
-    } // Change the color of the nose of the capsule to differentiate players (debug purpose)
+    }
 
     void Update()
     {
@@ -299,13 +291,13 @@ public class PlayerController : MonoBehaviour
         return hat != null;
     }
 
-    void Unwear()
+    public void Unwear()
     {
         hat.BecomeDropped();
         hat = null;
     }
 
-    void Wear(Grabbable prop)
+    public void Wear(Grabbable prop)
     {
         if (IsWearing()) {
             Unwear();
@@ -318,7 +310,8 @@ public class PlayerController : MonoBehaviour
             index, 
             new GameManager.Player() {
                 index = index,
-                cosmetic = Library.instance.cosmetics.FindIndex(o => o == prop.gameObject)
+                cosmetic = Library.instance.cosmetics.FindIndex(o => {
+                    return o.GetComponent<Cosmetic>().uniqueID == cos.uniqueID; })
             }
         );
 
@@ -430,6 +423,8 @@ public class PlayerController : MonoBehaviour
         activated = false;
         dead = true;
         anim.SetFloat("Speed", 0f);
+        SoundPlayer.StopEverySound();
+        SoundPlayer.Play("mus_caught", 0.5f);
     }
 
     public void Hang()

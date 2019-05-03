@@ -38,31 +38,37 @@ public class GameManager : MonoBehaviour
     {
         // No dupes
         if (FindObjectsOfType<GameManager>().Length > 1) {
-            DestroyImmediate(this);
+            DestroyImmediate(this.gameObject);
             return;
         }
 
         // Setting up the static & persistent parameters
         DontDestroyOnLoad(this);
         instance = this;
+
+        // Onload
+        SceneManager.sceneLoaded += delegate {
+            if (lobby) {
+                try {
+                    Instantiate(lobbyPrefab, transform);
+                }
+                catch (System.Exception e) {
+                    Debug.LogWarning("Could not create the lobby :\n" + e.ToString());
+                }
+            }
+            else {
+                // Initialize goal score etc...
+                level = new LevelMaster();
+                if (players.Count > 0) {
+                    SpawnPlayers();
+                }
+                else {
+                    DebugSpawnControllers();
+                }
+            }
+        };
     }
 
-    void Start()
-    {
-        if (lobby) {
-            try {
-                Instantiate(lobbyPrefab, transform);
-            }
-            catch (System.Exception e) {
-                Debug.LogWarning("Could not create the lobby :\n" + e.ToString());
-            }
-        }
-        else {
-            // Initialize goal score etc...
-            level = new LevelMaster();
-            DebugSpawnControllers();
-        }
-    }
 
     //////////////////////////
     ///
@@ -71,13 +77,16 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
+        lobby = false;
         currentLevel++;
         SceneManager.LoadSceneAsync(Library.instance.levels[currentLevel].name);
     }
 
     public void GoToLobby()
     {
-
+        players.Clear();
+        SceneManager.LoadSceneAsync(Library.instance.lobbyScene.name);
+        lobby = true;
     }
 
     //////////////////////////
@@ -115,22 +124,34 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < players.Count; i++)
         {
-            SpawnPlayer(players[i].index);
+            var pc = SpawnPlayer(players[i].index);
+            if (players[i].cosmetic >= 0) {
+                var cos = Instantiate(Library.instance.cosmetics[players[i].cosmetic], pc.transform);
+                pc.Wear(cos.GetComponent<Grabbable>());
+            }
         }   
     }
 
-    public void SpawnPlayer(PlayerIndex player, Vector3 position)
+    public PlayerController SpawnPlayer(PlayerIndex player, Vector3 position)
     {
 
         PlayerController pc = Instantiate(Library.instance.racoonPrefab, position, Quaternion.identity).GetComponent<PlayerController>();
         pc.gameObject.name = "Racoon_" + player;
 
         pc.index = player;
+
+        return pc;
     }
 
-    public void SpawnPlayer(PlayerIndex player)
+    public PlayerController SpawnPlayer(PlayerIndex player)
     {
-        SpawnPlayer(player, new Vector3());
+        foreach (var spawn in FindObjectsOfType<PlayerSpawn>()) {
+            if (spawn.playerIndex == player) {
+                return SpawnPlayer(player, spawn.transform.position);
+            }
+        }
+
+        return SpawnPlayer(player, new Vector3());
     }
 
     //////////////////////////
