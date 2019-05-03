@@ -43,11 +43,23 @@ public class ScoreDisplayer : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         Show(countText);
-        var list = GameManager.instance.previousLevel.GetGatheredObjects();
         var parent = GameObject.Find("OBJECTS_SPAWN");
-        for (int i = 0; i < list.Count; i++) {
-            countText.text = string.Format(countString, i+1);
-            //Instantiate(list[i], parent.transform.position + new Vector3(Random.value * 10f - 5f, 0f), Quaternion.identity);
+        var skips = 0;
+        for (int i = 0; i < GameManager.instance.transform.childCount; i++) {
+            var child = GameManager.instance.transform.GetChild(i).gameObject.GetComponent<Prop>();
+            if (child == null) {
+                skips++;
+                continue;
+            }
+            countText.text = string.Format(countString, i+1- skips);
+
+            child.transform.position = parent.transform.position + new Vector3(Random.value * 10f - 5f, 0f);
+            child.transform.localScale = new Vector3(1f, 1f, 1f);
+            child.gameObject.AddComponent<Grabbable>();
+            child.GetComponent<Collider>().enabled = true;
+            child.gameObject.SetActive(true);
+            child.rigidbody.isKinematic = false;
+
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(1.5f);

@@ -18,7 +18,9 @@ public class Hearing : MonoBehaviour
 
     public void TryHeard(Vector3 position)
     {
-        if(Vector3.Distance(transform.position, position) * multiplier <= range) OnHeard(position);
+        if (Vector3.Distance(transform.position, position) * multiplier <= range) {
+            OnHeard(position);
+        }
     }
 
     void OnHeard(Vector3 position)
