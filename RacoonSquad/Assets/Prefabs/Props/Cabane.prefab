@@ -63,9 +63,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2c093d04dfc6b40959eb51825e4cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  racoonValue: 1
-  humanValue: 1
-  weight: 10
+  racoonValue: 5
+  humanValue: 300
+  weight: 50
 --- !u!65 &2658390990763980292
 BoxCollider:
   m_ObjectHideFlags: 0
