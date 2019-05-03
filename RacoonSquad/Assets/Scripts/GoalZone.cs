@@ -125,7 +125,7 @@ public class GoalZone : MonoBehaviour
         ao.startPosition = grabbable.transform.position;
         ao.startSize = grabbable.transform.localScale;
         absorbedObjects.Add(ao);
-
+        
         SoundPlayer.PlayWithRandomPitch("fb_scoring_loot", 0.3f);
         if (GameManager.instance.lobby)
         {
@@ -133,8 +133,10 @@ public class GoalZone : MonoBehaviour
         }
         else 
         {
-            if(grabbable.gameObject != null) GameManager.instance.level.Score(grabbable);
+            GameManager.instance.level.Score(grabbable);
         }
+
+        Destroy(grabbable);
     }
 
     void CheckWin()
