@@ -36,6 +36,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void GameOver()
+    {
+        foreach(PlayerController pc in FindObjectsOfType<PlayerController>()) pc.Die();
+    }
+
     public void SpawnPlayers(PlayerIndex[] players)
     {
         for(int i = 0; i < players.Length; i++)
