@@ -11,10 +11,12 @@
           <e p="CameraController.cs" t="Include" />
           <e p="CollisionEventTransmitter.cs" t="Include" />
           <e p="Cosmetic.cs" t="Include" />
+          <e p="Credits.cs" t="Include" />
           <e p="DestroyAfter.cs" t="Include" />
           <e p="EmotionRenderer.cs" t="Include" />
           <e p="FocusLook.cs" t="Include" />
           <e p="GameManager.cs" t="Include" />
+          <e p="GameOverAnimation.cs" t="Include" />
           <e p="GoalZone.cs" t="Include" />
           <e p="Grabbable.cs" t="Include" />
           <e p="Hearing.cs" t="Include" />
@@ -50,6 +52,7 @@
           <e p="S_DissolveParticle.shader" t="Include" />
           <e p="S_Ground.shader" t="Include" />
           <e p="S_HiddenRaccoon.shader" t="Include" />
+          <e p="S_jauge.shader" t="Include" />
           <e p="S_ToonLit_CutOut.shader" t="Include" />
           <e p="Shader02.shader" t="Include" />
           <e p="Shader10.shader" t="Include" />

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Prop : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class Prop : MonoBehaviour
     [HideInInspector] public new Rigidbody rigidbody;
     [HideInInspector] public new Collider collider;
 
+    public NavMeshObstacle obstacle;
+
     bool justHit;
     
     // Start is called before the first frame update
@@ -24,6 +27,7 @@ public class Prop : MonoBehaviour
         collider = GetComponent<Collider>();
         if(collider == null) collider = gameObject.AddComponent<BoxCollider>();
         if (rigidbody == null) rigidbody = gameObject.AddComponent<Rigidbody>();
+        if (obstacle == null) obstacle = gameObject.AddComponent<NavMeshObstacle>();
     }
     
     public bool IsGrounded()

@@ -9,11 +9,19 @@ public class CameraController : MonoBehaviour
 
     float originDistance;
     Vector3 originPosition;
+    Vector3 originRotation;
 
     float distance;
     Vector3 targetPosition;
     Vector3 directionToPivot;
     Transform targetTransform;
+
+
+    public float noiseSpeed;
+    public float noiseAmp;
+    public float noiseRot;
+    private Vector3 posOff;
+    private Vector3 rotOff;
 
     void Awake()
     {
@@ -25,7 +33,11 @@ public class CameraController : MonoBehaviour
         directionToPivot = (cam.transform.position - transform.position).normalized;
         originDistance = (cam.transform.position - transform.position).magnitude;
         originPosition = transform.position;
+        originRotation = cam.transform.localEulerAngles;
         distance = originDistance;
+        
+        posOff = new Vector3(Random.Range(0f,100f),Random.Range(0f,100f),Random.Range(0f,100f));
+        rotOff = new Vector3(Random.Range(0f,100f),Random.Range(0f,100f),Random.Range(0f,100f));
     }
 
     void Update()
@@ -36,7 +48,14 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * lerpSpeed);
+            transform.position = Vector3.Lerp(transform.position, targetPosition + new Vector3(Mathf.PerlinNoise(Time.time * noiseSpeed + posOff.x, Time.time * noiseSpeed + posOff.x) * noiseAmp, 
+                                                                                               Mathf.PerlinNoise(Time.time * noiseSpeed + posOff.y, Time.time * noiseSpeed + posOff.y) * noiseAmp,
+                                                                                               Mathf.PerlinNoise(Time.time * noiseSpeed + posOff.z, Time.time * noiseSpeed + posOff.z) * noiseAmp), Time.deltaTime * lerpSpeed);
+
+            cam.transform.localEulerAngles = originRotation + new Vector3(
+                Mathf.PerlinNoise(Time.time * noiseSpeed + rotOff.x, Time.time * noiseSpeed + rotOff.x) * noiseRot,
+                Mathf.PerlinNoise(Time.time * noiseSpeed + rotOff.y, Time.time * noiseSpeed + rotOff.y) * noiseRot,
+                Mathf.PerlinNoise(Time.time * noiseSpeed + rotOff.z, Time.time * noiseSpeed + rotOff.z) * noiseRot);
         }
         
 
@@ -67,6 +86,7 @@ public class CameraController : MonoBehaviour
     {
         targetTransform = null;
         targetPosition = originPosition;
+        
         distance = originDistance;
     }
 }
