@@ -10,11 +10,6 @@ public class Hearing : MonoBehaviour
 
     public event System.Action<Vector3> heard;
 
-    void Start()
-    {
-        SoundManager.instance.ears.Add(this);
-    }
-
     public void TryHeard(Vector3 position)
     {
         if(Vector3.Distance(transform.position, position) * multiplier <= range) OnHeard(position);
@@ -23,10 +18,5 @@ public class Hearing : MonoBehaviour
     void OnHeard(Vector3 position)
     {
         heard.Invoke(position);
-    }
-
-    void OnDestroy()
-    {
-        SoundManager.instance.ears.Remove(this);
     }
 }
