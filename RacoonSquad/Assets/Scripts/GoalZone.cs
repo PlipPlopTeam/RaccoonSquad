@@ -14,7 +14,7 @@ public class GoalZone : MonoBehaviour
 
     void Absorb(Grabbable prop)
     {
-        SoundPlayer.PlayWithRandomPitch("fb_scoring_loot", 1f);
+        SoundPlayer.PlayWithRandomPitch("fb_scoring_loot", 0.3f);
 
         if (GameManager.instance.lobby) {
             if (prop.tag == "GameStarter") {
