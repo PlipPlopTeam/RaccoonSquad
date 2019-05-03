@@ -23,6 +23,7 @@ public class CameraController : MonoBehaviour
     {
         directionToPivot = (cam.transform.position - transform.position).normalized;
         originDistance = (cam.transform.position - transform.position).magnitude;
+        distance = originDistance;
     }
 
     void Update()
