@@ -7,18 +7,18 @@ public class Credits : MonoBehaviour
 
     public Animator anim;
 
-    public bool creditsOn = true;
+    public bool creditsOn = false;
 
     private void Start()
     {
-        Invoke("ToggleCredits", 3);
+        //Invoke("ToggleCredits", 3);
     }
 
     void Update()
     {
         if (Input.GetButtonDown("Credits"))
         {
-            CancelInvoke("ToggleCredits");
+            //CancelInvoke("ToggleCredits");
             ToggleCredits();
         }
     }

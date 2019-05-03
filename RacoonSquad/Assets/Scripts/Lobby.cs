@@ -16,8 +16,6 @@ public class Lobby : MonoBehaviour
 
     void Start()
     {
-        print("coucou");
-
         float amplitude = 5f;
         float _offset = 1.3f;
         int _i = 0;
