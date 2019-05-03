@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     [Header("Inputs")]
     bool activated = true;
     public PlayerIndex index;
-    public MeshRenderer noseRenderer;
     bool dead = false;
 
     [Header("Locomotion")]
@@ -431,6 +430,15 @@ public class PlayerController : MonoBehaviour
         activated = false;
         dead = true;
         anim.SetFloat("Speed", 0f);
+    }
+
+    public void Hang()
+    {
+        anim.SetBool("Hanging", true);
+    }
+    public void Unhang()
+    {
+        anim.SetBool("Hanging", false);
     }
 
     public void KillPhysics()

@@ -105,7 +105,7 @@ public class HumanBehavior : MonoBehaviour
         // Lerp agent speed for a more organic effect
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, velocityLerpSpeed * Time.deltaTime);
         agent.speed = currentSpeed * movementSpeed.GetMultiplier();
-        anim.SetFloat("Speed", agent.speed/chaseSpeed);
+        anim.SetFloat("Speed", agent.velocity.magnitude/chaseSpeed);
 
         // Different update depending on the current state
         StateUpdate();
@@ -146,12 +146,16 @@ public class HumanBehavior : MonoBehaviour
                     if(IsObjectInRange(seenPlayer.gameObject)) 
                     {
                         seenPlayer.Die();
-                        seenPlayer.KillPhysics();
-                        seenPlayer.transform.SetParent(handBone);
-                        seenPlayer.transform.up = Vector3.up;
-                        seenPlayer.transform.forward = transform.forward;
+                        seenPlayer.KillPhysics();  
+                        seenPlayer.Hang(); 
 
-                        seenPlayer.transform.localPosition = Vector3.zero;
+                        seenPlayer.gameObject.transform.SetParent(handBone);
+                        seenPlayer.gameObject.transform.rotation = new Quaternion();
+                        seenPlayer.gameObject.transform.localPosition = Vector3.zero;
+
+                        seenPlayer.gameObject.transform.forward = transform.forward;
+                        seenPlayer.gameObject.transform.up = -Vector3.up;
+
                         ChangeState(HumanState.Walking);
                         look.LooseFocus();
 
