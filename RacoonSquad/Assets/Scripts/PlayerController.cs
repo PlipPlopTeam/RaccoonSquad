@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool hidden;
     float throwAccumulatedForce = 0f;
     bool acceptThrowCommands = true;
+    bool acceptJumps = true;
 
     void Awake()
     {
@@ -112,12 +113,13 @@ public class PlayerController : MonoBehaviour
 
     void CheckJumpInputs(GamePadState state)
     {
-        if(state.Buttons.A == ButtonState.Pressed && IsGrounded())
+        if (state.Buttons.A == ButtonState.Released) acceptJumps = true;
+        if(state.Buttons.A == ButtonState.Pressed && IsGrounded() && acceptJumps)
         {
-            rb.AddForce(Vector3.up * Time.deltaTime * jumpForce);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             anim.SetTrigger("Jump");
-            // c'est un peu étrange, j'ai l'impression qu'il en lance deux ou trois en même temps
-        //  SoundPlayer.PlayWithRandomPitch("fb_raccoon_hop", 0.2f);
+            acceptJumps = false;
+            SoundPlayer.PlayAtPosition("fb_raccoon_hop", transform.position, 0.2f, true);
         }
     }
 
@@ -129,6 +131,9 @@ public class PlayerController : MonoBehaviour
 
     void CheckMovementInputs(GamePadState state)
     {
+        var rightStickAmplitude = GetStickDirection(state.ThumbSticks.Right).magnitude;
+        var leftStickAmplitude = GetStickDirection(state.ThumbSticks.Left).magnitude;
+
         // Calculate the direction of the movement depending on the gamepad inputs
         Vector2 direction = new Vector2(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
 
@@ -143,11 +148,11 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("Speed", targetSpeed/speed);
 
         // If the player is aiming
-        if(Mathf.Abs(state.ThumbSticks.Right.X) > 0.05f || Mathf.Abs(state.ThumbSticks.Right.Y) > 0.05f)
+        if(rightStickAmplitude > 0.1f)
         {
             targetOrientation = new Vector3(state.ThumbSticks.Right.X, 0f, state.ThumbSticks.Right.Y);
         }
-        else if(Mathf.Abs(state.ThumbSticks.Left.X) > 0.05f || Mathf.Abs(state.ThumbSticks.Left.Y) > 0.05f)
+        else if(leftStickAmplitude > 0.1f)
         {
             targetOrientation = new Vector3(state.ThumbSticks.Left.X, 0f, state.ThumbSticks.Left.Y);
         }
