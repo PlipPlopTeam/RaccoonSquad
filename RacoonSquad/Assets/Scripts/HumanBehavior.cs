@@ -159,8 +159,12 @@ public class HumanBehavior : MonoBehaviour
                 agent.destination = seenPlayer.transform.position;
                 if(seenPlayer.GetHeldObject() == null) 
                 {
-                    look.FocusOn(seenItem.transform);
-                    ChangeState(HumanState.Collecting);
+                    if(seenItem != null)
+                    {
+                        look.FocusOn(seenItem.transform);
+                        ChangeState(HumanState.Collecting);
+                    }
+                    
                 }
                 else
                 {

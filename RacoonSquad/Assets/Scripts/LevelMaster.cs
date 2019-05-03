@@ -9,6 +9,8 @@ public class LevelMaster
     int maximumScore = 0;
     int currentScore = 0;
 
+    int spawnPlayerCount = 1;
+
     public event System.Action<Vector3> soundAt;
 
     public LevelMaster()
@@ -30,10 +32,14 @@ public class LevelMaster
     public void Score(Grabbable prop)
     {
         humanScore += prop.humanValue;
-
         gatheredObjects.Add(prop.gameObject);
-
         currentScore += prop.racoonValue;
+
+        if(currentScore % spawnPlayerCount * 10 == 0) 
+        {
+            spawnPlayerCount++;
+            GameManager.instance.SpawnHuman();
+        }
     }
 
     public int GetScore()

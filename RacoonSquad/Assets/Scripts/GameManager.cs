@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-
     //////////////////////////
     ///
     /// MonoBehaviour high level loop
@@ -72,17 +71,22 @@ public class GameManager : MonoBehaviour
         };
     }
 
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.H)) SpawnHuman();
-    }
-
     public void SpawnHuman()
     {
-        List<Transform> points = new List<Transform>();
-        foreach(Waypoint wp in  FindObjectsOfType<Waypoint>()) points.Add(wp.transform);
+        // Get reference to point
+        List<Transform> waypoints = new List<Transform>();
+        List<Transform> spawnpoints = new List<Transform>();
+        foreach(Waypoint wp in  FindObjectsOfType<Waypoint>()) waypoints.Add(wp.transform);
+        foreach(HumanSpawn hs in  FindObjectsOfType<HumanSpawn>()) spawnpoints.Add(hs.transform);
+
+        // Spawn the actor
         HumanBehavior human = Instantiate(Library.instance.humanPrefab).GetComponent<HumanBehavior>();
-        human.paths = points;
+
+        // If some spawnPoints has been found
+        if(spawnpoints.Count > 0) human.transform.position = spawnpoints[Random.Range(0, spawnpoints.Count)].position;
+
+        // Apply the path to the actor
+        human.paths = waypoints;
     }
 
     //////////////////////////
@@ -210,6 +214,10 @@ public class GameManager : MonoBehaviour
         // Resets the game
         {"DEJAVU",
             delegate { SceneManager.LoadScene(SceneManager.GetActiveScene().name); }
+        },
+
+        {"MULTICLONAGE",
+            delegate { for(int i = 0; i < 10; i++) GameManager.instance.SpawnHuman(); }
         },
 
         {"MUSIC", delegate { SoundPlayer.Play("debug_music"); }},
