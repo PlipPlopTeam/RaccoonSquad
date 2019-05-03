@@ -8,6 +8,8 @@ public class LevelMaster
 
     int maximumScore = 0;
 
+    public event System.Action<Vector3> soundAt;
+
     public LevelMaster()
     {
         SoundPlayer.StopEverySound();
@@ -19,6 +21,7 @@ public class LevelMaster
             prop.GetProp().onHit += (x) => {
                 SoundPlayer.PlayWithRandomPitch("fb_raccoon_bumping", 0.1f);
                 GameObject.Instantiate(Library.instance.hitFX, x.GetContact(0).point, Library.instance.hitFX.transform.rotation);
+                soundAt.Invoke(x.GetContact(0).point);
             };
         }        
     }
