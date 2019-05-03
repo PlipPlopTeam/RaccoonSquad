@@ -3505,7 +3505,7 @@ PrefabInstance:
     - target: {fileID: 8564749974338754995, guid: de00e504bfe8a6b43976b605b3f51a66,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8564749974338754995, guid: de00e504bfe8a6b43976b605b3f51a66,
         type: 3}
@@ -9899,7 +9899,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &776648973
 PrefabInstance:
@@ -10840,6 +10840,7 @@ MonoBehaviour:
   groundedThreshold: 0.01
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+  obstacle: {fileID: 0}
 --- !u!1001 &847613069
 PrefabInstance:
   m_ObjectHideFlags: 0
