@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 356913470210914336}
   - component: {fileID: 356913470210914343}
   m_Layer: 0
-  m_Name: SM_Wheel
+  m_Name: Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,6 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2c093d04dfc6b40959eb51825e4cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  racoonValue: 1
-  humanValue: 1
+  racoonValue: 20
+  humanValue: 190
   weight: 10
