@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundPlayer : MonoBehaviour
+public class SoundPlayer
 {
     [System.Serializable]
     public class Sound
@@ -15,13 +15,7 @@ public class SoundPlayer : MonoBehaviour
     static AudioSource source;
 
     public class MissingSoundException : System.Exception { public MissingSoundException(string msg) { Debug.LogError(msg); } };
-
-    void Awake()
-    {
-        source = GetComponent<AudioSource>();
-        if(source == null) source = gameObject.AddComponent<AudioSource>();
-    }
-
+    
     // General function
     static void PlayClipOnce(AudioClip clip, AudioSource source, float volume = 1f, float pitch = 1f)
     {
@@ -33,6 +27,7 @@ public class SoundPlayer : MonoBehaviour
     {
         if (src == null) {
             var g = new GameObject();
+            g.name = "_SOUND_LOOPER";
             src = g.AddComponent<AudioSource>();
         }
         src.loop = true;
@@ -46,10 +41,10 @@ public class SoundPlayer : MonoBehaviour
     {
         if (source == null) { source = Camera.main.gameObject.AddComponent<AudioSource>(); }
         if (src == null) { src = source; }
-        
+
         if (snd.loop) {
             MakeUnique(snd);
-            LoopClip(snd.clip, volume, pitch, src);
+            LoopClip(snd.clip, volume, pitch);
         }
         else {
             PlayClipOnce(snd.clip, src, volume, pitch);
@@ -74,6 +69,7 @@ public class SoundPlayer : MonoBehaviour
         var clip = snd.clip;
 
         var g = new GameObject();
+        g.name = "_ATTACHED_PLAYER";
         var source = g.AddComponent<AudioSource>();
         source.spatialBlend = 1f;
         source.minDistance = 2000f;
@@ -90,6 +86,7 @@ public class SoundPlayer : MonoBehaviour
     public static void PlayAtPosition(string soundName, Vector3 position, float volume = 1f, bool randomPitch = false)
     {
         var g = new GameObject();
+        g.name = "_SPATIALIZED_PLAYER";
         g.transform.position = position;
 
         var snd = GetSoundFromName(soundName);
@@ -105,10 +102,21 @@ public class SoundPlayer : MonoBehaviour
 
     public static void StopEverySound()
     {
-        foreach (var src in FindObjectsOfType<AudioSource>()) {
+        foreach (var src in GameObject.FindObjectsOfType<AudioSource>()) {
             src.Stop();
             if (src == source) continue;
-            Destroy(src.gameObject);
+            GameObject.Destroy(src.gameObject);
+        }
+    }
+
+    public static void StopSound(string soundName)
+    {
+        var snd = GetSoundFromName(soundName);
+        foreach (var src in GameObject.FindObjectsOfType<AudioSource>()) {
+            if (src.clip != snd.clip) continue;
+            src.Stop();
+            if (src == source) continue;
+            GameObject.Destroy(src.gameObject);
         }
     }
 
@@ -119,11 +127,11 @@ public class SoundPlayer : MonoBehaviour
 
     static void MakeUnique(Sound sound)
     {
-        foreach(var src in FindObjectsOfType<AudioSource>()) {
+        foreach(var src in GameObject.FindObjectsOfType<AudioSource>()) {
             if (src.clip == sound.clip) {
                 src.Stop();
                 if (src == source) continue;
-                Destroy(src.gameObject);
+                GameObject.Destroy(src.gameObject);
             }
         }
     }

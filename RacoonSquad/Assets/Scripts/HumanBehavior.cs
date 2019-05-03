@@ -85,7 +85,6 @@ public class HumanBehavior : MonoBehaviour
                 seenPlayer = null;
                 break;
         }
-
         state = newState;
     }
 
@@ -145,9 +144,17 @@ public class HumanBehavior : MonoBehaviour
                 {
                     if(IsObjectInRange(seenPlayer.gameObject)) 
                     {
-                        seenPlayer.Stun(2f);
-                        seenPlayer.DropHeldObject();
-                        ChangeState(HumanState.Walking);
+                        seenPlayer.Die();
+                        seenPlayer.KillPhysics();
+                        seenPlayer.transform.SetParent(handBone);
+                        seenPlayer.transform.up = Vector3.up;
+                        seenPlayer.transform.forward = transform.forward;
+
+                        seenPlayer.transform.localPosition = Vector3.zero;
+                        ChangeState(HumanState.Thinking);
+
+                        CameraController.instance.Set(transform.position, 25f);
+                        anim.SetBool("Carrying", true);
                     }
                 }
                 break;

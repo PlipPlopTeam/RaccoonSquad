@@ -25,6 +25,9 @@ public class Library : MonoBehaviour
     [Header("Sounds")]
     public List<SoundPlayer.Sound> sounds;
 
+    [Header("Meshs")]
+    public Mesh primitiveQuadMesh;
+
     void Awake()
     {
         instance = this;
