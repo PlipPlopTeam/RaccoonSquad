@@ -24,7 +24,7 @@ public class Bush : MonoBehaviour
             mat.SetVector("_ShakeDirection", new Vector4(Random.Range(-2f, 2f), 0f,Random.Range(-2f, 2f),0));
             particle.Play();
             StartCoroutine(Shake());
-            SoundPlayer.PlayAtPosition("fb_walking_bushes", transform.position, 0.3f, false);
+            SoundPlayer.PlayAtPosition("fb_walking_bushes", transform.position, 0.1f, false);
         }
     }
 
