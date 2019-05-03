@@ -19,6 +19,7 @@ public class Prop : MonoBehaviour
     public NavMeshObstacle obstacle;
 
     bool justHit;
+    bool activated;
     
     // Start is called before the first frame update
     void Awake()
@@ -28,6 +29,15 @@ public class Prop : MonoBehaviour
         if(collider == null) collider = gameObject.AddComponent<BoxCollider>();
         if (rigidbody == null) rigidbody = gameObject.AddComponent<Rigidbody>();
         if (obstacle == null) obstacle = gameObject.AddComponent<NavMeshObstacle>();
+
+        activated = false;
+        StartCoroutine(WaitBeforeActivate());
+    }
+
+    IEnumerator WaitBeforeActivate()
+    {
+        yield return new WaitForSeconds(1f);
+        activated = true;
     }
     
     public bool IsGrounded()
@@ -40,7 +50,7 @@ public class Prop : MonoBehaviour
         if(onHit == null) return;
         
         if ((IsGrounded() || collision.collider.name == "Ground") && onHit.GetInvocationList().Length > 0) {
-            onHit.Invoke(collision);
+            if (activated) onHit.Invoke(collision);
         }
     }
 }
