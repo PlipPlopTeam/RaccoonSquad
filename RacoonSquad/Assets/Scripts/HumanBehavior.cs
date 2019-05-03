@@ -65,11 +65,30 @@ public class HumanBehavior : MonoBehaviour
         rangeEvent.onTriggerExit += (Collider other) => { inRange.Remove(other.transform.gameObject); };
     }
 
+    
+    void Start()
+    {
+        if (paths.Count <= 0)
+        {
+            // Creates dummy GO for pathfinding
+            paths.Add(Instantiate<GameObject>(new GameObject(), transform.position, Quaternion.identity).transform);
+        }
+        ChangeState(HumanState.Walking);
+    }
+
     void OnHeard(Vector3 position)
     {   
-        Vector3 direction = position - transform.position;
-        direction = new Vector3(direction.x, transform.position.y, direction.z);
-        transform.forward = direction;
+        if(state == HumanState.Walking) StartCoroutine(HearSomething(position));
+    }
+    IEnumerator HearSomething(Vector3 where)
+    {
+        SuprisedBy(where);
+        emotion.Show("Think");
+        
+        yield return new WaitForSeconds(reactionTime);
+
+        emotion.Hide();
+        if(state == HumanState.Thinking) ChangeState(HumanState.Walking);
     }
 
     void ChangeState(HumanState newState)
@@ -100,16 +119,6 @@ public class HumanBehavior : MonoBehaviour
         state = newState;
     }
 
-    void Start()
-    {
-        if (paths.Count <= 0)
-        {
-            // Creates dummy GO for pathfinding
-            paths.Add(Instantiate<GameObject>(new GameObject(), transform.position, Quaternion.identity).transform);
-        }
-
-        ChangeState(HumanState.Walking);
-    }
     
     void Update()
     {
