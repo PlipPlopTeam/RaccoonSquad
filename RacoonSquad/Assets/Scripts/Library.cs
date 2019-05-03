@@ -24,12 +24,14 @@ public class Library : MonoBehaviour
     [Header("Sounds")]
     public List<SoundPlayer.Sound> sounds;
 
-
     [Header("Cosmetics")]
     public List<GameObject> cosmetics;
 	
     [Header("Meshs")]
     public Mesh primitiveQuadMesh;
+
+    [Header("Colors")]
+    public Color[] tierColors;
 
     void Awake()
     {

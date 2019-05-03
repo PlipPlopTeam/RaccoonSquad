@@ -5,9 +5,7 @@ using UnityEngine;
 public class LevelMaster
 {
     public int currentScore = 0;
-
     int maximumScore = 0;
-
     public event System.Action<Vector3> soundAt;
 
     public LevelMaster()
@@ -26,6 +24,7 @@ public class LevelMaster
         }        
     }
 
+
     public int GetBronzeTier()
     {
         return Mathf.FloorToInt(maximumScore / 2f);
@@ -41,4 +40,11 @@ public class LevelMaster
         return maximumScore;
     }
 
+    public int GetCurrentTier()
+    {
+        if(currentScore < GetBronzeTier()) return 0;
+        if(currentScore < GetSilverTier()) return 1;
+        if(currentScore < GetGoldTier()) return 2;
+        return 3;
+    }
 }
