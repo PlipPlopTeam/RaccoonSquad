@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     [System.Serializable]
     public class Player {
         public PlayerIndex index;
-        public int cosmetic;
+        public int cosmetic = -1;
 
     }
 
