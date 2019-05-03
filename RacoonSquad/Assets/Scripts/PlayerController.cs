@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     [Header("Bones")]
     public Transform rightHandBone;
     public Transform leftHandBone;
+    public Transform headBone;
 
     MovementSpeed movementSpeed;
     Sweat sweat;
@@ -44,9 +45,11 @@ public class PlayerController : MonoBehaviour
     Grabbable heldObject;
     Vector3 targetOrientation;
     Rigidbody rb;
-    Light aimLight;
+    public GameObject aimSprite;
     LineRenderer lineRenderer;
     new CapsuleCollider collider;
+    Cosmetic hat;
+    Color color;
 
     [HideInInspector] public bool hidden;
     float throwAccumulatedForce = 0f;
@@ -60,7 +63,6 @@ public class PlayerController : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         look = GetComponent<FocusLook>();
 
-        aimLight = GetComponentInChildren<Light>();
         sweat = GetComponentInChildren<Sweat>();
 
         movementSpeed = gameObject.AddComponent<MovementSpeed>();
@@ -73,27 +75,12 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        LoadNoseColor();
+        LoadColor();
     }
 
-    void LoadNoseColor()
+    void LoadColor()
     {
-        noseRenderer.material = Instantiate(noseRenderer.material);
-        switch(index)
-        {
-            case PlayerIndex.One:
-                noseRenderer.material.color = Color.blue;
-                break;
-            case PlayerIndex.Two:
-                noseRenderer.material.color = Color.red;
-                break;
-            case PlayerIndex.Three:
-                noseRenderer.material.color = Color.green;
-                break;
-            case PlayerIndex.Four:
-                noseRenderer.material.color = Color.yellow;
-                break;
-        }
+        color = Library.instance.playersColors[(int)index];
     } // Change the color of the nose of the capsule to differentiate players (debug purpose)
 
     void Update()
@@ -129,6 +116,8 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector3.up * Time.deltaTime * jumpForce);
             anim.SetTrigger("Jump");
+            // c'est un peu étrange, j'ai l'impression qu'il en lance deux ou trois en même temps
+        //  SoundPlayer.PlayWithRandomPitch("fb_raccoon_hop", 0.2f);
         }
     }
 
@@ -176,6 +165,8 @@ public class PlayerController : MonoBehaviour
             // Accumulate force
             if (rightStickAmplitude > 0.1f) {
                 isAccumulating = true;
+                // ça ne rend pas bien, mais je crois que j'ai mis le son dans la mauvaise ligne
+             //   SoundPlayer.PlayAtPosition("fb_raccoon_charging_toss", transform.position, 0.3f, true);
             }
         }
 
@@ -226,21 +217,20 @@ public class PlayerController : MonoBehaviour
     {
         float throwAimForceCorrection = 1f - throwVerticality; // Band-aid correction to make the spotlight aiming more accurate
 
-        aimLight.enabled = false;
+        aimSprite.SetActive(false);
         if (throwAccumulatedForce > 0f) {
-            aimLight.transform.localEulerAngles = new Vector3(90f, aimLight.transform.localEulerAngles.y + Time.deltaTime*aimRotationSpeed, 0f);
-            aimLight.transform.localPosition = Vector3.Lerp(
-                aimLight.transform.localPosition,
+            aimSprite.transform.localEulerAngles = new Vector3(90f, aimSprite.transform.localEulerAngles.y + Time.deltaTime*aimRotationSpeed, 0f);
+            aimSprite.transform.localPosition = Vector3.Lerp(
+                aimSprite.transform.localPosition,
                 new Vector3(
                     0f,
-                    aimLight.transform.localPosition.y,
+                    aimSprite.transform.localPosition.y,
                     throwAccumulatedForce * throwForceMultiplier * throwAimForceCorrection
                 ),
                 1f - aimSpotLag
             );
-            
-            aimLight.enabled = true;
 
+            aimSprite.SetActive(true);
             lineRenderer.positionCount = 2;
             lineRenderer.SetPositions(
                 // Adding 0.01f to Y to avoid Z-fight
@@ -248,7 +238,7 @@ public class PlayerController : MonoBehaviour
                     transform.position + new Vector3(0f, 0.05f, 0f),
                     Vector3.Lerp(
                         transform.position + new Vector3(0f, 0.1f, 0f),
-                        new Vector3( aimLight.transform.position.x, transform.position.y+0.1f,  aimLight.transform.position.z),
+                        new Vector3( aimSprite.transform.position.x, transform.position.y+0.1f,  aimSprite.transform.position.z),
                         0.92f
                     )
                 }
@@ -261,7 +251,7 @@ public class PlayerController : MonoBehaviour
 
     void ResetThrowPreview()
     {
-        aimLight.transform.localPosition = new Vector3(0f, aimLight.transform.localPosition.y, 0f);
+        aimSprite.transform.localPosition = new Vector3(0f, aimSprite.transform.localPosition.y, 0f);
         lineRenderer.positionCount = 0;
     }
 
@@ -283,6 +273,7 @@ public class PlayerController : MonoBehaviour
         Grabbable bestProp = null;
         foreach(var prop in objectsAtRange) 
         {
+            if (IsWearing() && prop.GetProp() == hat.GetProp()) continue;
             if(prop.transform.position.y > bestHeight)
             {
                 bestProp = prop;
@@ -297,8 +288,34 @@ public class PlayerController : MonoBehaviour
         return new Vector2(val.X, val.Y);
     }
 
+    bool IsWearing()
+    {
+        return hat != null;
+    }
+
+    void Unwear()
+    {
+        hat.BecomeDropped();
+        hat = null;
+    }
+
+    void Wear(Grabbable prop)
+    {
+        if (IsWearing()) {
+            Unwear();
+        }
+        var cos = prop.GetComponent<Cosmetic>();
+        cos.BecomeWeared(headBone, color);
+        hat = cos;
+    }
+
     void GrabObject(Grabbable prop)
     {
+        if (prop.IsCosmetic()) {
+            Wear(prop);
+            return;
+        }
+
         float headHeight = 
             collider.height/2
             + prop.GetComponent<Collider>().bounds.extents.y/2
@@ -309,6 +326,7 @@ public class PlayerController : MonoBehaviour
         // Visuals
         sweat.Activate();
         anim.SetBool("Carrying", true);
+        SoundPlayer.PlayWithRandomPitch("fb_raccoon_grabbing", 0.5f);
     }
 
     public void DropHeldObject()
@@ -318,6 +336,8 @@ public class PlayerController : MonoBehaviour
         // Visuals
         sweat.Desactivate();
         anim.SetBool("Carrying", false);
+        // le son est trop proche du grab, je vais voir pour changer ça
+      // SoundPlayer.PlayWithRandomPitch("si_raccoon_droping_item", 0.5f);
     }
 
     void ThrowHeldObject(float force)
@@ -335,6 +355,7 @@ public class PlayerController : MonoBehaviour
         throwAccumulatedForce = 0;
         anim.SetFloat("ThrowPercentage", 0);
         anim.SetTrigger("ThrowAction");
+        SoundPlayer.PlayWithRandomPitch("fb_raccoon_tossing", 0.5f);
     }
 
     public bool IsHolding()
@@ -345,14 +366,32 @@ public class PlayerController : MonoBehaviour
     bool IsAnythingAtRange()
     {
         foreach(var prop in objectsAtRange.ToArray()) {
-            if (prop == null) {
+            ///////
+            //  Removing non grabbable grabbable objects
+            if (
+                // Prop has disappeared
+                prop == null || // or
+                (
+                    // This is my hat!
+                    IsWearing() 
+                    && prop.GetProp() == hat.GetProp()
+                )   
+                ||  // or
+                (
+                    // Hat is taken!
+                    prop.IsCosmetic() &&
+                    prop.GetComponent<Cosmetic>().IsWeared()
+                )
+            ){
                 objectsAtRange.Remove(prop);
             }
+            //
+            ///////
         }
         return objectsAtRange.Count > 0;
     }
-#endregion
-
+    #endregion
+    
     public void Stun(float duration)
     {
         activated = false;
