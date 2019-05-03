@@ -65,4 +65,11 @@ public class LevelMaster
         return maximumScore;
     }
 
+    public int GetCurrentTier()
+    {
+        if(currentScore < GetBronzeTier()) return 0;
+        if(currentScore < GetSilverTier()) return 1;
+        if(currentScore < GetGoldTier()) return 2;
+        return 3;
+    }
 }
