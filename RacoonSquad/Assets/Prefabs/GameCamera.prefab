@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4777910248833943029}
   - component: {fileID: 4777910248833943030}
   - component: {fileID: 4777910248833943031}
+  - component: {fileID: 405835457}
   - component: {fileID: 1207320633}
   - component: {fileID: 1207320634}
   m_Layer: 0
@@ -85,6 +86,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4777910248833942986}
   m_Enabled: 1
+--- !u!114 &405835457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777910248833942986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83382a8143612b04bbbe445739b7e1f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 2100000, guid: 4c73b10334ee5a74690aee04718950ce, type: 2}
 --- !u!114 &1207320633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sharedProfile: {fileID: 11400000, guid: cd099423c6c26d54083748ae100e045b, type: 2}
-  isGlobal: 0
+  isGlobal: 1
   blendDistance: 0
   weight: 1
   priority: 0

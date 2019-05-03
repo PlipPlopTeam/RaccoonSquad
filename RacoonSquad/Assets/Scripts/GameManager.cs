@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 using XInputDotNetPure;
 
@@ -218,6 +219,9 @@ public class GameManager : MonoBehaviour
         {"RPITCH", delegate { SoundPlayer.PlayWithRandomPitch("debug_sound"); }},
         {"LOOPME", delegate { SoundPlayer.PlaySoundAttached("debug_sound_looping", FindObjectOfType<PlayerController>().transform); }},
         {"WIN", delegate { GameManager.instance.Win(); }},
+        {"MHH", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<LensDistortion>().active = true; }},
+        {"PIX", delegate { FindObjectOfType<Camera>().GetComponent<PostProcessLayer>().enabled = false; }}
+
     };
 
     public static KeyCode KeyDown(bool getDef=false)
