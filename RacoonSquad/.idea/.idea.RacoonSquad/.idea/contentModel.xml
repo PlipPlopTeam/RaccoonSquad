@@ -17,6 +17,7 @@
           <e p="GameManager.cs" t="Include" />
           <e p="GoalZone.cs" t="Include" />
           <e p="Grabbable.cs" t="Include" />
+          <e p="Hearing.cs" t="Include" />
           <e p="Hider.cs" t="Include" />
           <e p="HumanBehavior.cs" t="Include" />
           <e p="InterfaceManager.cs" t="Include" />
@@ -35,6 +36,7 @@
           <e p="Slower.cs" t="Include" />
           <e p="SoundPlayer.cs" t="Include" />
           <e p="Sweat.cs" t="Include" />
+          <e p="tricycle_Raccoon.cs" t="Include" />
           <e p="Waypoint.cs" t="Include" />
           <e p="XInput" t="Include">
             <e p="Controller.cs" t="Include" />
