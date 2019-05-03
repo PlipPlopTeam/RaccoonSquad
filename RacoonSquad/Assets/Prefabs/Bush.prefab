@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1798974844505044418}
   - component: {fileID: 1798974844505044419}
   - component: {fileID: 1400458747830442152}
+  - component: {fileID: -3249164121470976796}
   m_Layer: 0
   m_Name: Bush
   m_TagString: Untagged
@@ -107,6 +108,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863fb211383314c47a7e951eb6ac0ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3249164121470976796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798974844505044420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1034fcb403766c141bbf64d0b18ff9cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1798974843967582768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -200,6 +213,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1798974844505044426}
     m_Modifications:
+    - target: {fileID: 3127342541486799224, guid: e067549241d74ac49ba39430da26109a,
+        type: 3}
+      propertyPath: m_Name
+      value: LeafBurst
+      objectReference: {fileID: 0}
+    - target: {fileID: 6038030128676111633, guid: e067549241d74ac49ba39430da26109a,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5462555039322684871, guid: e067549241d74ac49ba39430da26109a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -253,16 +276,6 @@ PrefabInstance:
     - target: {fileID: 5462555039322684871, guid: e067549241d74ac49ba39430da26109a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3127342541486799224, guid: e067549241d74ac49ba39430da26109a,
-        type: 3}
-      propertyPath: m_Name
-      value: LeafBurst
-      objectReference: {fileID: 0}
-    - target: {fileID: 6038030128676111633, guid: e067549241d74ac49ba39430da26109a,
-        type: 3}
-      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
