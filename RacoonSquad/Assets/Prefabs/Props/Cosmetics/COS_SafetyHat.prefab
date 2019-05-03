@@ -78,6 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: -0.36, y: 0, z: -0.09}
   eulerRotationOffset: {x: 0, y: -17.19, z: 90}
+  uniqueID: 252014
 --- !u!1001 &2242027400207347020
 PrefabInstance:
   m_ObjectHideFlags: 0

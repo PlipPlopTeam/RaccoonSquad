@@ -6,6 +6,7 @@ public class Cosmetic : MonoBehaviour, Prop.IProp
 {
     public Vector3 offset;
     public Vector3 eulerRotationOffset;
+    public int uniqueID;
 
     bool isBeingWeared;
     Prop prop;
@@ -30,7 +31,7 @@ public class Cosmetic : MonoBehaviour, Prop.IProp
         transform.localPosition = offset;
         transform.localEulerAngles = eulerRotationOffset;
         prop.rigidbody.isKinematic = true;
-        gameObject.layer = LayerMask.NameToLayer("NoPlayerCollision");
+        gameObject.layer = LayerMask.NameToLayer("NoCollisions");
         renderer.material.color = color;
         isBeingWeared = true;
         SoundPlayer.PlayWithRandomPitch("fb_raccoon_taunting");
