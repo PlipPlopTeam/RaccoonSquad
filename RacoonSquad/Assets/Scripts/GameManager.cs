@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviour
 
             var pc = SpawnPlayer(players[i].index);
             if (players[i].cosmetic >= 0) {
+                pc.ReloadColor();
                 var cos = Instantiate(Library.instance.cosmetics[players[i].cosmetic], pc.transform);
                 pc.Wear(cos.GetComponent<Grabbable>());
             }

@@ -78,6 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
   eulerRotationOffset: {x: 0, y: 0, z: 0}
+  uniqueID: 925439
 --- !u!1 &6392493961372031881
 GameObject:
   m_ObjectHideFlags: 0
