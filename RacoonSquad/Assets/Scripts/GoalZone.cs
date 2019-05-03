@@ -138,6 +138,9 @@ public class GoalZone : MonoBehaviour
 
     void CheckWin()
     {
+        if (GameManager.instance.level == null) {
+            return;
+        }
         if (GameManager.instance.level.GetScore() >= GameManager.instance.level.GetBronzeTier()) {
             GameManager.instance.Win();
         }

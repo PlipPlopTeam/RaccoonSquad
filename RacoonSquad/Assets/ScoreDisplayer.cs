@@ -20,7 +20,7 @@ public class ScoreDisplayer : MonoBehaviour
     {
         countString = countText.text;
         dollarString = dollarText.text;
-
+        
         StartCoroutine(ShowScores());
     }
 
@@ -47,20 +47,23 @@ public class ScoreDisplayer : MonoBehaviour
         var parent = GameObject.Find("OBJECTS_SPAWN");
         for (int i = 0; i < list.Count; i++) {
             countText.text = string.Format(countString, i+1);
-            Instantiate(list[i], parent.transform.position + new Vector3(Random.value * 10f - 5f, 0f), Quaternion.identity);
+            //Instantiate(list[i], parent.transform.position + new Vector3(Random.value * 10f - 5f, 0f), Quaternion.identity);
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(1.5f);
 
         Show(dollarText);
-        for (int i = 0; i < GameManager.instance.previousLevel.GetDollars(); i++) {
+        var dollars = GameManager.instance.previousLevel.GetDollars();
+        for (int i = 0; i < dollars; i++) {
             dollarText.text = string.Format(dollarString, i + 1);
-            Instantiate(list[i], parent.transform.position + new Vector3(Random.value * 10f - 5f, 0f), Quaternion.identity);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(3f/dollars);
         }
 
         yield return new WaitForSeconds(2.5f);
-        yield break;
+
+        Show(finalText);
+        isFinishedCounting = true;
+        yield return true;
 
     }
 

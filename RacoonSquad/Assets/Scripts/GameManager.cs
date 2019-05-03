@@ -205,6 +205,7 @@ public class GameManager : MonoBehaviour
         {"PSOUND", delegate { SoundPlayer.Play("debug_sound"); }},
         {"RPITCH", delegate { SoundPlayer.PlayWithRandomPitch("debug_sound"); }},
         {"LOOPME", delegate { SoundPlayer.PlaySoundAttached("debug_sound_looping", FindObjectOfType<PlayerController>().transform); }},
+        {"WIN", delegate { GameManager.instance.Win(); }},
     };
 
     public static KeyCode KeyDown(bool getDef=false)
