@@ -30,18 +30,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShakeTest.cs" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Assets/ShakeTest.cs">
+      <file leaf-file-name="PlayerController.cs" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/PlayerController.cs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
+            <state relative-caret-position="190">
+              <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
               <folding>
-                <marker date="1556803595069" expanded="false" signature="6:78" ph="..." />
-                <marker date="1556803595069" expanded="true" signature="118:626" ph="{...}" />
-                <marker date="1556803595069" expanded="true" signature="198:380" ph="{...}" />
-                <marker date="1556803595069" expanded="true" signature="249:374" ph="{...}" />
-                <marker date="1556803595069" expanded="true" signature="405:624" ph="{...}" />
-                <marker date="1556803595069" expanded="true" signature="457:618" ph="{...}" />
+                <marker date="1556890103434" expanded="false" signature="6:102" ph="..." />
+                <marker date="1556890103434" expanded="true" signature="149:12961" ph="{...}" />
+                <marker date="1556890103434" expanded="true" signature="12952:12959" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Road.cs" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Assets/Scripts/Road.cs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="35" column="80" selection-start-line="35" selection-start-column="80" selection-end-line="35" selection-end-column="80" />
+              <folding>
+                <marker date="1556892589351" expanded="false" signature="6:78" ph="..." />
+                <marker date="1556892589351" expanded="true" signature="113:1418" ph="{...}" />
+                <marker date="1556892589351" expanded="true" signature="368:495" ph="{...}" />
+                <marker date="1556892589351" expanded="true" signature="523:1415" ph="{...}" />
+                <marker date="1556892589351" expanded="true" signature="827:933" ph="{...}" />
+                <marker date="1556892589351" expanded="true" signature="946:1052" ph="{...}" />
+                <marker date="1556892589351" expanded="true" signature="1075:1239" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -56,14 +71,16 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Sweat.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Road.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/ShakeTest.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Sweat.cs" />
         <option value="$PROJECT_DIR$/Assets/ShakeTest.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Road.cs" />
       </list>
     </option>
   </component>
@@ -87,10 +104,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="SolutionExplorer">
-        <option name="show-file-system" value="false" />
-        <option name="show-all-items" value="false" />
-      </pane>
       <pane id="UnityExplorer">
         <subPane>
           <expand>
@@ -104,6 +117,10 @@
         <option name="show-hidden-items" value="false" />
       </pane>
       <pane id="Scratches" />
+      <pane id="SolutionExplorer">
+        <option name="show-file-system" value="false" />
+        <option name="show-all-items" value="false" />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -146,9 +163,10 @@
       <window_info anchor="bottom" id="Unit Tests" order="7" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25266525" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Unity" order="7" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32985386" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -159,7 +177,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -184,10 +201,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/Scripts/PlayerController.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Sweat.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="106" column="42" selection-start-line="106" selection-start-column="42" selection-end-line="106" selection-end-column="42" />
+        <state relative-caret-position="30">
+          <caret line="4" column="18" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="18" />
+          <folding>
+            <marker date="1556725596507" expanded="false" signature="6:78" ph="..." />
+            <marker date="1556725596507" expanded="true" signature="388:741" ph="{...}" />
+            <marker date="1556725596507" expanded="true" signature="769:937" ph="{...}" />
+            <marker date="1556725596507" expanded="true" signature="784:906" ph="/* particle.emission.SetBursts( new ParticleSystem.Burst[] { new ParticleSystem.Burst(10, 0) } ); ... */" />
+            <marker date="1556725596507" expanded="true" signature="968:1005" ph="{...}" />
+            <marker date="1556725596507" expanded="true" signature="1040:1428" ph="{...}" />
+            <marker date="1556725596507" expanded="true" signature="1147:1192" ph="{...}" />
+            <marker date="1556725596507" expanded="true" signature="1205:1283" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -208,17 +235,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Assets/ShakeTest.cs">
+    <entry file="file://$PROJECT_DIR$/Assets/ShakeTest.cs" />
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/PlayerController.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
+        <state relative-caret-position="190">
+          <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
           <folding>
-            <marker date="1556803595069" expanded="false" signature="6:78" ph="..." />
-            <marker date="1556803595069" expanded="true" signature="118:626" ph="{...}" />
-            <marker date="1556803595069" expanded="true" signature="198:380" ph="{...}" />
-            <marker date="1556803595069" expanded="true" signature="249:374" ph="{...}" />
-            <marker date="1556803595069" expanded="true" signature="405:624" ph="{...}" />
-            <marker date="1556803595069" expanded="true" signature="457:618" ph="{...}" />
+            <marker date="1556890103434" expanded="false" signature="6:102" ph="..." />
+            <marker date="1556890103434" expanded="true" signature="149:12961" ph="{...}" />
+            <marker date="1556890103434" expanded="true" signature="12952:12959" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Assets/Scripts/Road.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="35" column="80" selection-start-line="35" selection-start-column="80" selection-end-line="35" selection-end-column="80" />
+          <folding>
+            <marker date="1556892589351" expanded="false" signature="6:78" ph="..." />
+            <marker date="1556892589351" expanded="true" signature="113:1418" ph="{...}" />
+            <marker date="1556892589351" expanded="true" signature="368:495" ph="{...}" />
+            <marker date="1556892589351" expanded="true" signature="523:1415" ph="{...}" />
+            <marker date="1556892589351" expanded="true" signature="827:933" ph="{...}" />
+            <marker date="1556892589351" expanded="true" signature="946:1052" ph="{...}" />
+            <marker date="1556892589351" expanded="true" signature="1075:1239" ph="{...}" />
           </folding>
         </state>
       </provider>
