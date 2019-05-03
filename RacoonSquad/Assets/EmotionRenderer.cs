@@ -74,9 +74,11 @@ public class EmotionRenderer : MonoBehaviour
         emotion = FindEmotion(emotionName);
         if(emotion == null) return;
 
-        board.obj.SetActive(true);
         timer = 0f;
         frameIndex = 0;
+        board.mr.material.mainTexture = emotion.frames[0];
+        board.obj.SetActive(true);
+
     }
 
     public void Hide()
