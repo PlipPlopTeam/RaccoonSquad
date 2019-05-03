@@ -72,6 +72,18 @@ public class GameManager : MonoBehaviour
         };
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.H)) SpawnHuman();
+    }
+
+    public void SpawnHuman()
+    {
+        List<Transform> points = new List<Transform>();
+        foreach(Waypoint wp in  FindObjectsOfType<Waypoint>()) points.Add(wp.transform);
+        HumanBehavior human = Instantiate(Library.instance.humanPrefab).GetComponent<HumanBehavior>();
+        human.paths = points;
+    }
 
     //////////////////////////
     ///

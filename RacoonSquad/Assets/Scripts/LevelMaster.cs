@@ -30,7 +30,9 @@ public class LevelMaster
     public void Score(Grabbable prop)
     {
         humanScore += prop.humanValue;
-        gatheredObjects.Add(prop.gameObject);
+
+        if(prop.gameObject != null) gatheredObjects.Add(prop.gameObject);
+
         currentScore += prop.racoonValue;
     }
 

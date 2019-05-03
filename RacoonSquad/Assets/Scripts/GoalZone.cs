@@ -46,7 +46,8 @@ public class GoalZone : MonoBehaviour
                 else
                 {
                     absorbedObjects.Remove(ao);
-                    Destroy(ao.obj);
+                    ao.obj.SetActive(false);
+                    ao.obj.transform.SetParent(GameManager.instance.transform);
                 }
             }
         }
@@ -84,6 +85,7 @@ public class GoalZone : MonoBehaviour
             {
                 var prop = pc.GetHeldObject();
                 pc.DropHeldObject();
+                pc.objectsAtRange.Remove(prop);
                 Absorb(prop);
             }
             racoonsInside.RemoveAll(o=>o==pc);
@@ -96,7 +98,8 @@ public class GoalZone : MonoBehaviour
         else {
             // A prop
             var prop = other.GetComponent<Grabbable>();
-            if (prop && !prop.IsHeld()) {
+            if (prop != null && !prop.IsHeld())
+            {
                 Absorb(prop);
             }
         }
@@ -126,21 +129,18 @@ public class GoalZone : MonoBehaviour
         SoundPlayer.PlayWithRandomPitch("fb_scoring_loot", 0.3f);
         if (GameManager.instance.lobby)
         {
-            if (grabbable.tag == "GameStarter")
-            {
-                GameManager.instance.NextLevel();
-            }
+            if (grabbable.tag == "GameStarter") GameManager.instance.NextLevel();
         }
-        else {
-            GameManager.instance.level.Score(grabbable);
+        else 
+        {
+            if(grabbable.gameObject != null) GameManager.instance.level.Score(grabbable);
         }
     }
 
     void CheckWin()
     {
-        if (GameManager.instance.level == null) {
-            return;
-        }
+        if(GameManager.instance.level == null) return;
+
         if (GameManager.instance.level.GetScore() >= GameManager.instance.level.GetBronzeTier()) {
             GameManager.instance.Win();
         }
