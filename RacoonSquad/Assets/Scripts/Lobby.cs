@@ -16,8 +16,10 @@ public class Lobby : MonoBehaviour
 
     void Start()
     {
+        float amplitude = 5f;
         foreach(var cosmetic in Library.instance.cosmetics) {
-            Instantiate(cosmetic, new Vector3(Random.value*3 - 1.5f, 0.1f, Random.value*3 - 1.5f), Quaternion.identity);
+            //Spawn every hat
+            Instantiate(cosmetic, new Vector3(Random.value* amplitude - amplitude/2, 0.3f, Random.value*amplitude - amplitude/2), Quaternion.identity);
         }
     }
 
