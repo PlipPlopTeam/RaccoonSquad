@@ -25,6 +25,9 @@ public class Library : MonoBehaviour
     [Header("Sounds")]
     public List<SoundPlayer.Sound> sounds;
 
+    [Header("Cosmetics")]
+    public List<GameObject> cosmetics;
+
     void Awake()
     {
         instance = this;
