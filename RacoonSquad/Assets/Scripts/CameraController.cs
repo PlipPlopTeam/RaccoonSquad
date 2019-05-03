@@ -32,7 +32,7 @@ public class CameraController : MonoBehaviour
         cam.transform.position = Vector3.Lerp(cam.transform.position, directionToPivot * distance, Time.deltaTime * lerpSpeed) + transform.position;
     }
 
-    void Set(Vector3 newPoint, float newDistance)
+    public void Set(Vector3 newPoint, float newDistance)
     {
         targetPosition = newPoint;
         distance = newDistance;
