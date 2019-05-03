@@ -30,7 +30,7 @@ AvatarMask:
   - m_Path: C_Master/C_Hip/C_R_Leg/R_LegUp/R_LegDown
     m_Weight: 0
   - m_Path: C_Master/C_Hip/C_Torso
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: C_Master/C_Hip/C_Torso/C_Head
     m_Weight: 1
   - m_Path: C_Master/C_Hip/C_Torso/C_Head/C_Hat
@@ -70,9 +70,9 @@ AvatarMask:
   - m_Path: C_Master/C_Hip/C_Torso/C_R_ArmUp/R_ArmUp/R_ArmDown/R_Hand
     m_Weight: 1
   - m_Path: C_Master/C_Hip/hips
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: C_Master/C_Hip/hips/torso
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: C_Master/C_L_Foot
     m_Weight: 0
   - m_Path: C_Master/C_L_Foot/L_Foot

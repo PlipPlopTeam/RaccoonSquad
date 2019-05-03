@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     bool activated = true;
     public PlayerIndex index;
     public MeshRenderer noseRenderer;
+    bool dead = false;
 
     [Header("Locomotion")]
     public float speed = 25f;
@@ -336,13 +337,15 @@ public class PlayerController : MonoBehaviour
 
     public void DropHeldObject()
     {
+        if(heldObject == null) return;
+
         heldObject.BecomeDropped();
         heldObject = null;
         // Visuals
         sweat.Desactivate();
         anim.SetBool("Carrying", false);
         // le son est trop proche du grab, je vais voir pour changer ça
-      SoundPlayer.PlayWithRandomPitch("si_raccoon_droping_item", 0.5f);
+        SoundPlayer.PlayWithRandomPitch("si_raccoon_droping_item", 0.5f);
     }
 
     void ThrowHeldObject(float force)
@@ -415,6 +418,7 @@ public class PlayerController : MonoBehaviour
     {
         DropHeldObject();
         activated = false;
+        dead = true;
         anim.SetFloat("Speed", 0f);
     }
 
@@ -422,5 +426,10 @@ public class PlayerController : MonoBehaviour
     {
         rb.isKinematic = true;
         collider.isTrigger = true;
+    }
+
+    public bool IsDead()
+    {
+        return dead;
     }
 }
