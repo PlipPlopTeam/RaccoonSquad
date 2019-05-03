@@ -153,6 +153,9 @@ MonoBehaviour:
   - name: mus_caught
     clip: {fileID: 8300000, guid: bcc51031b7799cb40802d4970d706d86, type: 3}
     loop: 0
+  - name: si_step
+    clip: {fileID: 8300000, guid: e7fe27c0f9c2d9f47a278a2f54cc7a68, type: 3}
+    loop: 0
   cosmetics:
   - {fileID: 4170486490838146260, guid: 8b5d1ffc0fcc308478f8d5c525f77ffd, type: 3}
   - {fileID: 2817270856750924431, guid: 907d4cdcd849b7549be919daf2bd0954, type: 3}
