@@ -36,6 +36,7 @@ public class HumanBehavior : MonoBehaviour
     // Referencies
     NavMeshAgent agent;
     Sight sight;
+    Hearing ear;
     EmotionRenderer emotion;
     MovementSpeed movementSpeed;
     FocusLook look;
@@ -53,12 +54,41 @@ public class HumanBehavior : MonoBehaviour
         look = GetComponent<FocusLook>();
         emotion = GetComponent<EmotionRenderer>();
 
+        ear = gameObject.AddComponent<Hearing>();
+        ear.heard += (Vector3 position) => { this.OnHeard(position); };
+
         movementSpeed = gameObject.AddComponent<MovementSpeed>();
 
         // Check which objects are currently grabbable
         rangeEvent = GetComponentInChildren<CollisionEventTransmitter>();
         rangeEvent.onTriggerEnter += (Collider other) => { inRange.Add(other.transform.gameObject); };
         rangeEvent.onTriggerExit += (Collider other) => { inRange.Remove(other.transform.gameObject); };
+    }
+
+    
+    void Start()
+    {
+        if (paths.Count <= 0)
+        {
+            // Creates dummy GO for pathfinding
+            paths.Add(Instantiate<GameObject>(new GameObject(), transform.position, Quaternion.identity).transform);
+        }
+        ChangeState(HumanState.Walking);
+    }
+
+    void OnHeard(Vector3 position)
+    {   
+        if(state == HumanState.Walking) StartCoroutine(HearSomething(position));
+    }
+    IEnumerator HearSomething(Vector3 where)
+    {
+        SuprisedBy(where);
+        emotion.Show("Think");
+        
+        yield return new WaitForSeconds(reactionTime);
+
+        emotion.Hide();
+        if(state == HumanState.Thinking) ChangeState(HumanState.Walking);
     }
 
     void ChangeState(HumanState newState)
@@ -89,16 +119,6 @@ public class HumanBehavior : MonoBehaviour
         state = newState;
     }
 
-    void Start()
-    {
-        if (paths.Count <= 0)
-        {
-            // Creates dummy GO for pathfinding
-            paths.Add(Instantiate<GameObject>(new GameObject(), transform.position, Quaternion.identity).transform);
-        }
-
-        ChangeState(HumanState.Walking);
-    }
     
     void Update()
     {

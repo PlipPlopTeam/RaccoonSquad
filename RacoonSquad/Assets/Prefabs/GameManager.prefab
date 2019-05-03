@@ -152,11 +152,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: bcc51031b7799cb40802d4970d706d86, type: 3}
     loop: 0
   cosmetics:
+  - {fileID: 4170486490838146260, guid: 8b5d1ffc0fcc308478f8d5c525f77ffd, type: 3}
+  - {fileID: 2817270856750924431, guid: 907d4cdcd849b7549be919daf2bd0954, type: 3}
   - {fileID: 3160926698198728747, guid: 791b5b7404d28564f9dfb730a1ff85e8, type: 3}
-  - {fileID: 3160926698198728747, guid: 774e8ee2274fedb43a0cd9cd3b9dd8b4, type: 3}
-  - {fileID: 3160926698198728747, guid: 791b5b7404d28564f9dfb730a1ff85e8, type: 3}
-  - {fileID: 3160926698198728747, guid: 774e8ee2274fedb43a0cd9cd3b9dd8b4, type: 3}
-  - {fileID: 3160926698198728747, guid: 791b5b7404d28564f9dfb730a1ff85e8, type: 3}
-  - {fileID: 3160926698198728747, guid: 774e8ee2274fedb43a0cd9cd3b9dd8b4, type: 3}
-  - {fileID: 3160926698198728747, guid: 791b5b7404d28564f9dfb730a1ff85e8, type: 3}
+  - {fileID: 5342010761642042675, guid: bbd17ea8847e63e4788d48bd3d24093c, type: 3}
+  - {fileID: 5567768548801125812, guid: 8c63e54c1fc402243be7fd4f5aed3358, type: 3}
+  - {fileID: 8075688160220449981, guid: 8da2c3dabaefb9c46a81773af1cb77f5, type: 3}
   primitiveQuadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
