@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelMaster
 {
     public int currentScore = 0;
+
     int maximumScore = 0;
 
     public event System.Action<Vector3> soundAt;

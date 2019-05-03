@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
 
     MovementSpeed movementSpeed;
     Sweat sweat;
+    EmotionRenderer emotion;
     FocusLook look;
     Animator anim;
     CollisionEventTransmitter grabCollisions;
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         lineRenderer = GetComponent<LineRenderer>();
         look = GetComponent<FocusLook>();
+        emotion = GetComponent<EmotionRenderer>();
 
         sweat = GetComponentInChildren<Sweat>();
 
@@ -73,6 +75,11 @@ public class PlayerController : MonoBehaviour
         grabCollisions.onTriggerEnter += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Add(grab); };
         grabCollisions.onTriggerExit += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Remove(grab); };
 
+        ReloadColor();
+    }
+
+    public void ReloadColor()
+    {
         color = Library.instance.playersColors[(int)index];
     }
 
@@ -420,6 +427,7 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         DropHeldObject();
+        emotion.Show("Dizzy");
         activated = false;
         dead = true;
         anim.SetFloat("Speed", 0f);

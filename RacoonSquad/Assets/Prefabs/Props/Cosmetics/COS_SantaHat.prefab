@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
   eulerRotationOffset: {x: 0, y: 0, z: 0}
+  uniqueID: 255436
 --- !u!114 &7568799289910643493
 MonoBehaviour:
   m_ObjectHideFlags: 0

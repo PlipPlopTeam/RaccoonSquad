@@ -111,8 +111,7 @@ public class GameManager : MonoBehaviour
     
     public void UpdatePlayer(PlayerIndex index, Player player)
     {
-        players.RemoveAll(o => o.index == index);
-        AddPlayer(player);
+        players[players.FindIndex(o => o.index == index)] = player;
     }
     public void GameOver()
     {
@@ -122,10 +121,11 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayers()
     {
-        for(int i = 0; i < players.Count; i++)
-        {
+        for(int i = 0; i < players.Count; i++) {
+
             var pc = SpawnPlayer(players[i].index);
             if (players[i].cosmetic >= 0) {
+                pc.ReloadColor();
                 var cos = Instantiate(Library.instance.cosmetics[players[i].cosmetic], pc.transform);
                 pc.Wear(cos.GetComponent<Grabbable>());
             }
@@ -137,8 +137,8 @@ public class GameManager : MonoBehaviour
 
         PlayerController pc = Instantiate(Library.instance.racoonPrefab, position, Quaternion.identity).GetComponent<PlayerController>();
         pc.gameObject.name = "Racoon_" + player;
-
         pc.index = player;
+        pc.ReloadColor();
 
         return pc;
     }
