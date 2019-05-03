@@ -7,12 +7,14 @@ public class FocusLook : MonoBehaviour
     public Transform head;
     public Vector3 adjustment;
     public float angleMax = 60f;
-    public float speed = 0.1f;
+    public float speed = 10f;
 
     [HideInInspector] public bool isFocused;
     Transform transformTarget;
     Vector3 positionTarget;
+
     Vector3 targetDirection;
+    Vector3 currentDirection;
 
     void Awake()
     {
@@ -23,17 +25,20 @@ public class FocusLook : MonoBehaviour
     {
         if(!isFocused) return;
 
-        Vector3 direction = transform.forward;
+        targetDirection = transform.forward;
 
         if(transformTarget != null) 
-            direction = (transformTarget.position - head.position).normalized;
+            targetDirection = (transformTarget.position - head.position).normalized;
         else if(positionTarget != Vector3.zero) 
-            direction = (positionTarget - head.position).normalized;
+            targetDirection = (positionTarget - head.position).normalized;
 
-        if(Vector3.Angle(direction, transform.forward) > angleMax) 
-            direction = transform.forward;
+        if(Vector3.Angle(targetDirection, transform.forward) > angleMax) 
+            targetDirection = transform.forward;
 
-        head.forward = direction;
+
+        currentDirection = Vector3.Lerp(currentDirection, targetDirection, Time.deltaTime * speed);
+
+        head.forward = currentDirection;
         head.Rotate(adjustment);
     }
 

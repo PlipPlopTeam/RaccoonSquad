@@ -62,7 +62,7 @@ MonoBehaviour:
     type: 3}
   exclamationMarkPrefab: {fileID: 6681665629629748997, guid: e0f424959e752364f98c97ebb6d81ad9,
     type: 3}
-  sweatParticle: {fileID: 5340588666996514706, guid: 53d3fca919db0cf4f91f2519db4054a3,
+  sweatParticle: {fileID: 4555859333002654280, guid: 661c764e8994a984d8acdd2e179973a3,
     type: 3}
   hitFX: {fileID: 3914065392152726493, guid: f609e9ca307071446aa4ac2ca3f91e14, type: 3}
   sounds:

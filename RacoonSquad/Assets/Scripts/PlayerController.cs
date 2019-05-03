@@ -5,17 +5,22 @@ using XInputDotNetPure;
 
 public class PlayerController : MonoBehaviour
 {
-
     [Header("Inputs")]
+    bool activated = true;
     public PlayerIndex index;
     public MeshRenderer noseRenderer;
 
     [Header("Locomotion")]
     public float speed = 25f;
     public float jumpForce = 100f;
-    public float orientationLerpSpeed = 10f;
     public float carryCapacity = 10f;
     [Range(0, 1)] public float minimumWeightedSpeedFactor = 0.7f;
+    float targetSpeed;
+    float currentSpeed;
+
+    [Header("Lerps")]
+    public float speedLerpSpeed = 10f;
+    public float orientationLerpSpeed = 10f;
 
     [Header("Grabbotion")]
     public List<Grabbable> objectsAtRange = new List<Grabbable>();
@@ -31,6 +36,7 @@ public class PlayerController : MonoBehaviour
     public Transform rightHandBone;
     public Transform leftHandBone;
 
+    MovementSpeed movementSpeed;
     Sweat sweat;
     FocusLook look;
     Animator anim;
@@ -42,7 +48,7 @@ public class PlayerController : MonoBehaviour
     LineRenderer lineRenderer;
     new CapsuleCollider collider;
 
-
+    [HideInInspector] public bool hidden;
     float throwAccumulatedForce = 0f;
     bool acceptThrowCommands = true;
 
@@ -57,11 +63,12 @@ public class PlayerController : MonoBehaviour
         aimLight = GetComponentInChildren<Light>();
         sweat = GetComponentInChildren<Sweat>();
 
+        movementSpeed = gameObject.AddComponent<MovementSpeed>();
+
         // Check which objects are currently grabbable
         grabCollisions = GetComponentInChildren<CollisionEventTransmitter>();
         grabCollisions.onTriggerEnter += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Add(grab); };
         grabCollisions.onTriggerExit += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Remove(grab); };
-        
     }
 
     void Start()
@@ -89,18 +96,18 @@ public class PlayerController : MonoBehaviour
         }
     } // Change the color of the nose of the capsule to differentiate players (debug purpose)
 
-
-    public Grabbable GetHeldObject()
-    {
-        return heldObject;
-    }
-
     void Update()
     {
         var state = GamePad.GetState(index);
-        CheckInputs(state);
-        UpdateThrowPreview();
+        
+        if(activated) CheckInputs(state);
 
+        UpdateThrowPreview();
+        UpdateHead();
+    }
+
+    void UpdateHead()
+    {
         if(heldObject == null)
         {
             Grabbable g = GetBestObjectAtRange();
@@ -136,26 +143,24 @@ public class PlayerController : MonoBehaviour
         // Calculate the direction of the movement depending on the gamepad inputs
         Vector2 direction = new Vector2(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
 
-        float weightModifier = 1f;
-        if (IsHolding()) {
-            // Slows down racoon if object carried is too heavy
-            weightModifier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
-            sweat.Set(1 - weightModifier);
-        }
+        targetSpeed = direction.magnitude * speed;
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedLerpSpeed);
 
-        //rb.AddForce(new Vector3(direction.x, 0f, direction.y) * speed * Time.deltaTime * weightModifier);
+        float weightSpeedMultiplier = 1f;
+        if(IsHolding()) weightSpeedMultiplier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
+        sweat.Set(1 - weightSpeedMultiplier);
 
-        transform.position += new Vector3(direction.x, 0f, direction.y) * speed * Time.deltaTime * weightModifier;
-        anim.SetFloat("Speed", direction.magnitude);
+        transform.position += new Vector3(direction.x, 0f, direction.y) * currentSpeed * Time.deltaTime * movementSpeed.GetMultiplier() * weightSpeedMultiplier;
+        anim.SetFloat("Speed", targetSpeed/speed);
 
         // If the player is aiming
-        if(state.ThumbSticks.Right.X != 0 || state.ThumbSticks.Right.Y != 0)
+        if(Mathf.Abs(state.ThumbSticks.Right.X) > 0.05f || Mathf.Abs(state.ThumbSticks.Right.Y) > 0.05f)
         {
             targetOrientation = new Vector3(state.ThumbSticks.Right.X, 0f, state.ThumbSticks.Right.Y);
         }
-        else if(direction.x != 0 || direction.y != 0) // If the player movement axis are still flowing
+        else if(Mathf.Abs(state.ThumbSticks.Left.X) > 0.05f || Mathf.Abs(state.ThumbSticks.Left.Y) > 0.05f)
         {
-            targetOrientation = new Vector3(direction.x, 0f, direction.y);
+            targetOrientation = new Vector3(state.ThumbSticks.Left.X, 0f, state.ThumbSticks.Left.Y);
         }
 
         // Rotate the character towards his movement direction
@@ -201,6 +206,11 @@ public class PlayerController : MonoBehaviour
             throwAccumulatedForce = 0f;
         }
     }
+
+
+
+
+#region GRAB AND THROW
 
     void AccumulateThrowForce(float max=1f)
     {
@@ -255,6 +265,11 @@ public class PlayerController : MonoBehaviour
         lineRenderer.positionCount = 0;
     }
 
+    public Grabbable GetHeldObject()
+    {
+        return heldObject;
+    }
+
     void GrabBestObjectAtRange()
     {
         GrabObject(
@@ -277,7 +292,8 @@ public class PlayerController : MonoBehaviour
         return bestProp;
     }
 
-    Vector2 GetStickDirection(GamePadThumbSticks.StickValue val) {
+    Vector2 GetStickDirection(GamePadThumbSticks.StickValue val)
+    {
         return new Vector2(val.X, val.Y);
     }
 
@@ -288,11 +304,8 @@ public class PlayerController : MonoBehaviour
             + prop.GetComponent<Collider>().bounds.extents.y/2
             + collider.bounds.center.y;
 
-        //Vector3 pos = new Vector3(prop.transform.position.x, prop.transform.position.y + headHeight, prop.transform.position.z);
-
         prop.BecomeHeldBy(transform, new Vector3(0f, headHeight, 0f));
         heldObject = prop;
-
         // Visuals
         sweat.Activate();
         anim.SetBool("Carrying", true);
@@ -302,7 +315,6 @@ public class PlayerController : MonoBehaviour
     {
         heldObject.BecomeDropped();
         heldObject = null;
-
         // Visuals
         sweat.Desactivate();
         anim.SetBool("Carrying", false);
@@ -338,5 +350,26 @@ public class PlayerController : MonoBehaviour
             }
         }
         return objectsAtRange.Count > 0;
+    }
+#endregion
+
+    public void Stun(float duration)
+    {
+        activated = false;
+        duration = Mathf.Clamp(duration, 0f, 3f);
+        anim.SetFloat("Speed", 0f);
+        StartCoroutine(WaitAndWakeUp(duration));
+    }
+
+    IEnumerator WaitAndWakeUp(float time)
+    {
+        yield return new WaitForSeconds(time);
+        activated = true;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+        if(rb != null && rb.velocity.magnitude > 1f) Stun(rb.velocity.magnitude);
     }
 }
