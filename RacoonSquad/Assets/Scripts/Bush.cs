@@ -28,6 +28,11 @@ public class Bush : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        SoundPlayer.StopSound("fb_walking_bushes");
+    }
+
     IEnumerator Shake()
     {
         float _y = 0;
