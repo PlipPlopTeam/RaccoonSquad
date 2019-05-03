@@ -86,11 +86,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6523271493729087885}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 38856ffbe6bcfc34387fad0c2ef9ff1e,
-        type: 3}
-      propertyPath: m_Name
-      value: safetyhat_low
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 38856ffbe6bcfc34387fad0c2ef9ff1e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -146,6 +141,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 38856ffbe6bcfc34387fad0c2ef9ff1e,
+        type: 3}
+      propertyPath: m_Name
+      value: safetyhat_low
+      objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 38856ffbe6bcfc34387fad0c2ef9ff1e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 33fcbe5886f03454c9704796af907eb1, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38856ffbe6bcfc34387fad0c2ef9ff1e, type: 3}
 --- !u!4 &6514453305556764246 stripped
