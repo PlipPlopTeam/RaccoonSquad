@@ -22,6 +22,7 @@ public class HumanBehavior : MonoBehaviour
 
     // Variables
     List<GameObject> inRange = new List<GameObject>();
+    bool stun;
     int currentWaypoint;
     float targetSpeed;
     float currentSpeed;
@@ -113,6 +114,8 @@ public class HumanBehavior : MonoBehaviour
 
     void StateUpdate()
     {
+        if(stun) return;
+
         CleanSeenItem();
         switch(state)
         {
@@ -187,6 +190,7 @@ public class HumanBehavior : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
 
+
         Destroy(seenItem.gameObject);
         // Return to normal state
         ChangeState(HumanState.Walking);
@@ -241,7 +245,8 @@ public class HumanBehavior : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         Unmark();
-        if (seenPlayer == null) yield break;
+        if (seenPlayer == null || stun) yield break;
+
         seenItem = seenPlayer.GetHeldObject();
         if(seenItem != null) ChangeState(HumanState.Chasing);
         else ChangeState(HumanState.Walking);
@@ -278,15 +283,17 @@ public class HumanBehavior : MonoBehaviour
         look.LooseFocus();
         anim.SetTrigger("Hit");
         ChangeState(HumanState.Thinking);
-
+        agent.destination = transform.position;
         duration = Mathf.Clamp(duration, 0f, 3f);
         StartCoroutine(WaitAndWakeUp(duration));
+        stun = true;
     }
 
     IEnumerator WaitAndWakeUp(float time)
     {
         yield return new WaitForSeconds(time);
         ChangeState(HumanState.Walking);
+        stun = false;
     }
 
     void OnCollisionEnter(Collision collision)
