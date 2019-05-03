@@ -74,6 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundedThreshold: 0.01
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
 --- !u!1001 &7100505826849534088
@@ -91,37 +92,37 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: a5669058ae5b8784a9c16ab5f477fce5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.04263878
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a5669058ae5b8784a9c16ab5f477fce5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.8788661
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a5669058ae5b8784a9c16ab5f477fce5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.03434141
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a5669058ae5b8784a9c16ab5f477fce5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000000020611726
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a5669058ae5b8784a9c16ab5f477fce5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.33256006
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a5669058ae5b8784a9c16ab5f477fce5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000007268331
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a5669058ae5b8784a9c16ab5f477fce5,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9430821
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a5669058ae5b8784a9c16ab5f477fce5,
         type: 3}
