@@ -237,6 +237,9 @@ public class GameManager : MonoBehaviour
         {"LOOPME", delegate { SoundPlayer.PlaySoundAttached("debug_sound_looping", FindObjectOfType<PlayerController>().transform); }},
         {"WIN", delegate { GameManager.instance.Win(); }},
         {"MHH", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<LensDistortion>().active = true; }},
+        {"PEW", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<ChromaticAberration>().active = true; }},
+        {"WII", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<Bloom>().active = true; }},
+        {"GRR", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<Grain>().active = true; }},
         {"PIX", delegate { FindObjectOfType<Camera>().GetComponent<PostProcessLayer>().enabled = false; }}
 
     };

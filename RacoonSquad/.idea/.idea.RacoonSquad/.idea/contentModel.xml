@@ -24,6 +24,7 @@
           <e p="Hearing.cs" t="Include" />
           <e p="Hider.cs" t="Include" />
           <e p="HumanBehavior.cs" t="Include" />
+          <e p="HumanSpawn.cs" t="Include" />
           <e p="InterfaceManager.cs" t="Include" />
           <e p="LevelMaster.cs" t="Include" />
           <e p="Library.cs" t="Include" />
