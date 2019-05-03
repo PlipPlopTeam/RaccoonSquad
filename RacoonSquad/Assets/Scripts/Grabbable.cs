@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grabbable : MonoBehaviour
+public class Grabbable : MonoBehaviour, Prop.IProp
 {
     public int racoonValue = 1;
     public int humanValue = 1;
@@ -39,6 +39,11 @@ public class Grabbable : MonoBehaviour
         return isHeld;
     }
 
+
+    public bool IsCosmetic()
+    {
+        return GetComponent<Cosmetic>()!=null;
+    }
 
     public Prop GetProp()
     {
