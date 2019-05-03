@@ -95,6 +95,16 @@ public class GoalZone : MonoBehaviour
 
     void Absorb(Grabbable grabbable)
     {
+        // ABSORB
+        grabbable.GetProp().rigidbody.isKinematic = true;
+        grabbable.GetProp().collider.enabled = false;
+
+        AbsorbedObject ao = new AbsorbedObject();
+        ao.obj = grabbable.gameObject;
+        ao.startPosition = grabbable.transform.position;
+        ao.startSize = grabbable.transform.localScale;
+        absorbedObjects.Add(ao);
+
         SoundPlayer.PlayWithRandomPitch("fb_scoring_loot", 0.3f);
         if (GameManager.instance.lobby)
         {
@@ -107,15 +117,5 @@ public class GoalZone : MonoBehaviour
         {
             GameManager.instance.level.currentScore += grabbable.racoonValue;
         }
-
-        // ABSORB
-        grabbable.GetProp().rigidbody.isKinematic = true;
-        grabbable.GetProp().collider.enabled = false;
-
-        AbsorbedObject ao = new AbsorbedObject();
-        ao.obj = grabbable.gameObject;
-        ao.startPosition = grabbable.transform.position;
-        ao.startSize = grabbable.transform.localScale;
-        absorbedObjects.Add(ao);
     }
 }
