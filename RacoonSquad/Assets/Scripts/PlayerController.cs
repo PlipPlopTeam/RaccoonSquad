@@ -426,6 +426,7 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        ResetThrowPreview();
         DropHeldObject();
         emotion.Show("Dizzy");
         activated = false;
