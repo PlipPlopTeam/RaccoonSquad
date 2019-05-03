@@ -67,7 +67,7 @@ public class GoalZone : MonoBehaviour
                 tierColor = Library.instance.tierColors[2];
                 break;
         }
-        targetJaugeValue =  (float)GameManager.instance.level.currentScore / tierMaxScore;
+        targetJaugeValue =  (float)GameManager.instance.level.GetScore() / tierMaxScore;
         currentJaugeValue = Mathf.Lerp(currentJaugeValue, targetJaugeValue, Time.deltaTime * jaugeLerpSpeed);
         jaugeMeshRenderer.material.SetFloat("_Value", currentJaugeValue);
         jaugeMeshRenderer.material.SetColor("_ColorB", tierColor);
@@ -132,7 +132,7 @@ public class GoalZone : MonoBehaviour
             }
         }
         else {
-            GameManager.instance.level.Score(grabbable.GetProp());
+            GameManager.instance.level.Score(grabbable);
         }
     }
 
