@@ -129,6 +129,8 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector3.up * Time.deltaTime * jumpForce);
             anim.SetTrigger("Jump");
+            // c'est un peu étrange, j'ai l'impression qu'il en lance deux ou trois en même temps
+        //  SoundPlayer.PlayWithRandomPitch("fb_raccoon_hop", 0.2f);
         }
     }
 
@@ -176,6 +178,8 @@ public class PlayerController : MonoBehaviour
             // Accumulate force
             if (rightStickAmplitude > 0.1f) {
                 isAccumulating = true;
+                // ça ne rend pas bien, mais je crois que j'ai mis le son dans la mauvaise ligne
+             //   SoundPlayer.PlayAtPosition("fb_raccoon_charging_toss", transform.position, 0.3f, true);
             }
         }
 
@@ -309,6 +313,7 @@ public class PlayerController : MonoBehaviour
         // Visuals
         sweat.Activate();
         anim.SetBool("Carrying", true);
+        SoundPlayer.PlayWithRandomPitch("fb_raccoon_grabbing", 0.5f);
     }
 
     public void DropHeldObject()
@@ -318,6 +323,8 @@ public class PlayerController : MonoBehaviour
         // Visuals
         sweat.Desactivate();
         anim.SetBool("Carrying", false);
+        // le son est trop proche du grab, je vais voir pour changer ça
+      // SoundPlayer.PlayWithRandomPitch("si_raccoon_droping_item", 0.5f);
     }
 
     void ThrowHeldObject(float force)
@@ -335,6 +342,7 @@ public class PlayerController : MonoBehaviour
         throwAccumulatedForce = 0;
         anim.SetFloat("ThrowPercentage", 0);
         anim.SetTrigger("ThrowAction");
+        SoundPlayer.PlayWithRandomPitch("fb_raccoon_tossing", 0.5f);
     }
 
     public bool IsHolding()
