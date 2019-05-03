@@ -33,6 +33,7 @@ public class Cosmetic : MonoBehaviour, Prop.IProp
         gameObject.layer = LayerMask.NameToLayer("NoPlayerCollision");
         renderer.material.color = color;
         isBeingWeared = true;
+        SoundPlayer.PlayWithRandomPitch("fb_raccoon_taunting");
     }
 
     public void BecomeDropped()

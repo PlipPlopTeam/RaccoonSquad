@@ -146,7 +146,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 7e9b694a1ecc7dd499cb2b14a6e312bb, type: 3}
     loop: 0
   - name: fb_walking_bushes
-    clip: {fileID: 8300000, guid: 528cba37b7d91f144802e971ed220239, type: 3}
+    clip: {fileID: 8300000, guid: 0c95014a4f4e64a498912b41dd14a41b, type: 3}
     loop: 0
   cosmetics:
   - {fileID: 3160926698198728747, guid: 791b5b7404d28564f9dfb730a1ff85e8, type: 3}
