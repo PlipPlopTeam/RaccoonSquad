@@ -12,7 +12,8 @@ public class Hearing : MonoBehaviour
 
     void Start()
     {
-        GameManager.instance.level.soundAt += (Vector3 position) => { this.TryHeard(position); };
+        if(GameManager.instance.level == null) Destroy(this);
+        else GameManager.instance.level.soundAt += (Vector3 position) => { this.TryHeard(position); };
     }
 
     public void TryHeard(Vector3 position)

@@ -25,6 +25,7 @@ public class HumanBehavior : MonoBehaviour
     public float stunVelocityTreshold = 1f;
 
     [Header("Bones")]
+    public Transform headBone;
     public Transform handBone;
 
     // Variables
@@ -179,7 +180,7 @@ public class HumanBehavior : MonoBehaviour
                         ChangeState(HumanState.Walking);
                         look.LooseFocus();
 
-                        CameraController.instance.FocusOn(transform, 25f);
+                        CameraController.instance.FocusOn(headBone, 25f);
                         anim.SetBool("Carrying", true);
 
                         GameManager.instance.GameOver();
