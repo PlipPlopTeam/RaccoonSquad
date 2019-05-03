@@ -9,9 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 127512131986504922}
-  - component: {fileID: 4216519057532715864}
-  - component: {fileID: 4669166562537147735}
-  - component: {fileID: 7231889886155345710}
   m_Layer: 0
   m_Name: WaterTanK
   m_TagString: Untagged
@@ -34,49 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4216519057532715864
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8230314184361059404}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.0602036, y: 1.7366102, z: 1.1567369}
-  m_Center: {x: -0.0017375946, y: -0.023290277, z: 0.031260252}
---- !u!114 &4669166562537147735
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8230314184361059404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c2c093d04dfc6b40959eb51825e4cde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  racoonValue: 1
-  humanValue: 1
-  weight: 200
---- !u!114 &7231889886155345710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8230314184361059404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundedThreshold: 0.01
-  rigidbody: {fileID: 0}
-  collider: {fileID: 0}
 --- !u!1001 &7100505826849534088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: a5669058ae5b8784a9c16ab5f477fce5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a5669058ae5b8784a9c16ab5f477fce5,
         type: 3}

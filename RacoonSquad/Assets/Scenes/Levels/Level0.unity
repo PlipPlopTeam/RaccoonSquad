@@ -8568,6 +8568,42 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841354783}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &845578961 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1273390026548996481, guid: 719b240f9da594f4e8f0727e8886bd5d,
+    type: 3}
+  m_PrefabInstance: {fileID: 956251738}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &845578963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845578961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2c093d04dfc6b40959eb51825e4cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  racoonValue: 1
+  humanValue: 1
+  weight: 10
+--- !u!114 &845578964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845578961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundedThreshold: 0.01
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!1001 &847613069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9574,6 +9610,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1048587772}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Center.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8230314184361059404, guid: 719b240f9da594f4e8f0727e8886bd5d,
         type: 3}
       propertyPath: m_Name
