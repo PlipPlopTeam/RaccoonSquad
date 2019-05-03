@@ -27,7 +27,8 @@ public class GoalZone : MonoBehaviour
 
     void Update()
     {
-        UpdateJauge();
+        if(GameManager.instance.level != null) UpdateJauge();
+
 
         // Oui Rack, on s'en rappelle de ça 
         foreach(AbsorbedObject ao in absorbedObjects.ToArray())
