@@ -9,10 +9,14 @@ public class LevelMaster
 
     public LevelMaster()
     {
+        SoundPlayer.StopEverySound();
+        SoundPlayer.Play("amb_suburbs_cars", 0.3f);
+        SoundPlayer.Play("mus_funkstyle_04", 0.1f);
+
         foreach(var prop in Object.FindObjectsOfType<Grabbable>()) {
             maximumScore += prop.racoonValue;
             prop.GetProp().onHit += (x) => {
-                // Play Sound
+                SoundPlayer.PlayWithRandomPitch("fb_raccoon_bumping", 0.1f);
                 GameObject.Instantiate(Library.instance.hitFX, x.GetContact(0).point, Library.instance.hitFX.transform.rotation);
             };
         }        

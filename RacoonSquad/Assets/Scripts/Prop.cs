@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Prop : MonoBehaviour
 {
+    public interface IProp
+    {
+        Prop GetProp();
+    }
+
     public System.Action<Collision> onHit;
     public float groundedThreshold = 0.01f;
 
@@ -34,5 +39,4 @@ public class Prop : MonoBehaviour
             onHit.Invoke(collision);
         }
     }
-
 }

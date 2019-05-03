@@ -34,9 +34,9 @@ public class HumanBehavior : MonoBehaviour
     float targetSpeed;
     float currentSpeed;
     // Referencies
-    GameObject mark;
     NavMeshAgent agent;
     Sight sight;
+    EmotionRenderer emotion;
     MovementSpeed movementSpeed;
     FocusLook look;
     Animator anim;
@@ -51,6 +51,7 @@ public class HumanBehavior : MonoBehaviour
         sight = GetComponent<Sight>();
         anim = GetComponent<Animator>();
         look = GetComponent<FocusLook>();
+        emotion = GetComponent<EmotionRenderer>();
 
         movementSpeed = gameObject.AddComponent<MovementSpeed>();
 
@@ -73,9 +74,12 @@ public class HumanBehavior : MonoBehaviour
                 break;
             case HumanState.Thinking:
                 targetSpeed = 0;
+                SoundPlayer.PlayAtPosition("si_concerned_human", transform.position, 0.3f, true);
                 break;
             case HumanState.Chasing:
+                emotion.Show("Suprised");
                 targetSpeed = chaseSpeed;
+                SoundPlayer.PlayAtPosition("si_raccoon_spotted", transform.position, 0.2f, false);
                 break;
             case HumanState.Collecting:
                 seenPlayer = null;
@@ -210,6 +214,7 @@ public class HumanBehavior : MonoBehaviour
         Vector3 direction = position - transform.position;
         direction = new Vector3(direction.x, transform.position.y, direction.z);
         transform.forward = direction;
+       // SoundPlayer.PlayAtPosition("si_lured_human", transform.position, 0.2f, true);
 
         // Stops agent movement
         agent.destination = transform.position;
@@ -217,17 +222,6 @@ public class HumanBehavior : MonoBehaviour
 
         ChangeState(HumanState.Thinking);
         // Trigger Animation
-    }
-
-    // EXCLAMATION MARK ABOVE HEAD
-    void Mark()
-    {
-        if(mark != null) Destroy(mark);
-        mark = Instantiate(Library.instance.exclamationMarkPrefab, transform.position + new Vector3(0f, 2f, 0f), Quaternion.identity, transform);
-    }
-    void Unmark()
-    {
-        if(mark != null) Destroy(mark);
     }
 
     void ScanRacoons()
@@ -247,11 +241,12 @@ public class HumanBehavior : MonoBehaviour
         if(seenPlayer != lastSeenPlayer) RememberPlayer(seenPlayer);
         else if(seenPlayer.GetHeldObject() == null) yield break;
         SuprisedBy(seenPlayer.transform.position);
-        Mark();
+        emotion.Show("Think");
         
         yield return new WaitForSeconds(reactionTime);
 
-        Unmark();
+        emotion.Hide();
+
         if (seenPlayer == null || stun) yield break;
 
         seenItem = seenPlayer.GetHeldObject();
@@ -289,6 +284,8 @@ public class HumanBehavior : MonoBehaviour
     {
         look.LooseFocus();
         anim.SetTrigger("Hit");
+        emotion.Show("Dizzy");
+        SoundPlayer.PlayAtPosition("si_stunned_human", transform.position, 0.2f, true);
         ChangeState(HumanState.Thinking);
         agent.destination = transform.position;
         duration = Mathf.Clamp(duration, minStunDuration, maxStunDuration);
@@ -299,6 +296,7 @@ public class HumanBehavior : MonoBehaviour
     IEnumerator WaitAndWakeUp(float time)
     {
         yield return new WaitForSeconds(time);
+        emotion.Hide();
         ChangeState(HumanState.Walking);
         stun = false;
     }
