@@ -134,7 +134,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: e841fc06968ad7a4cb93155319af85cb, type: 3}
     loop: 0
   - name: si_raccoon_droping_item
-    clip: {fileID: 8300000, guid: 7ec3ef034cdf81e4b974ec92893b159b, type: 3}
+    clip: {fileID: 8300000, guid: 085661467d51d364e9f1d412ba2bcd9b, type: 3}
     loop: 0
   - name: si_lured_human
     clip: {fileID: 8300000, guid: 4f2ee726dac9b4e41ad636a2a7d80b79, type: 3}
@@ -145,3 +145,4 @@ MonoBehaviour:
   - name: si_stunned_human
     clip: {fileID: 8300000, guid: 7e9b694a1ecc7dd499cb2b14a6e312bb, type: 3}
     loop: 0
+  primitiveQuadMesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}

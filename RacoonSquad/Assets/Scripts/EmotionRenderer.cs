@@ -36,18 +36,17 @@ public class EmotionRenderer : MonoBehaviour
     {
         Board newBoard = new Board();
 
-        newBoard.obj = GameObject.CreatePrimitive(PrimitiveType.Quad);
-        // GameObject adjustment
-        Destroy(newBoard.obj.GetComponent<Rigidbody>());
-        Destroy(newBoard.obj.GetComponent<MeshCollider>());
+        newBoard.obj = new GameObject();
         newBoard.obj.name = "EmotionBoard";
+        // Mesh Renderer
+        newBoard.mr = newBoard.obj.AddComponent<MeshRenderer>();
+        newBoard.mr.material = Instantiate(Library.instance.boardMaterial);
+        // Mesh Filter
+        newBoard.obj.AddComponent<MeshFilter>().mesh = Library.instance.primitiveQuadMesh;
         // Transform adjustment
         newBoard.obj.transform.SetParent(transform);
         newBoard.obj.transform.localPosition = new Vector3(0f, headTransform.position.y, 0f) + adjustment;
         newBoard.obj.transform.localScale *= size;
-        // MeshRenderer adjustment
-        newBoard.mr = newBoard.obj.GetComponent<MeshRenderer>();
-        newBoard.mr.material = Instantiate(Library.instance.boardMaterial);
 
         return newBoard;
     }

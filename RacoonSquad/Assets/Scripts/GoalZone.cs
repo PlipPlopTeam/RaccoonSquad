@@ -9,6 +9,7 @@ public class GoalZone : MonoBehaviour
         var prop = other.GetComponent<Grabbable>();
         if (prop && !prop.IsHeld()) {
             Absorb(prop);
+            SoundPlayer.PlayWithRandomPitch("fb_scoring_loot", 1f);
         }
     }
 
