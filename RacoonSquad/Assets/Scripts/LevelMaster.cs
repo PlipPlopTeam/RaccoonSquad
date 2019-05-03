@@ -31,7 +31,6 @@ public class LevelMaster
     {
         humanScore += prop.humanValue;
 
-        Debug.Log(prop.gameObject);
         if(prop.gameObject != null) gatheredObjects.Add(prop.gameObject);
 
         currentScore += prop.racoonValue;
