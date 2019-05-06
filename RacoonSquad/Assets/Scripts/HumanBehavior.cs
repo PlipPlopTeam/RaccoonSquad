@@ -187,7 +187,10 @@ public class HumanBehavior : MonoBehaviour
                         ChangeState(HumanState.Walking);
                         look.LooseFocus();
 
-                        CameraController.instance.FocusOn(headBone, 25f);
+                        NavMeshObstacle nmo = seenPlayer.gameObject.GetComponent<NavMeshObstacle>();
+                        if(nmo != null) Destroy(nmo);
+
+                        CameraController.instance.FocusOn(headBone, 30f);
                         anim.SetBool("Carrying", true);
 
                         GameManager.instance.GameOver();
