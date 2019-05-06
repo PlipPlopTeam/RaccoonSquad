@@ -55,7 +55,7 @@ public class HumanBehavior : MonoBehaviour
         look = GetComponent<FocusLook>();
         emotion = GetComponent<EmotionRenderer>();
 
-        ear = gameObject.AddComponent<Hearing>();
+        ear = GetComponent<Hearing>();
         ear.heard += (Vector3 position) => { this.OnHeard(position); };
 
         movementSpeed = gameObject.AddComponent<MovementSpeed>();
