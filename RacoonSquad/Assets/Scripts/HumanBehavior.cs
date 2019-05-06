@@ -45,7 +45,7 @@ public class HumanBehavior : MonoBehaviour
     CollisionEventTransmitter rangeEvent;
     PlayerController seenPlayer;
     PlayerController lastSeenPlayer;
-    Grabbable seenItem;
+    public Grabbable seenItem;
 
     void Awake()
     {
@@ -164,7 +164,10 @@ public class HumanBehavior : MonoBehaviour
                         look.FocusOn(seenItem.transform);
                         ChangeState(HumanState.Collecting);
                     }
-                    
+                    else 
+                    {
+                        ChangeState(HumanState.Walking);
+                    }
                 }
                 else
                 {
