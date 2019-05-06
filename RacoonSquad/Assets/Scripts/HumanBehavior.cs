@@ -45,7 +45,7 @@ public class HumanBehavior : MonoBehaviour
     CollisionEventTransmitter rangeEvent;
     PlayerController seenPlayer;
     PlayerController lastSeenPlayer;
-    public Grabbable seenItem;
+    Grabbable seenItem;
 
     void Awake()
     {
