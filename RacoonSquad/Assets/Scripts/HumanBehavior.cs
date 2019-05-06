@@ -173,26 +173,24 @@ public class HumanBehavior : MonoBehaviour
                 {
                     if(IsObjectInRange(seenPlayer.gameObject)) 
                     {
+                        // Hanging player
                         seenPlayer.Die();
                         seenPlayer.KillPhysics();  
                         seenPlayer.Hang(); 
-
                         seenPlayer.gameObject.transform.SetParent(handBone);
                         seenPlayer.gameObject.transform.rotation = new Quaternion();
                         seenPlayer.gameObject.transform.localPosition = Vector3.zero;
-
                         seenPlayer.gameObject.transform.forward = transform.forward;
                         seenPlayer.gameObject.transform.up = -Vector3.up;
-
-                        ChangeState(HumanState.Walking);
-                        look.LooseFocus();
-
                         NavMeshObstacle nmo = seenPlayer.gameObject.GetComponent<NavMeshObstacle>();
                         if(nmo != null) Destroy(nmo);
-
-                        CameraController.instance.FocusOn(headBone, 30f);
+                        
+                        // Effects
+                        look.LooseFocus();
                         anim.SetBool("Carrying", true);
-
+                        CameraController.instance.FocusOn(headBone, 30f);
+                        // System
+                        ChangeState(HumanState.Walking);
                         GameManager.instance.GameOver();
                     }
                 }
