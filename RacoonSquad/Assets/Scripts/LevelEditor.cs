@@ -81,10 +81,8 @@ public class LevelEditor : MonoBehaviour
     {
         var prop = ghost.transform.GetChild(0).gameObject;
 
-        /*
         var renderer = prop.GetComponentInChildren<Renderer>();
-        renderer.material.color = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, 1f);
-        */
+        renderer.material.SetFloat("_Opacity", 1f);
 
         prop.GetComponent<Collider>().enabled = true;
         prop.GetComponent<Rigidbody>().isKinematic = false;
@@ -113,7 +111,7 @@ public class LevelEditor : MonoBehaviour
         Physics.Raycast(ghost.transform.position, Vector3.down, out hit);
 
         var prop = ghost.transform.GetChild(0).gameObject;
-        var offset = prop.GetComponent<Prop>().collider.bounds.extents.y / 2f;
+        var offset = prop.GetComponent<Prop>().collider.bounds.extents.y / 2f + 0.5f;
         prop.transform.position = new Vector3(ghost.transform.transform.position.x, hit.point.y + offset, ghost.transform.position.z);
 
         if (snap)
@@ -148,12 +146,13 @@ public class LevelEditor : MonoBehaviour
         propInstance.transform.parent = ghost.transform;
         propInstance.transform.localPosition = new Vector3();
 
-        /*
+        
         var renderer = propInstance.GetComponentInChildren<Renderer>();
         renderer.material = Instantiate(renderer.material);
-        renderer.material.color = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, 0.5f);
-        */
-    
+        renderer.material.SetFloat("_Opacity", 0.5f);
+
+
+
         propInstance.GetComponent<Collider>().enabled = false;
         propInstance.GetComponent<Rigidbody>().isKinematic = true;
         ghost.AddComponent<BoxCollider>();
