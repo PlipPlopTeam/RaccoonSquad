@@ -436,6 +436,7 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        throwAccumulatedForce = 0f;
         ResetThrowPreview();
         DropHeldObject();
         emotion.Show("Dizzy");
@@ -462,6 +463,11 @@ public class PlayerController : MonoBehaviour
         collider.isTrigger = true;
 
         Destroy(GetComponent<Prop>().obstacle);
+    }
+
+    public void KillConstraints()
+    {
+        rb.constraints = RigidbodyConstraints.None;
     }
 
     public bool IsDead()

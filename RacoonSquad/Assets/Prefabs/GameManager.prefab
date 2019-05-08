@@ -69,6 +69,8 @@ MonoBehaviour:
     type: 3}
   humanPrefab: {fileID: 9007589511678584246, guid: 10ab846bb84345e4a97d4c4c20eede6f,
     type: 3}
+  transitionPrefab: {fileID: 5617494726455606606, guid: cee2c64d0d18ee54899b4d910bfe6555,
+    type: 3}
   gameOverPrefab: {fileID: 8094649263190153514, guid: f5312f51cb5644146a51923dc02edd01,
     type: 3}
   winPrefab: {fileID: 5076016488922473505, guid: cd979eb1f82571f44a1ce5dc3f2c3d3f,

@@ -58,6 +58,7 @@ public class GoalZone : MonoBehaviour
 
         speak.Say("Good luck boys!");
         raccountObject.SetActive(false);
+        UpdateRaccount();
     }
 
     void Update()
@@ -165,7 +166,7 @@ public class GoalZone : MonoBehaviour
             }
         }
 
-        raccountText.text = raccoonsInside.Count + "/" + GameManager.instance.GetPlayers().Count;
+        UpdateRaccount();
     }
 
     private void OnTriggerExit(Collider other)
@@ -176,7 +177,7 @@ public class GoalZone : MonoBehaviour
             raccoonsInside.RemoveAll(o => o == pc);
         }
 
-        raccountText.text = raccoonsInside.Count + "/" + GameManager.instance.GetPlayers().Count;
+        UpdateRaccount();
     }
 
     void Absorb(Grabbable grabbable)
@@ -202,6 +203,11 @@ public class GoalZone : MonoBehaviour
             OnScoreChange();
         }
         Destroy(grabbable);
+    }
+
+    void UpdateRaccount()
+    {
+        raccountText.text = raccoonsInside.Count + "/" + GameManager.instance.GetPlayers().Count;
     }
 
     void CheckWin()

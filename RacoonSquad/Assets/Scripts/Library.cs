@@ -14,6 +14,7 @@ public class Library : MonoBehaviour
     [Header("Prefabs")]
     public GameObject racoonPrefab;
     public GameObject humanPrefab;
+    public GameObject transitionPrefab;
     public GameObject gameOverPrefab;
     public GameObject winPrefab;
     public GameObject displayerPrefab;
