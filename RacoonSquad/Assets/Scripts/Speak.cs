@@ -42,6 +42,23 @@ public class Speak : MonoBehaviour
         textTransform.sizeDelta = boxSize;
     }
 
+    public void Say(string text)
+    {
+        textMesh.text = text;
+        StartCoroutine(HideAtfer(text.Length * 0.25f));
+    }
+
+    IEnumerator HideAtfer(float time) 
+    {
+        yield return new WaitForSeconds(time);
+        Hide();
+    }
+
+    public void Hide()
+    {
+        textMesh.text = "";
+    }
+
     void Update()
     {
         textObject.transform.position = origin.position + offSet;
