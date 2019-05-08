@@ -28,6 +28,9 @@ public class Library : MonoBehaviour
     [Header("Sounds")]
     public List<SoundPlayer.Sound> sounds;
 
+    [Header("Props")]
+    public List<GameObject> props;
+
     [Header("Cosmetics")]
     public List<GameObject> cosmetics;
 	
