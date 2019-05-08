@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 class AbsorbedObject
 {
@@ -20,28 +21,33 @@ public class ScoreStar
 public class GoalZone : MonoBehaviour
 {
     [Header("Referencies")]
+    public GameObject raccountObject;
+    public TextMeshPro raccountText;
     public MeshRenderer jaugeMeshRenderer;
     public Transform receptorTransform;
     public ScoreStar[] stars;
-    [HideInInspector] public List<PlayerController> racoonsInside = new List<PlayerController>();
+
+    [HideInInspector] public List<PlayerController> raccoonsInside = new List<PlayerController>();
+    Speak speak;
+    
 
     // Lerp jauge value
     float targetJaugeValue;
     float currentJaugeValue;
     float currentTierMaxScore;
-    Color currentTierColor;
     float jaugeLerpSpeed = 5f;
+    Color currentTierColor;
 
     List<AbsorbedObject> absorbedObjects = new List<AbsorbedObject>();
 
     void Start()
     {
+        speak = GetComponent<Speak>();
         jaugeMeshRenderer.material = Instantiate(jaugeMeshRenderer.material);
         foreach(ScoreStar ss in stars)
         {
             ss.mr.material = Instantiate(ss.mr.material);
-            ss.mr.material.color = Library.instance.colorLocked;
-            ss.mr.material.SetColor("_EmissionColor", Library.instance.colorLocked);
+            ss.mr.material.SetColor("_ColorA", Library.instance.colorLocked);
         }
 
         if(GameManager.instance.level != null) 
@@ -49,6 +55,9 @@ public class GoalZone : MonoBehaviour
             OnScoreChange();
             GameManager.instance.level.OnScoreChange += () => this.OnScoreChange();
         }
+
+        speak.Say("Good luck boys!");
+        raccountObject.SetActive(false);
     }
 
     void Update()
@@ -108,8 +117,13 @@ public class GoalZone : MonoBehaviour
         // Change Star values
         for(int i = 0; i <  GameManager.instance.level.GetCurrentTier(); i++)
         {
-            stars[i].mr.material.color = Library.instance.colorUnlocked;
-            stars[i].mr.material.SetColor("_EmissionColor", Library.instance.colorUnlocked);
+            stars[i].mr.material.SetColor("_ColorA", Library.instance.colorUnlocked);
+        }
+
+        if(GameManager.instance.level.GetScore() > GameManager.instance.level.GetBronzeTier())
+        {
+            speak.Say("We got enough but can you get some more?");
+            raccountObject.SetActive(true);
         }
     }
 
@@ -135,10 +149,10 @@ public class GoalZone : MonoBehaviour
                 pc.objectsAtRange.Remove(prop);
                 Absorb(prop);
             }
-            racoonsInside.RemoveAll(o=>o==pc);
-            racoonsInside.Add(pc);
+            raccoonsInside.RemoveAll(o=>o==pc);
+            raccoonsInside.Add(pc);
 
-            if (racoonsInside.Count == GameManager.instance.GetPlayers().Count) {
+            if (raccoonsInside.Count == GameManager.instance.GetPlayers().Count) {
                 CheckWin();
             }
         }
@@ -150,6 +164,8 @@ public class GoalZone : MonoBehaviour
                 Absorb(prop);
             }
         }
+
+        raccountText.text = raccoonsInside.Count + "/" + GameManager.instance.GetPlayers().Count;
     }
 
     private void OnTriggerExit(Collider other)
@@ -157,8 +173,10 @@ public class GoalZone : MonoBehaviour
         var pc = other.GetComponent<PlayerController>();
 
         if (pc != null) {
-            racoonsInside.RemoveAll(o => o == pc);
+            raccoonsInside.RemoveAll(o => o == pc);
         }
+
+        raccountText.text = raccoonsInside.Count + "/" + GameManager.instance.GetPlayers().Count;
     }
 
     void Absorb(Grabbable grabbable)
