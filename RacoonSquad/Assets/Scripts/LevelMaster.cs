@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LevelMaster
 {
+    public System.Action OnScoreChange;
+
     List<GameObject> gatheredObjects = new List<GameObject>();
     int humanScore = 0;
     int maximumScore = 0;
@@ -34,13 +36,20 @@ public class LevelMaster
     {
         humanScore += prop.humanValue;
         gatheredObjects.Add(prop.gameObject);
-        currentScore += prop.racoonValue;
+
+        AddScore(prop.racoonValue);
 
         if((float)gatheredObjects.Count % (spawnPlayerCount * 10) == 0) 
         {
             spawnPlayerCount++;
             GameManager.instance.SpawnHuman();
         }
+    }
+
+    public void AddScore(int amount)
+    {
+        currentScore += amount;
+        OnScoreChange.Invoke();
     }
 
     public int GetScore()
