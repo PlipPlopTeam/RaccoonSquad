@@ -101,9 +101,10 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        try {
+        try
+        {
             ClearStoredProps();
-            lobby = false;
+            sceneType = SceneType.Game;
             currentLevel++;
             SceneManager.LoadSceneAsync(
                 Library.instance.levels[currentLevel]
@@ -303,7 +304,3 @@ public class GameManager : MonoBehaviour
     }
 
 }
-
-        try {
-            ClearStoredProps();
-            sceneType = SceneType.Game;
