@@ -31,6 +31,7 @@ public class HumanBehavior : MonoBehaviour
     // Variables
     List<GameObject> inRange = new List<GameObject>();
     bool stun;
+    bool stunProof = false;
     int currentWaypoint;
     float targetSpeed;
     float currentSpeed;
@@ -173,21 +174,12 @@ public class HumanBehavior : MonoBehaviour
                 {
                     if(IsObjectInRange(seenPlayer.gameObject)) 
                     {
-                        // Hanging player
-                        seenPlayer.Die();
-                        seenPlayer.KillPhysics();  
-                        seenPlayer.Hang(); 
-                        seenPlayer.gameObject.transform.SetParent(handBone);
-                        seenPlayer.gameObject.transform.rotation = new Quaternion();
-                        seenPlayer.gameObject.transform.localPosition = Vector3.zero;
-                        seenPlayer.gameObject.transform.forward = transform.forward;
-                        seenPlayer.gameObject.transform.up = -Vector3.up;
-                        NavMeshObstacle nmo = seenPlayer.gameObject.GetComponent<NavMeshObstacle>();
-                        if(nmo != null) Destroy(nmo);
+
+                        HangRaccoon();
                         
                         // Effects
                         look.LooseFocus();
-                        anim.SetBool("Carrying", true);
+                        ear.enabled = false;
                         CameraController.instance.FocusOn(headBone, 30f);
                         // System
                         ChangeState(HumanState.Walking);
@@ -208,6 +200,35 @@ public class HumanBehavior : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    void HangRaccoon()
+    {
+        anim.SetBool("Carrying", true);
+        // Hanging player
+        seenPlayer.Die();
+        //seenPlayer.KillPhysics();
+        seenPlayer.KillConstraints();
+        seenPlayer.Hang(); 
+        //seenPlayer.gameObject.transform.SetParent(handBone);
+        seenPlayer.gameObject.transform.rotation = new Quaternion();
+        seenPlayer.gameObject.transform.position = handBone.position;
+        seenPlayer.gameObject.transform.forward = transform.forward;
+        seenPlayer.gameObject.transform.up = -Vector3.up;
+        seenPlayer.gameObject.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+
+        Rigidbody handRb = handBone.gameObject.AddComponent<Rigidbody>();
+        handRb.constraints = RigidbodyConstraints.FreezeRotationX 
+        | RigidbodyConstraints.FreezeRotationY 
+        | RigidbodyConstraints.FreezeRotationZ 
+        | RigidbodyConstraints.FreezePositionX 
+        | RigidbodyConstraints.FreezePositionY 
+        | RigidbodyConstraints.FreezePositionZ;
+        seenPlayer.gameObject.AddComponent<CharacterJoint>().connectedBody = handRb;
+        NavMeshObstacle nmo = seenPlayer.gameObject.GetComponent<NavMeshObstacle>();
+        if(nmo != null) Destroy(nmo);
+
+        stunProof = true;
     }
 
     void CleanSeenItem()
@@ -330,6 +351,8 @@ public class HumanBehavior : MonoBehaviour
 
     public void Stun(float duration)
     {
+        if(stunProof) return;
+
         look.LooseFocus();
         anim.SetTrigger("Hit");
         emotion.Show("Dizzy");

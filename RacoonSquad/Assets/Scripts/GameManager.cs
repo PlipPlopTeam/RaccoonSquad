@@ -140,12 +140,12 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Instantiate(Library.instance.gameOverPrefab);
+        Instantiate(Library.instance.transitionPrefab).GetComponent<CircleFrame>().PlayFrameAnimation("GameOver");
     }
 
     public void Win()
     {
-        Instantiate(Library.instance.winPrefab);
+        Instantiate(Library.instance.transitionPrefab).GetComponent<CircleFrame>().PlayFrameAnimation("Win");
     }
 
     public void GoToWinScene()

@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ed84641ae35324eab1cfe5aa34245b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobby: 0
+  sceneType: 0
   lobbyPrefab: {fileID: 3026411070575773073, guid: 33490c6d4b0e3f048aa0223823bcae1a,
     type: 3}
   playerCount: 0
@@ -68,6 +68,8 @@ MonoBehaviour:
   racoonPrefab: {fileID: 4643777608409574412, guid: 9c9ca2ff9baf4e944ada28b4bc222b95,
     type: 3}
   humanPrefab: {fileID: 9007589511678584246, guid: 10ab846bb84345e4a97d4c4c20eede6f,
+    type: 3}
+  transitionPrefab: {fileID: 5617494726455606606, guid: cee2c64d0d18ee54899b4d910bfe6555,
     type: 3}
   gameOverPrefab: {fileID: 8094649263190153514, guid: f5312f51cb5644146a51923dc02edd01,
     type: 3}
