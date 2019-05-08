@@ -39,6 +39,8 @@ public class Library : MonoBehaviour
 
     [Header("Colors")]
     public Color[] tierColors;
+    public Color colorUnlocked;
+    public Color colorLocked;
 
     void Awake()
     {

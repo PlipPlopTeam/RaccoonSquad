@@ -9,30 +9,52 @@ class AbsorbedObject
     public Vector3 startSize;
 }
 
+[System.Serializable]
+public class ScoreStar
+{
+    public GameObject obj;
+    public Transform transform;
+    public MeshRenderer mr;
+}
+
 public class GoalZone : MonoBehaviour
 {
-    public List<PlayerController> racoonsInside = new List<PlayerController>();
-
+    [Header("Referencies")]
     public MeshRenderer jaugeMeshRenderer;
     public Transform receptorTransform;
+    public ScoreStar[] stars;
+    [HideInInspector] public List<PlayerController> racoonsInside = new List<PlayerController>();
 
+    // Lerp jauge value
     float targetJaugeValue;
     float currentJaugeValue;
+    float currentTierMaxScore;
+    Color currentTierColor;
     float jaugeLerpSpeed = 5f;
 
     List<AbsorbedObject> absorbedObjects = new List<AbsorbedObject>();
 
-    void Awake()
+    void Start()
     {
         jaugeMeshRenderer.material = Instantiate(jaugeMeshRenderer.material);
+        foreach(ScoreStar ss in stars)
+        {
+            ss.mr.material = Instantiate(ss.mr.material);
+            ss.mr.material.color = Library.instance.colorLocked;
+            ss.mr.material.SetColor("_EmissionColor", Library.instance.colorLocked);
+        }
+
+        if(GameManager.instance.level != null) 
+        {
+            OnScoreChange();
+            GameManager.instance.level.OnScoreChange += () => this.OnScoreChange();
+        }
     }
 
     void Update()
     {
         if(GameManager.instance.level != null) UpdateJauge();
 
-
-        // Oui Rack, on s'en rappelle de ça 
         foreach(AbsorbedObject ao in absorbedObjects.ToArray())
         {
             if(ao.obj != null)
@@ -53,25 +75,50 @@ public class GoalZone : MonoBehaviour
         }
     }
 
-    void UpdateJauge()
+    void OnScoreChange()
     {
-        float tierMaxScore = GameManager.instance.level.GetBronzeTier();
-        Color tierColor = Library.instance.tierColors[0];
-        switch(GameManager.instance.level.GetCurrentTier())
+        // Get Current Tier index;
+        int currentTier = GameManager.instance.level.GetCurrentTier();
+
+        // Change Jauge values
+        switch(currentTier)
         {
+            case 0:
+                currentTierMaxScore = GameManager.instance.level.GetBronzeTier();
+                currentTierColor = Library.instance.tierColors[0];
+                break;
             case 1: 
-                tierMaxScore = GameManager.instance.level.GetSilverTier(); 
-                tierColor = Library.instance.tierColors[1];
+                currentTierMaxScore = GameManager.instance.level.GetSilverTier(); 
+                currentTierColor = Library.instance.tierColors[1];
                 break;
             case 2: 
-                tierMaxScore = GameManager.instance.level.GetGoldTier();
-                tierColor = Library.instance.tierColors[2];
+                currentTierMaxScore = GameManager.instance.level.GetGoldTier();
+                currentTierColor = Library.instance.tierColors[2];
+                break;
+            case 3: 
+                currentTierMaxScore = GameManager.instance.level.GetGoldTier();
+                currentTierColor = Library.instance.tierColors[3];
+                break;
+            default:
+                currentTierMaxScore = GameManager.instance.level.GetBronzeTier();
+                currentTierColor = Library.instance.tierColors[0];
                 break;
         }
-        targetJaugeValue =  (float)GameManager.instance.level.GetScore() / tierMaxScore;
+
+        // Change Star values
+        for(int i = 0; i <  GameManager.instance.level.GetCurrentTier(); i++)
+        {
+            stars[i].mr.material.color = Library.instance.colorUnlocked;
+            stars[i].mr.material.SetColor("_EmissionColor", Library.instance.colorUnlocked);
+        }
+    }
+
+    void UpdateJauge()
+    {
+        targetJaugeValue =  (float)GameManager.instance.level.GetScore() / currentTierMaxScore;
         currentJaugeValue = Mathf.Lerp(currentJaugeValue, targetJaugeValue, Time.deltaTime * jaugeLerpSpeed);
         jaugeMeshRenderer.material.SetFloat("_Value", currentJaugeValue);
-        jaugeMeshRenderer.material.SetColor("_ColorB", tierColor);
+        jaugeMeshRenderer.material.SetColor("_ColorB", currentTierColor);
     }
 
 
@@ -134,8 +181,8 @@ public class GoalZone : MonoBehaviour
         else 
         {
             GameManager.instance.level.Score(grabbable);
+            OnScoreChange();
         }
-
         Destroy(grabbable);
     }
 

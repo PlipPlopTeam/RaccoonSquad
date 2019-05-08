@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
         {"MULTICLONAGE",
             delegate { for(int i = 0; i < 10; i++) GameManager.instance.SpawnHuman(); }
         },
-
+        {"SCORE", delegate { if(GameManager.instance.level != null) GameManager.instance.level.AddScore(100); }},
         {"MUSIC", delegate { SoundPlayer.Play("debug_music"); }},
         {"KANOZIEV", delegate { SoundPlayer.Play("debug_music_2"); }},
         {"STOP", delegate { SoundPlayer.StopEverySound(); }},
