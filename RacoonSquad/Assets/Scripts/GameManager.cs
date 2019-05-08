@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
     /// Defs
     /// 
 
-    public bool lobby = false;
+    public enum SceneType { Game, Lobby, Editor };
+    public SceneType sceneType;
     public GameObject lobbyPrefab;
     public int playerCount;
     public LevelMaster level;
@@ -49,25 +50,28 @@ public class GameManager : MonoBehaviour
 
         // Onload
         SceneManager.sceneLoaded += delegate {
-            if (lobby) {
-                try {
-                    Instantiate(lobbyPrefab, transform);
-                }
-                catch (System.Exception e) {
-                    Debug.LogWarning("Could not create the lobby :\n" + e.ToString());
-                }
-            }
-            else {
-                previousLevel = level;
+            switch (sceneType) {
+                case SceneType.Lobby:
+                    try {
+                        Instantiate(lobbyPrefab, transform);
+                    }
+                    catch (System.Exception e) {
+                        Debug.LogWarning("Could not create the lobby :\n" + e.ToString());
+                    }
+                    break;
 
-                // Initialize goal score etc...
-                level = new LevelMaster();
-                if (players.Count > 0) {
-                    SpawnPlayers();
-                }
-                else {
-                    DebugSpawnControllers();
-                }
+                case SceneType.Game:
+                    previousLevel = level;
+
+                    // Initialize goal score etc...
+                    level = new LevelMaster();
+                    if (players.Count > 0) {
+                        SpawnPlayers();
+                    }
+                    else {
+                        DebugSpawnControllers();
+                    }
+                    break;
             }
         };
     }
@@ -97,9 +101,10 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        try {
+        try
+        {
             ClearStoredProps();
-            lobby = false;
+            sceneType = SceneType.Game;
             currentLevel++;
             SceneManager.LoadSceneAsync(
                 Library.instance.levels[currentLevel]
@@ -119,7 +124,7 @@ public class GameManager : MonoBehaviour
         currentLevel = -1;
         players.Clear();
         SceneManager.LoadScene(Library.instance.lobbyScene);
-        lobby = true;
+        sceneType = SceneType.Lobby;
     }
 
     void ClearStoredProps()
@@ -146,6 +151,11 @@ public class GameManager : MonoBehaviour
     public void GoToWinScene()
     {
         SceneManager.LoadScene(Library.instance.winScene);
+    }
+
+    public bool IsInLobby()
+    {
+        return SceneType.Lobby == sceneType;
     }
 
     //////////////////////////
@@ -216,8 +226,9 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < playerCount; i++)
         {
-            SpawnPlayer((PlayerIndex)i);
-        }   
+            AddPlayer(new Player() { index = (PlayerIndex)i });
+        }
+        SpawnPlayers();
     }
 
     //////////////////////////

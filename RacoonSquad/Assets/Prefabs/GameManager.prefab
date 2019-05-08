@@ -73,6 +73,8 @@ MonoBehaviour:
     type: 3}
   winPrefab: {fileID: 5076016488922473505, guid: cd979eb1f82571f44a1ce5dc3f2c3d3f,
     type: 3}
+  displayerPrefab: {fileID: 1581231708467122, guid: f7d543986e0845441bca84668f8756e1,
+    type: 3}
   sweatParticle: {fileID: 4555859333002654280, guid: 661c764e8994a984d8acdd2e179973a3,
     type: 3}
   hitFX: {fileID: 3914065392152726493, guid: f609e9ca307071446aa4ac2ca3f91e14, type: 3}

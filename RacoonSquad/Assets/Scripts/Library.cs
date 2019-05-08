@@ -16,6 +16,7 @@ public class Library : MonoBehaviour
     public GameObject humanPrefab;
     public GameObject gameOverPrefab;
     public GameObject winPrefab;
+    public GameObject displayerPrefab;
 
     [Header("Particles")]
     public GameObject sweatParticle;
