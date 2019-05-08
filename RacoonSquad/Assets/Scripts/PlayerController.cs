@@ -6,15 +6,15 @@ using XInputDotNetPure;
 public class PlayerController : MonoBehaviour
 {
     [Header("Inputs")]
-    bool activated = true;
+    bool isParalyzed = false;
     public PlayerIndex index;
     bool dead = false;
 
     [Header("Locomotion")]
-    public float speed = 25f;
-    public float jumpForce = 100f;
+    public float speed = 5f;
+    public float jumpForce = 4.5f;
     public float carryCapacity = 10f;
-    [Range(0, 1)] public float minimumWeightedSpeedFactor = 0.7f;
+    [Range(0, 1)] public float minimumWeightedSpeedFactor = 0.51f;
     float targetSpeed;
     float currentSpeed;
 
@@ -83,11 +83,21 @@ public class PlayerController : MonoBehaviour
         color = Library.instance.playersColors[(int)index];
     }
 
+    public void Paralyze()
+    {
+        isParalyzed = true;
+    }
+
+    public void Free()
+    {
+        isParalyzed = false;
+    }
+
     void Update()
     {
         var state = GamePad.GetState(index);
         
-        if(activated) CheckInputs(state);
+        if(!isParalyzed) CheckInputs(state);
 
         UpdateThrowPreview();
         UpdateHead();
@@ -325,7 +335,7 @@ public class PlayerController : MonoBehaviour
         hat = cos;
     }
 
-    void GrabObject(Grabbable prop)
+    public void GrabObject(Grabbable prop)
     {
         if (prop.IsCosmetic()) {
             Wear(prop);
@@ -412,7 +422,7 @@ public class PlayerController : MonoBehaviour
     
     public void Stun(float duration)
     {
-        activated = false;
+        isParalyzed = true;
         duration = Mathf.Clamp(duration, 0f, 3f);
         anim.SetFloat("Speed", 0f);
         StartCoroutine(WaitAndWakeUp(duration));
@@ -421,7 +431,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator WaitAndWakeUp(float time)
     {
         yield return new WaitForSeconds(time);
-        activated = true;
+        isParalyzed = false;
     }
 
     public void Die()
@@ -429,7 +439,7 @@ public class PlayerController : MonoBehaviour
         ResetThrowPreview();
         DropHeldObject();
         emotion.Show("Dizzy");
-        activated = false;
+        isParalyzed = true;
         dead = true;
         anim.SetFloat("Speed", 0f);
         SoundPlayer.StopEverySound();

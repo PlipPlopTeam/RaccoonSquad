@@ -72,6 +72,19 @@ public class GameManager : MonoBehaviour
                         DebugSpawnControllers();
                     }
                     break;
+
+                case SceneType.Editor:
+                    try
+                    {
+                        AddPlayer(new Player() { index = (PlayerIndex)0 });
+                        SpawnControllableHuman((PlayerIndex)0, new Vector3());
+                        Instantiate(Library.instance.editorPrefab, transform);
+                    }
+                    catch (System.Exception e)
+                    {
+                        Debug.LogWarning("Could not create the editor :\n" + e.ToString());
+                    }
+                    break;
             }
         };
     }
@@ -158,6 +171,11 @@ public class GameManager : MonoBehaviour
         return SceneType.Lobby == sceneType;
     }
 
+    public bool IsInGame()
+    {
+        return SceneType.Game == sceneType;
+    }
+
     //////////////////////////
     ///
     /// Player management
@@ -207,6 +225,18 @@ public class GameManager : MonoBehaviour
         return pc;
     }
 
+    public PlayerController SpawnControllableHuman(PlayerIndex player, Vector3 position)
+    {
+
+        PlayerController pc = Instantiate(Library.instance.editorHumanPrefab, position, Quaternion.identity).GetComponent<PlayerController>();
+        pc.gameObject.name = "DisguisedRacoon_" + player;
+        pc.index = player;
+        pc.ReloadColor();
+        pc.carryCapacity = 1000f;
+
+        return pc;
+    }
+    
     public PlayerController SpawnPlayer(PlayerIndex player)
     {
         foreach (var spawn in FindObjectsOfType<PlayerSpawn>()) {
@@ -265,7 +295,8 @@ public class GameManager : MonoBehaviour
         {"PEW", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<ChromaticAberration>().active = true; }},
         {"WII", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<Bloom>().active = true; }},
         {"GRR", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<Grain>().active = true; }},
-        {"PIX", delegate { FindObjectOfType<Camera>().GetComponent<PostProcessLayer>().enabled = false; }}
+        {"PIX", delegate { FindObjectOfType<Camera>().GetComponent<PostProcessLayer>().enabled = false; }},
+        {"GARBAGE", delegate { Instantiate(Library.instance.props[Random.Range(0, Library.instance.props.Count-1)]); }}
 
     };
 

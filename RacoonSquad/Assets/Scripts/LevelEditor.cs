@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -9,11 +10,16 @@ public class LevelEditor : MonoBehaviour
 {
     public GameObject container;
     public TextMeshProUGUI title;
+    public float objectsMovementSpeed = 5f;
+    public float objectsRotationSpeed = 30f;
 
     int currentCursor = 0;
     Dictionary<Image, GameObject> entries = new Dictionary<Image, GameObject>();
     bool canMoveInMenus = true;
     bool isMenuing = false;
+    bool justPressedA = false;
+    bool justToggled = false;
+    GameObject ghost;
 
     private void Start()
     {
@@ -22,18 +28,143 @@ public class LevelEditor : MonoBehaviour
 
     private void Update()
     {
+        var state = GamePad.GetState(GameManager.instance.GetPlayers()[0].index);
+        var pc = FindObjectOfType<PlayerController>();
+
         UpdateVisuals();
+        CheckToggleInput(state);
+        pc.Paralyze();
+
         if (isMenuing)
         {
-            CheckInputs();
+            CheckInputs(state);
             UpdateSelection();
         }
+        else if (ghost != null)
+        {
+            CheckPlacementInputs(state);
+        }
+        else
+        {
+            pc.Free();
+        }
+    }
+    void CheckPlacementInputs(GamePadState state)
+    {
+        var leftThumbstickVector = new Vector2(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
+        var rightThumbstickVector = new Vector2(state.ThumbSticks.Right.X, state.ThumbSticks.Right.Y);
+
+        UpdateGhostPosition(leftThumbstickVector * objectsMovementSpeed * Time.deltaTime, state.Buttons.RightShoulder==ButtonState.Pressed);
+        UpdateGhostRotation(rightThumbstickVector * objectsRotationSpeed * Time.deltaTime, state.Buttons.RightShoulder == ButtonState.Pressed);
+
+        if (state.Buttons.B == ButtonState.Pressed)
+        {// Cancel
+            DestroyGhost();
+        }
+        if (state.Buttons.A == ButtonState.Pressed && !justPressedA)
+        {// Place
+            Unghost();
+        }
+        if (state.Buttons.A == ButtonState.Released)
+        {
+            justPressedA = false;
+        }
+    }
+
+    void DestroyGhost()
+    {
+        Destroy(ghost);
+        ghost = null;
+    }
+
+    void Unghost()
+    {
+        var prop = ghost.transform.GetChild(0).gameObject;
+
+        /*
+        var renderer = prop.GetComponentInChildren<Renderer>();
+        renderer.material.color = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, 1f);
+        */
+
+        prop.GetComponent<Collider>().enabled = true;
+        prop.GetComponent<Rigidbody>().isKinematic = false;
+        prop.transform.parent = null;
+        DestroyGhost();
+    }
+    void UpdateGhostRotation(Vector2 rotation, bool snap=false)
+    {
+        var prop = ghost.transform.GetChild(0).gameObject;
+        prop.transform.Rotate(new Vector3(rotation.x, rotation.y));
+
+        if (snap)
+        {
+            var unit = 45f;
+            prop.transform.eulerAngles = new Vector3(
+                Mathf.Round(prop.transform.eulerAngles.x/unit)*unit,
+                Mathf.Round(prop.transform.eulerAngles.y / unit) * unit,
+                Mathf.Round(prop.transform.eulerAngles.z / unit) * unit
+            );
+        }
+    }
+    void UpdateGhostPosition(Vector2 displacement, bool snap=false)
+    {
+        ghost.transform.position += new Vector3(displacement.x, 0f, displacement.y);
+        RaycastHit hit;
+        Physics.Raycast(ghost.transform.position, Vector3.down, out hit);
+
+        var prop = ghost.transform.GetChild(0).gameObject;
+        var offset = prop.GetComponent<Prop>().collider.bounds.extents.y / 2f;
+        prop.transform.position = new Vector3(ghost.transform.transform.position.x, hit.point.y + offset, ghost.transform.position.z);
+
+        if (snap)
+        {
+            var unit = 0.5f;
+            prop.transform.position = new Vector3(
+                Mathf.Round(prop.transform.position.x / unit) * unit,
+                prop.transform.position.y,
+                Mathf.Round(prop.transform.position.z / unit) * unit
+            );
+        }
+    }
+
+    void CheckToggleInput(GamePadState state)
+    {
+        if (state.Buttons.Start == ButtonState.Pressed && !justToggled)
+        {
+            DestroyGhost();
+            isMenuing = !isMenuing;
+            justToggled = true;
+        }
+        if (state.Buttons.Start == ButtonState.Released)
+        {
+            justToggled = false;
+        }
+    }
+
+    GameObject MakeGhost(GameObject propInstance)
+    {
+        ghost = new GameObject("_PLACEMENT_GHOST");
+        ghost.transform.position = propInstance.transform.position + new Vector3(0f, 10f, 0f);
+        propInstance.transform.parent = ghost.transform;
+        propInstance.transform.localPosition = new Vector3();
+
+        /*
+        var renderer = propInstance.GetComponentInChildren<Renderer>();
+        renderer.material = Instantiate(renderer.material);
+        renderer.material.color = new Color(renderer.material.color.r, renderer.material.color.g, renderer.material.color.b, 0.5f);
+        */
+    
+        propInstance.GetComponent<Collider>().enabled = false;
+        propInstance.GetComponent<Rigidbody>().isKinematic = true;
+        ghost.AddComponent<BoxCollider>();
+
+        return ghost;
     }
 
     void UpdateVisuals()
     {
         container.SetActive(isMenuing);
-        title.gameObject.SetActive(isMenuing);
+        title.transform.parent.gameObject.SetActive(isMenuing);
     }
 
     void UpdateSelection()
@@ -55,9 +186,8 @@ public class LevelEditor : MonoBehaviour
         }
     }
 
-    void CheckInputs()
+    void CheckInputs(GamePadState state)
     {
-        var state = GamePad.GetState(GameManager.instance.GetPlayers()[0].index);
         var rowsAndColumns = CountRowsAndColumns();
         var rows = rowsAndColumns.Item1;
         var columns = rowsAndColumns.Item2;
@@ -82,8 +212,15 @@ public class LevelEditor : MonoBehaviour
 
         if (state.Buttons.A == ButtonState.Pressed)
         {
+            var prop = Instantiate(
+                entries[entries.Keys.ToList()[currentCursor]]
+            );
+            var grab = prop.GetComponent<Grabbable>();
+            if (!grab) grab = prop.AddComponent<Grabbable>();
 
+            ghost = MakeGhost(prop);
             isMenuing = false;
+            justPressedA = true;
         }
     }
 

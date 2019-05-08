@@ -178,7 +178,7 @@ public class GoalZone : MonoBehaviour
         {
             if (grabbable.tag == "GameStarter") GameManager.instance.NextLevel();
         }
-        else 
+        else if (GameManager.instance.IsInGame())
         {
             GameManager.instance.level.Score(grabbable);
             OnScoreChange();

@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ed84641ae35324eab1cfe5aa34245b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lobby: 0
+  sceneType: 0
   lobbyPrefab: {fileID: 3026411070575773073, guid: 33490c6d4b0e3f048aa0223823bcae1a,
     type: 3}
   playerCount: 0
@@ -75,6 +75,8 @@ MonoBehaviour:
     type: 3}
   displayerPrefab: {fileID: 1581231708467122, guid: f7d543986e0845441bca84668f8756e1,
     type: 3}
+  editorPrefab: {fileID: 0}
+  editorHumanPrefab: {fileID: 0}
   sweatParticle: {fileID: 4555859333002654280, guid: 661c764e8994a984d8acdd2e179973a3,
     type: 3}
   hitFX: {fileID: 3914065392152726493, guid: f609e9ca307071446aa4ac2ca3f91e14, type: 3}
@@ -228,6 +230,7 @@ MonoBehaviour:
   - {fileID: 8230314184361059404, guid: 719b240f9da594f4e8f0727e8886bd5d, type: 3}
   - {fileID: 8635071737193980204, guid: a57d5c13773e5954d90651b87aa0096a, type: 3}
   - {fileID: 1304170656622110433, guid: d9e8b96c2d27bb944bf726bd6641b8c8, type: 3}
+  - {fileID: 1798974844505044420, guid: 515d2a7fe1ff5b64aacf21c2bad9c6fc, type: 3}
   cosmetics:
   - {fileID: 4170486490838146260, guid: 8b5d1ffc0fcc308478f8d5c525f77ffd, type: 3}
   - {fileID: 2817270856750924431, guid: 907d4cdcd849b7549be919daf2bd0954, type: 3}
