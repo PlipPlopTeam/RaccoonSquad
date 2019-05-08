@@ -127,7 +127,7 @@ public class GoalZone : MonoBehaviour
         absorbedObjects.Add(ao);
         
         SoundPlayer.PlayWithRandomPitch("fb_scoring_loot", 0.3f);
-        if (GameManager.instance.lobby)
+        if (GameManager.instance.IsInLobby())
         {
             if (grabbable.tag == "GameStarter") GameManager.instance.NextLevel();
         }
