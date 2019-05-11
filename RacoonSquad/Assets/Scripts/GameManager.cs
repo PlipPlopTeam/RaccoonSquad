@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public LevelMaster level;
     public LevelMaster previousLevel;
 
+    List<string> completedLevels = new List<string>();
     int currentLevel = -1;
     List<Player> players = new List<Player>();
 
@@ -77,7 +78,7 @@ public class GameManager : MonoBehaviour
                     try
                     {
                         AddPlayer(new Player() { index = (PlayerIndex)0 });
-                        SpawnControllableHuman((PlayerIndex)0, new Vector3());
+                        SpawnControllableHuman((PlayerIndex)0, new Vector3(1f+Random.value*2f, 0f, 1f+Random.value*2f));
                         Instantiate(Library.instance.editorPrefab, transform);
                     }
                     catch (System.Exception e)
@@ -114,20 +115,35 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        try
-        {
-            ClearStoredProps();
-            sceneType = SceneType.Game;
-            currentLevel++;
+        ClearStoredProps();
+        sceneType = SceneType.Game;
+        currentLevel++;
+
+        if (currentLevel < Library.instance.levels.Count) {
             SceneManager.LoadSceneAsync(
                 Library.instance.levels[currentLevel]
             );
         }
-        
-        // This is insane
-        catch {
-            GoToLobby();
+        else {
+            try {
+                string nextLevelName = FindNextXLevel();
+                var props = LevelEditor.PropsToSpawn(Application.streamingAssetsPath+"/levels/"+ nextLevelName);
+                SceneManager.LoadScene("LevelEditor");
+            }
+            catch {
+                GoToLobby();
+            }
+
         }
+    }
+
+    string FindNextXLevel()
+    {
+        foreach(var filename in System.IO.Directory.EnumerateFiles(Application.streamingAssetsPath + "/levels")) {
+            if (completedLevels.Contains(filename)) continue;
+            return filename;
+        }
+        throw new System.Exception();
     }
 
     public void GoToLobby()
@@ -140,6 +156,15 @@ public class GameManager : MonoBehaviour
         sceneType = SceneType.Lobby;
     }
 
+    public void GoToLevelEditor()
+    {
+        ClearStoredProps();
+
+        currentLevel = -1;
+        SceneManager.LoadScene(Library.instance.lobbyScene);
+        sceneType = SceneType.Editor;
+    }
+
     void ClearStoredProps()
     {
         for (int i = 0; i < GameManager.instance.transform.childCount; i++) {
@@ -148,6 +173,14 @@ public class GameManager : MonoBehaviour
                 continue;
             }
             Destroy(GameManager.instance.transform.GetChild(i).gameObject);
+        }
+    }
+
+    public void SaveLevelWindow()
+    {
+        if (sceneType == SceneType.Editor) {
+            var editorMenu = FindObjectOfType<LevelEditor>();
+            editorMenu.ShowSaveMenu();
         }
     }
 
@@ -296,7 +329,9 @@ public class GameManager : MonoBehaviour
         {"WII", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<Bloom>().active = true; }},
         {"GRR", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<Grain>().active = true; }},
         {"PIX", delegate { FindObjectOfType<Camera>().GetComponent<PostProcessLayer>().enabled = false; }},
-        {"GARBAGE", delegate { Instantiate(Library.instance.props[Random.Range(0, Library.instance.props.Count-1)]); }}
+        {"GARBAGE", delegate { Instantiate(Library.instance.props[Random.Range(0, Library.instance.props.Count-1)]); }},
+        {"SAVE", delegate {FindObjectOfType<LevelEditor>().Save(); }},
+        {"NEXTXML", delegate { GameManager.instance.NextLevel(); }}
 
     };
 

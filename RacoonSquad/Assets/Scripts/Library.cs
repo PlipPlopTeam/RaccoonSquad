@@ -20,6 +20,7 @@ public class Library : MonoBehaviour
     public GameObject displayerPrefab;
     public GameObject editorPrefab;
     public GameObject editorHumanPrefab;
+    public GameObject editorSaveLevelCube;
 
     [Header("Particles")]
     public GameObject sweatParticle;

@@ -12,6 +12,8 @@ public class Prop : MonoBehaviour
 
     public System.Action<Collision> onHit;
     public float groundedThreshold = 0.01f;
+    public bool isHuman;
+    public int id = 0;
 
     [HideInInspector] public new Rigidbody rigidbody;
     [HideInInspector] public new Collider collider;

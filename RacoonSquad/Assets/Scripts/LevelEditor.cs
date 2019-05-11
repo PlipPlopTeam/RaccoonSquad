@@ -5,11 +5,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using XInputDotNetPure;
+using System.Xml;
 
 public class LevelEditor : MonoBehaviour
 {
+    public GameObject saveMenu;
+    public GameObject saveProgressionScreen;
+    public TextMeshProUGUI saveProgression;
+    public Slider saveSlider;
     public GameObject container;
     public TextMeshProUGUI title;
+    public TextMeshProUGUI levelName;
     public float objectsMovementSpeed = 5f;
     public float objectsRotationSpeed = 30f;
     public KeyCode snapKey = KeyCode.LeftShift;
@@ -24,9 +30,21 @@ public class LevelEditor : MonoBehaviour
     GameObject ghost;
     Vector2 previousMousePosition;
     Vector2 previousLeftStick;
+    float savingAdvancement = 0f;
+
+    public class SavedProp{
+        public GameObject prefab;
+        public Vector3 position;
+        public Vector3 euler;
+    }
 
     private void Start()
     {
+        /*
+        SoundPlayer.StopEverySound();
+        SoundPlayer.Play("msc_editor");
+        */
+        Instantiate(Library.instance.editorSaveLevelCube, new Vector3(), Quaternion.identity);
         StartCoroutine(CreatePreviews());
     }
 
@@ -52,6 +70,12 @@ public class LevelEditor : MonoBehaviour
         {
             pc.Free();
         }
+    }
+
+    public void ShowSaveMenu()
+    {
+        saveMenu.SetActive(true);
+        FindObjectOfType<PlayerController>().Paralyze();
     }
 
     void SelectItem(GameObject item)
@@ -353,6 +377,128 @@ public class LevelEditor : MonoBehaviour
         }
 
         yield return true;
+    }
+
+    public void Save()
+    {
+        var name = levelName.text;
+        saveMenu.SetActive(false);
+        saveProgressionScreen.SetActive(true);
+        StartCoroutine(SaveLevel("level_"+name));
+    }
+
+    IEnumerator SaveLevel(string name)
+    {
+        XmlDocument xDoc = new XmlDocument();
+        XmlElement xDocElement = (XmlElement)xDoc.AppendChild(xDoc.CreateElement("Level"));
+        XmlElement xProps = (XmlElement)xDocElement.AppendChild(xDoc.CreateElement("Props"));
+
+        var props = FindObjectsOfType<Prop>();
+        for (int i = 0; i < props.Length; i++) {
+            var prop = props[i];
+
+            // checking it's part of the library
+            var skip = true;
+            foreach (var lProp in Library.instance.props) {
+                var lPropC = lProp.GetComponent<Prop>();
+                if (lPropC == null) continue;
+                if (lPropC.id == prop.id) {
+                    skip = false;
+                    break;
+                }
+                yield return null;
+            }
+            if (skip) continue;
+
+            // updating progress bar
+            savingAdvancement = ((float)i) / props.Length;
+            saveProgression.text = Mathf.Round(savingAdvancement * 100f) + "%";
+            saveSlider.value = savingAdvancement;
+
+            // actual saving
+            var node = xProps.AppendChild(xDoc.CreateElement("Prop"));
+            ((XmlElement)node).SetAttribute("id", prop.id.ToString());
+            var position = node.AppendChild(xDoc.CreateElement("Position"));
+            ((XmlElement)position).SetAttribute("x", prop.transform.position.x.ToString());
+            ((XmlElement)position).SetAttribute("y", prop.transform.position.y.ToString());
+            ((XmlElement)position).SetAttribute("z", prop.transform.position.z.ToString());
+            var euler = node.AppendChild(xDoc.CreateElement("Euler"));
+            ((XmlElement)position).SetAttribute("x", prop.transform.eulerAngles.x.ToString());
+            ((XmlElement)position).SetAttribute("y", prop.transform.eulerAngles.y.ToString());
+            ((XmlElement)position).SetAttribute("z", prop.transform.eulerAngles.z.ToString());
+
+            yield return null;
+        }
+
+        var meta = xDoc.DocumentElement.AppendChild(xDoc.CreateElement("Meta"));
+        ((XmlElement)meta).SetAttribute("CreationDate", System.DateTime.Now.ToString());
+        yield return null;
+
+        var levels = Application.streamingAssetsPath + "/levels";
+        if (!System.IO.Directory.Exists(levels)) System.IO.Directory.CreateDirectory(levels);
+        xDoc.Save(levels + "/" + name + ".xml");
+
+
+        saveProgressionScreen.SetActive(false);
+        yield return true;
+    }
+
+    public float GetSavingProgression()
+    {
+        return savingAdvancement;
+    }
+
+    public static void LoadLevel(string levelPath)
+    {
+        var xDoc = new XmlDocument();
+        xDoc.Load(levelPath);
+        var props = GetPropsFromXDoc(xDoc);
+        foreach(var prop in props) {
+            Instantiate(prop.prefab, prop.position, Quaternion.EulerAngles(prop.euler))
+        }
+    }
+
+    static List<SavedProp> GetPropsFromXDoc(XmlDocument xDoc)
+    {
+        var props = new List<SavedProp>();
+        var xNode = xDoc.GetElementsByTagName("Levels")[0];
+        // For each prop
+        foreach (var prop in xNode.ChildNodes) {
+            var xProp = (XmlElement)prop;
+
+            foreach (var lProp in Library.instance.props) {
+                if (System.Convert.ToInt32(xProp.Attributes["id"]) == lProp.GetComponent<Prop>().id) {
+                    // Only if it exists in the library
+                    var position = new Vector3();
+                    var euler = new Vector3();
+                    foreach (var childNode in xProp.ChildNodes) {
+                        // Parsing the child nodes of prop (position, ...)
+                        var xChildNode = (XmlElement)childNode;
+                        switch (xChildNode.Name) {
+                            case "Position":
+                                position = new Vector3(
+                                    System.Convert.ToSingle(xChildNode.Attributes["x"]),
+                                    System.Convert.ToSingle(xChildNode.Attributes["y"]),
+                                    System.Convert.ToSingle(xChildNode.Attributes["z"])
+                                ); break;
+
+                            case "Rotation":
+                                euler = new Vector3(
+                                    System.Convert.ToSingle(xChildNode.Attributes["x"]),
+                                    System.Convert.ToSingle(xChildNode.Attributes["y"]),
+                                    System.Convert.ToSingle(xChildNode.Attributes["z"])
+                                ); break;
+                        }
+                    }
+
+                    // adding it to the list of things to be spawned
+                    props.Add(new SavedProp() { prefab = lProp, position = position });
+                    break;
+                }
+            }
+        }
+
+        return props;
     }
 
 }

@@ -136,6 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundedThreshold: 0.01
+  isHuman: 0
+  id: 61
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
   obstacle: {fileID: 0}
@@ -253,11 +255,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeafBurst
       objectReference: {fileID: 0}
-    - target: {fileID: 6038030128676111633, guid: e067549241d74ac49ba39430da26109a,
-        type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5462555039322684871, guid: e067549241d74ac49ba39430da26109a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -311,6 +308,11 @@ PrefabInstance:
     - target: {fileID: 5462555039322684871, guid: e067549241d74ac49ba39430da26109a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6038030128676111633, guid: e067549241d74ac49ba39430da26109a,
+        type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

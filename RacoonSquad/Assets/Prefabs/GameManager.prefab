@@ -81,6 +81,8 @@ MonoBehaviour:
     type: 3}
   editorHumanPrefab: {fileID: 605762304575411475, guid: 460ca99dc925d5d4e80d24c8fd6744f3,
     type: 3}
+  editorSaveLevelCube: {fileID: 6947260675675812885, guid: f2c32eddaf1c1f84895c86ad922cfa3b,
+    type: 3}
   sweatParticle: {fileID: 4555859333002654280, guid: 661c764e8994a984d8acdd2e179973a3,
     type: 3}
   hitFX: {fileID: 3914065392152726493, guid: f609e9ca307071446aa4ac2ca3f91e14, type: 3}

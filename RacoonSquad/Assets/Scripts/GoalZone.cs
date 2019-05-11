@@ -193,9 +193,16 @@ public class GoalZone : MonoBehaviour
         absorbedObjects.Add(ao);
         
         SoundPlayer.PlayWithRandomPitch("fb_scoring_loot", 0.3f);
-        if (GameManager.instance.IsInLobby())
+        if (!GameManager.instance.IsInGame())
         {
-            if (grabbable.tag == "GameStarter") GameManager.instance.NextLevel();
+            var action = grabbable.GetComponent<ActionCube>();
+            if (action != null) {
+                switch (action.action) {
+                    case "startGame": GameManager.instance.NextLevel(); break;
+                    case "loadLevel": GameManager.instance.GoToLevelEditor(); break;
+                    case "saveLevel": GameManager.instance.SaveLevelWindow(); Instantiate(Library.instance.editorSaveLevelCube, new Vector3(), Quaternion.identity); break;
+                }
+            }
         }
         else if (GameManager.instance.IsInGame())
         {
