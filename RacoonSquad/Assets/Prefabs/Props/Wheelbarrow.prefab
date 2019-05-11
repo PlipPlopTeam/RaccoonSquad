@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3551179871684328987}
   - component: {fileID: 8509586884191403552}
   m_Layer: 0
-  m_Name: Brouette
+  m_Name: Wheelbarrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,8 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundedThreshold: 0.01
+  isHuman: 0
+  id: 60
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+  obstacle: {fileID: 0}
 --- !u!114 &3551179871684328987
 MonoBehaviour:
   m_ObjectHideFlags: 0

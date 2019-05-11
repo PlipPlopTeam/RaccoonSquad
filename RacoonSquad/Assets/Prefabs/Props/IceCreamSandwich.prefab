@@ -75,8 +75,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundedThreshold: 0.01
+  isHuman: 0
+  id: 24
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+  obstacle: {fileID: 0}
 --- !u!1001 &5476908543018646472
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -59,8 +59,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundedThreshold: 0.01
+  isHuman: 0
+  id: 36
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
+  obstacle: {fileID: 0}
 --- !u!1001 &3843404914832307735
 PrefabInstance:
   m_ObjectHideFlags: 0

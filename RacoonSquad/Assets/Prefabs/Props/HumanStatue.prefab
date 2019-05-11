@@ -75,6 +75,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundedThreshold: 0.01
+  isHuman: 1
+  id: 23
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
   obstacle: {fileID: 0}
