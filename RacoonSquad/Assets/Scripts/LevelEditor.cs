@@ -12,6 +12,8 @@ public class LevelEditor : MonoBehaviour
     public TextMeshProUGUI title;
     public float objectsMovementSpeed = 5f;
     public float objectsRotationSpeed = 30f;
+    public KeyCode snapKey = KeyCode.LeftShift;
+    public KeyCode menuKey = KeyCode.Space;
 
     int currentCursor = 0;
     Dictionary<Image, GameObject> entries = new Dictionary<Image, GameObject>();
@@ -20,6 +22,8 @@ public class LevelEditor : MonoBehaviour
     bool justPressedA = false;
     bool justToggled = false;
     GameObject ghost;
+    Vector2 previousMousePosition;
+    Vector2 previousLeftStick;
 
     private void Start()
     {
@@ -49,19 +53,39 @@ public class LevelEditor : MonoBehaviour
             pc.Free();
         }
     }
+
+    void SelectItem(GameObject item)
+    {
+        for (int i = 0; i < container.transform.childCount; i++) {
+            var t = container.transform.GetChild(i);
+            if (t.gameObject == item) {
+                currentCursor = i;
+                return;
+            }
+        }
+    }
+
     void CheckPlacementInputs(GamePadState state)
     {
         var leftThumbstickVector = new Vector2(state.ThumbSticks.Left.X, state.ThumbSticks.Left.Y);
         var rightThumbstickVector = new Vector2(state.ThumbSticks.Right.X, state.ThumbSticks.Right.Y);
 
-        UpdateGhostPosition(leftThumbstickVector * objectsMovementSpeed * Time.deltaTime, state.Buttons.RightShoulder==ButtonState.Pressed);
-        UpdateGhostRotation(rightThumbstickVector * objectsRotationSpeed * Time.deltaTime, state.Buttons.RightShoulder == ButtonState.Pressed);
+        if ((new Vector2(Input.mousePosition.x, Input.mousePosition.y) - previousMousePosition).magnitude > 0) {
+            SetGhostPositionFromMouse(Input.mousePosition);
+        }
+        else {
+            UpdateGhostPosition(leftThumbstickVector * objectsMovementSpeed * Time.deltaTime, state.Buttons.RightShoulder == ButtonState.Pressed || Input.GetKey(snapKey));
+        }
 
-        if (state.Buttons.B == ButtonState.Pressed)
+        UpdateGhostRotation(
+            new Vector2(Input.mouseScrollDelta.y, 0f)* 5f + rightThumbstickVector * objectsRotationSpeed * Time.deltaTime, 
+            state.Buttons.RightShoulder == ButtonState.Pressed || Input.GetKey(snapKey));
+
+        if ((state.Buttons.B == ButtonState.Pressed) || Input.GetMouseButtonDown(1))
         {// Cancel
             DestroyGhost();
         }
-        if (state.Buttons.A == ButtonState.Pressed && !justPressedA)
+        if ((state.Buttons.A == ButtonState.Pressed && !justPressedA) || Input.GetMouseButtonDown(0))
         {// Place
             Unghost();
         }
@@ -69,6 +93,17 @@ public class LevelEditor : MonoBehaviour
         {
             justPressedA = false;
         }
+
+        previousMousePosition = Input.mousePosition;
+    }
+
+    void SetGhostPositionFromMouse(Vector2 mousePos)
+    {
+        var ray = Camera.main.ScreenPointToRay(mousePos);
+        RaycastHit hit;
+        Physics.Raycast(ray, out hit);
+
+        UpdateGhostPosition(new Vector2(hit.point.x, hit.point.z) - new Vector2(ghost.transform.position.x, ghost.transform.position.z), Input.GetKey(snapKey));
     }
 
     void DestroyGhost()
@@ -92,13 +127,13 @@ public class LevelEditor : MonoBehaviour
     void UpdateGhostRotation(Vector2 rotation, bool snap=false)
     {
         var prop = ghost.transform.GetChild(0).gameObject;
-        prop.transform.Rotate(new Vector3(rotation.x, rotation.y));
+        prop.transform.eulerAngles += (new Vector3(rotation.y, rotation.x));
 
         if (snap)
         {
             var unit = 45f;
             prop.transform.eulerAngles = new Vector3(
-                Mathf.Round(prop.transform.eulerAngles.x/unit)*unit,
+                Mathf.Round(prop.transform.eulerAngles.x / unit) * unit,
                 Mathf.Round(prop.transform.eulerAngles.y / unit) * unit,
                 Mathf.Round(prop.transform.eulerAngles.z / unit) * unit
             );
@@ -127,13 +162,13 @@ public class LevelEditor : MonoBehaviour
 
     void CheckToggleInput(GamePadState state)
     {
-        if (state.Buttons.Start == ButtonState.Pressed && !justToggled)
+        if ((state.Buttons.Start == ButtonState.Pressed && !justToggled) || Input.GetKeyDown(menuKey))
         {
             DestroyGhost();
             isMenuing = !isMenuing;
             justToggled = true;
         }
-        if (state.Buttons.Start == ButtonState.Released)
+        if (state.Buttons.Start == ButtonState.Released || Input.GetKeyUp(menuKey))
         {
             justToggled = false;
         }
@@ -187,6 +222,7 @@ public class LevelEditor : MonoBehaviour
 
     void CheckInputs(GamePadState state)
     {
+
         var rowsAndColumns = CountRowsAndColumns();
         var rows = rowsAndColumns.Item1;
         var columns = rowsAndColumns.Item2;
@@ -209,7 +245,7 @@ public class LevelEditor : MonoBehaviour
             canMoveInMenus = false;
         }
 
-        if (state.Buttons.A == ButtonState.Pressed)
+        if (state.Buttons.A == ButtonState.Pressed || Input.GetMouseButton(0))
         {
             var prop = Instantiate(
                 entries[entries.Keys.ToList()[currentCursor]]
@@ -267,6 +303,12 @@ public class LevelEditor : MonoBehaviour
 
             var g = new GameObject();
             g.transform.parent = container.transform;
+
+            var element = g.AddComponent<LevelEditorMenuElement>();
+            element.editor = this;
+            element.onHovered += delegate {
+                SelectItem(g);
+            };
 
             var img = g.AddComponent<Image>();
             var containerImg = container.GetComponent<Image>();
