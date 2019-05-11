@@ -38,6 +38,12 @@ public class CameraController : MonoBehaviour
         
         posOff = new Vector3(Random.Range(0f,100f),Random.Range(0f,100f),Random.Range(0f,100f));
         rotOff = new Vector3(Random.Range(0f,100f),Random.Range(0f,100f),Random.Range(0f,100f));
+
+        if (GameManager.instance.sceneType == GameManager.SceneType.Editor) {
+            noiseSpeed = 0f;
+            noiseAmp = 0f;
+            noiseRot = 0f;
+        }
     }
 
     void Update()
