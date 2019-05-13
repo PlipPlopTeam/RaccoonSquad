@@ -24,7 +24,9 @@ public class Grabbable : MonoBehaviour, Prop.IProp
         prop.rigidbody.isKinematic = true;
         gameObject.layer = LayerMask.NameToLayer("NoPlayerCollision");
         isHeld = true;
-        Destroy(prop.obstacle);
+        if (prop.isObstacle) {
+            Destroy(prop.GetObstacle());
+        }
     }
 
     public void BecomeDropped()

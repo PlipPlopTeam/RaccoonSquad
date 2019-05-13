@@ -62,6 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyScene: LevelLobby
   winScene: WinScene
+  editorScene: LevelEditor
   levels:
   - Level0
   - Level1

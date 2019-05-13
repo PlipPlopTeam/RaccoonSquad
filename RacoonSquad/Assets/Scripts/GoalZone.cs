@@ -199,7 +199,7 @@ public class GoalZone : MonoBehaviour
             if (action != null) {
                 switch (action.action) {
                     case "startGame": GameManager.instance.NextLevel(); break;
-                    case "loadLevel": GameManager.instance.GoToLevelEditor(); break;
+                    case "levelEditor": GameManager.instance.GoToLevelEditor(); break;
                     case "saveLevel": GameManager.instance.SaveLevelWindow(); Instantiate(Library.instance.editorSaveLevelCube, new Vector3(), Quaternion.identity); break;
                 }
             }

@@ -13,13 +13,13 @@ public class Prop : MonoBehaviour
     public System.Action<Collision> onHit;
     public float groundedThreshold = 0.01f;
     public bool isHuman;
+    public bool isObstacle = true;
     public int id = 0;
 
     [HideInInspector] public new Rigidbody rigidbody;
     [HideInInspector] public new Collider collider;
 
-    public NavMeshObstacle obstacle;
-
+    NavMeshObstacle obstacle;
     bool justHit;
     bool activated;
     
@@ -28,9 +28,10 @@ public class Prop : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         collider = GetComponent<Collider>();
-        if(collider == null) collider = gameObject.AddComponent<BoxCollider>();
+        obstacle = GetComponent<NavMeshObstacle>();
+        if (collider == null) collider = gameObject.AddComponent<BoxCollider>();
         if (rigidbody == null) rigidbody = gameObject.AddComponent<Rigidbody>();
-        if (obstacle == null) obstacle = gameObject.AddComponent<NavMeshObstacle>();
+        if (isObstacle && obstacle == null) obstacle = gameObject.AddComponent<NavMeshObstacle>();
 
         activated = false;
         StartCoroutine(WaitBeforeActivate());
@@ -54,5 +55,11 @@ public class Prop : MonoBehaviour
         if ((IsGrounded() || collision.collider.name == "Ground") && onHit.GetInvocationList().Length > 0) {
             if (activated) onHit.Invoke(collision);
         }
+    }
+
+    public NavMeshObstacle GetObstacle()
+    {
+        if (!isObstacle) throw new System.Exception();
+        return obstacle;
     }
 }

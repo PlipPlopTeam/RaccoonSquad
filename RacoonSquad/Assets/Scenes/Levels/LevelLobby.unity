@@ -14318,6 +14318,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundedThreshold: 0.01
+  isHuman: 0
+  id: 0
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
   obstacle: {fileID: 0}
@@ -14443,6 +14445,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundedThreshold: 0.01
+  isHuman: 0
+  id: 0
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
   obstacle: {fileID: 0}
@@ -25565,6 +25569,11 @@ PrefabInstance:
       propertyPath: lobby
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 697883227056900207, guid: e840d2102a1ff064c9f9c5c5965caebd,
+        type: 3}
+      propertyPath: sceneType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e840d2102a1ff064c9f9c5c5965caebd, type: 3}
 --- !u!1001 &6947260675875977542
@@ -25574,6 +25583,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 744110966}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6947260675675812885, guid: 10ce7f3990f68804f95ce135caf327e1,
         type: 3}
       propertyPath: m_Name
@@ -25639,5 +25652,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: -6992649898250818908, guid: 10ce7f3990f68804f95ce135caf327e1,
+        type: 3}
+      propertyPath: color.a
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 10ce7f3990f68804f95ce135caf327e1, type: 3}

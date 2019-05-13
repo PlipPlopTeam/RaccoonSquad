@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [Range(0, 1)] public float minimumWeightedSpeedFactor = 0.51f;
     float targetSpeed;
     float currentSpeed;
+    bool isInvincible;
 
     [Header("Lerps")]
     public float speedLerpSpeed = 10f;
@@ -86,6 +87,16 @@ public class PlayerController : MonoBehaviour
     public void Paralyze()
     {
         isParalyzed = true;
+    }
+
+    public void MakeInvincible()
+    {
+        isInvincible = true;
+    }
+
+    public bool IsInvincible()
+    {
+        return isInvincible;
     }
 
     public void Free()
@@ -462,7 +473,10 @@ public class PlayerController : MonoBehaviour
         rb.useGravity = false;
         collider.isTrigger = true;
 
-        Destroy(GetComponent<Prop>().obstacle);
+        var prop = GetComponent<Prop>();
+        if (prop && prop.isObstacle) {
+            Destroy(prop.GetObstacle());
+        }
     }
 
     public void KillConstraints()

@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     List<string> completedLevels = new List<string>();
     int currentLevel = -1;
     List<Player> players = new List<Player>();
+    bool nextLoadIsXml = false;
+    string nextLevelName = "";
 
     [System.Serializable]
     public class Player {
@@ -63,6 +65,15 @@ public class GameManager : MonoBehaviour
 
                 case SceneType.Game:
                     previousLevel = level;
+                    if (nextLoadIsXml) {
+                        nextLoadIsXml = false;
+                        try {
+                            LevelEditor.LoadLevel(nextLevelName);
+                        }
+                        catch {
+                            GoToLobby();
+                        }
+                    }
 
                     // Initialize goal score etc...
                     level = new LevelMaster();
@@ -72,6 +83,7 @@ public class GameManager : MonoBehaviour
                     else {
                         DebugSpawnControllers();
                     }
+
                     break;
 
                 case SceneType.Editor:
@@ -126,9 +138,9 @@ public class GameManager : MonoBehaviour
         }
         else {
             try {
-                string nextLevelName = FindNextXLevel();
-                var props = LevelEditor.PropsToSpawn(Application.streamingAssetsPath+"/levels/"+ nextLevelName);
+                nextLevelName = FindNextXLevel();
                 SceneManager.LoadScene("LevelEditor");
+                nextLoadIsXml = true;
             }
             catch {
                 GoToLobby();
@@ -139,10 +151,15 @@ public class GameManager : MonoBehaviour
 
     string FindNextXLevel()
     {
+        var lvlName = "";
         foreach(var filename in System.IO.Directory.EnumerateFiles(Application.streamingAssetsPath + "/levels")) {
             if (completedLevels.Contains(filename)) continue;
-            return filename;
+            if (!filename.ToLower().EndsWith(".xml")) continue;
+            lvlName = filename;
+            break;
         }
+        completedLevels.Add(lvlName);
+        return lvlName;
         throw new System.Exception();
     }
 
@@ -161,7 +178,7 @@ public class GameManager : MonoBehaviour
         ClearStoredProps();
 
         currentLevel = -1;
-        SceneManager.LoadScene(Library.instance.lobbyScene);
+        SceneManager.LoadScene(Library.instance.editorScene);
         sceneType = SceneType.Editor;
     }
 
@@ -191,6 +208,10 @@ public class GameManager : MonoBehaviour
 
     public void Win()
     {
+        foreach(var player in FindObjectsOfType<PlayerController>()) {
+            player.MakeInvincible();
+            player.Paralyze();
+        }
         Instantiate(Library.instance.transitionPrefab).GetComponent<CircleFrame>().PlayFrameAnimation("Win");
     }
 
@@ -324,14 +345,23 @@ public class GameManager : MonoBehaviour
         {"RPITCH", delegate { SoundPlayer.PlayWithRandomPitch("debug_sound"); }},
         {"LOOPME", delegate { SoundPlayer.PlaySoundAttached("debug_sound_looping", FindObjectOfType<PlayerController>().transform); }},
         {"WIN", delegate { GameManager.instance.Win(); }},
-        {"MHH", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<LensDistortion>().active = true; }},
-        {"PEW", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<ChromaticAberration>().active = true; }},
-        {"WII", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<Bloom>().active = true; }},
-        {"GRR", delegate{FindObjectOfType<Camera>().GetComponent<PostProcessVolume>().profile.GetSetting<Grain>().active = true; }},
-        {"PIX", delegate { FindObjectOfType<Camera>().GetComponent<PostProcessLayer>().enabled = false; }},
+        {"MHH", delegate{ Camera.main.GetComponent<PostProcessVolume>().profile.GetSetting<LensDistortion>().active = true; }},
+        {"PEW", delegate{ Camera.main.GetComponent<PostProcessVolume>().profile.GetSetting<ChromaticAberration>().active = true; }},
+        {"WII", delegate{ Camera.main.GetComponent<PostProcessVolume>().profile.GetSetting<Bloom>().active = true; }},
+        {"GRR", delegate{ Camera.main.GetComponent<PostProcessVolume>().profile.GetSetting<Grain>().active = true; }},
+        {"PIX", delegate { Camera.main.GetComponent<PostProcessLayer>().enabled = false; }},
         {"GARBAGE", delegate { Instantiate(Library.instance.props[Random.Range(0, Library.instance.props.Count-1)]); }},
         {"SAVE", delegate {FindObjectOfType<LevelEditor>().Save(); }},
-        {"NEXTXML", delegate { GameManager.instance.NextLevel(); }}
+        {"NEXTXML", delegate {
+                instance.ClearStoredProps();
+                instance.sceneType = SceneType.Game;
+                instance.nextLevelName = instance.FindNextXLevel();
+                SceneManager.LoadScene("LevelEditor");
+                instance.nextLoadIsXml = true;
+        }},
+        {"EDITOR", delegate {
+            instance.GoToLevelEditor();
+        }  }
 
     };
 

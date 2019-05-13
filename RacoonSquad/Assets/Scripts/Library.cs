@@ -9,6 +9,7 @@ public class Library : MonoBehaviour
     [Header("Scenes")]
     public string lobbyScene;
     public string winScene;
+    public string editorScene;
     public List<string> levels;
 
     [Header("Prefabs")]

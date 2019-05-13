@@ -9,6 +9,10 @@ public class ActionCube : MonoBehaviour
 
     private void Start()
     {
+        if (color.a <= 0f) {
+            return;
+        }
+
         var inst = new Material(Shader.Find("Unlit/Color"));
         inst.color = color;
         GetComponent<MeshRenderer>().material = inst;

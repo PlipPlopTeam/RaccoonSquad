@@ -423,9 +423,9 @@ public class LevelEditor : MonoBehaviour
             ((XmlElement)position).SetAttribute("y", prop.transform.position.y.ToString());
             ((XmlElement)position).SetAttribute("z", prop.transform.position.z.ToString());
             var euler = node.AppendChild(xDoc.CreateElement("Euler"));
-            ((XmlElement)position).SetAttribute("x", prop.transform.eulerAngles.x.ToString());
-            ((XmlElement)position).SetAttribute("y", prop.transform.eulerAngles.y.ToString());
-            ((XmlElement)position).SetAttribute("z", prop.transform.eulerAngles.z.ToString());
+            ((XmlElement)euler).SetAttribute("x", prop.transform.eulerAngles.x.ToString());
+            ((XmlElement)euler).SetAttribute("y", prop.transform.eulerAngles.y.ToString());
+            ((XmlElement)euler).SetAttribute("z", prop.transform.eulerAngles.z.ToString());
 
             yield return null;
         }
@@ -454,20 +454,23 @@ public class LevelEditor : MonoBehaviour
         xDoc.Load(levelPath);
         var props = GetPropsFromXDoc(xDoc);
         foreach(var prop in props) {
-            Instantiate(prop.prefab, prop.position, Quaternion.EulerAngles(prop.euler))
+            Instantiate(prop.prefab, prop.position, Quaternion.Euler(prop.euler));
         }
     }
 
     static List<SavedProp> GetPropsFromXDoc(XmlDocument xDoc)
     {
         var props = new List<SavedProp>();
-        var xNode = xDoc.GetElementsByTagName("Levels")[0];
+        var xNode = xDoc.GetElementsByTagName("Props")[0];
         // For each prop
         foreach (var prop in xNode.ChildNodes) {
             var xProp = (XmlElement)prop;
 
             foreach (var lProp in Library.instance.props) {
-                if (System.Convert.ToInt32(xProp.Attributes["id"]) == lProp.GetComponent<Prop>().id) {
+                var lPropComp = lProp.GetComponent<Prop>();
+                if (lPropComp == null) continue;
+
+                if (System.Convert.ToInt32(xProp.Attributes["id"].Value) == lPropComp.id) {
                     // Only if it exists in the library
                     var position = new Vector3();
                     var euler = new Vector3();
@@ -477,16 +480,16 @@ public class LevelEditor : MonoBehaviour
                         switch (xChildNode.Name) {
                             case "Position":
                                 position = new Vector3(
-                                    System.Convert.ToSingle(xChildNode.Attributes["x"]),
-                                    System.Convert.ToSingle(xChildNode.Attributes["y"]),
-                                    System.Convert.ToSingle(xChildNode.Attributes["z"])
+                                    System.Convert.ToSingle(xChildNode.Attributes["x"].Value),
+                                    System.Convert.ToSingle(xChildNode.Attributes["y"].Value),
+                                    System.Convert.ToSingle(xChildNode.Attributes["z"].Value)
                                 ); break;
 
-                            case "Rotation":
+                            case "Euler":
                                 euler = new Vector3(
-                                    System.Convert.ToSingle(xChildNode.Attributes["x"]),
-                                    System.Convert.ToSingle(xChildNode.Attributes["y"]),
-                                    System.Convert.ToSingle(xChildNode.Attributes["z"])
+                                    System.Convert.ToSingle(xChildNode.Attributes["x"].Value),
+                                    System.Convert.ToSingle(xChildNode.Attributes["y"].Value),
+                                    System.Convert.ToSingle(xChildNode.Attributes["z"].Value)
                                 ); break;
                         }
                     }

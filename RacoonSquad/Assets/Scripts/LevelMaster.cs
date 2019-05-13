@@ -13,7 +13,7 @@ public class LevelMaster
 
     int spawnPlayerCount = 1;
 
-    public event System.Action<Vector3> soundAt;
+    public System.Action<Vector3> soundAt;
 
     public LevelMaster()
     {
@@ -27,7 +27,12 @@ public class LevelMaster
             prop.GetProp().onHit += (x) => {
                 SoundPlayer.PlayWithRandomPitch("fb_raccoon_bumping", 0.1f);
                 GameObject.Instantiate(Library.instance.hitFX, x.GetContact(0).point, Library.instance.hitFX.transform.rotation);
-                soundAt.Invoke(x.GetContact(0).point);
+                try {
+                    if (soundAt.GetInvocationList().Length > 0) {
+                        soundAt.Invoke(x.GetContact(0).point);
+                    }
+                }
+                catch { }
             };
         }
     }

@@ -172,7 +172,7 @@ public class HumanBehavior : MonoBehaviour
                 }
                 else
                 {
-                    if(IsObjectInRange(seenPlayer.gameObject)) 
+                    if(IsObjectInRange(seenPlayer.gameObject) && !seenPlayer.IsInvincible()) 
                     {
 
                         HangRaccoon();
