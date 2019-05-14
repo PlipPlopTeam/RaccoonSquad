@@ -14319,10 +14319,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundedThreshold: 0.01
   isHuman: 0
+  isObstacle: 1
   id: 0
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
-  obstacle: {fileID: 0}
 --- !u!114 &1142187016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14446,10 +14446,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundedThreshold: 0.01
   isHuman: 0
+  isObstacle: 1
   id: 0
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
-  obstacle: {fileID: 0}
 --- !u!114 &1142881524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24655,6 +24655,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1684916823717716868, guid: d18a71f36ac377e45ac257e810e031db,
+        type: 3}
+      propertyPath: humanValue
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1684916823717716868, guid: d18a71f36ac377e45ac257e810e031db,
+        type: 3}
+      propertyPath: racoonValue
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1684916823717716868, guid: d18a71f36ac377e45ac257e810e031db,
+        type: 3}
+      propertyPath: weight
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d18a71f36ac377e45ac257e810e031db, type: 3}
