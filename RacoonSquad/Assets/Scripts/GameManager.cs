@@ -105,19 +105,12 @@ public class GameManager : MonoBehaviour
     public void SpawnHuman()
     {
         // Get reference to point
-        List<Transform> waypoints = new List<Transform>();
         List<Transform> spawnpoints = new List<Transform>();
-        foreach(Waypoint wp in  FindObjectsOfType<Waypoint>()) waypoints.Add(wp.transform);
         foreach(HumanSpawn hs in  FindObjectsOfType<HumanSpawn>()) spawnpoints.Add(hs.transform);
-
         // Spawn the actor
         HumanBehavior human = Instantiate(Library.instance.humanPrefab).GetComponent<HumanBehavior>();
-
         // If some spawnPoints has been found
         if(spawnpoints.Count > 0) human.transform.position = spawnpoints[Random.Range(0, spawnpoints.Count)].position;
-
-        // Apply the path to the actor
-        human.paths = waypoints;
     }
 
     //////////////////////////

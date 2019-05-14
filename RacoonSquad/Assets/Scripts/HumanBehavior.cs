@@ -15,7 +15,7 @@ public class HumanBehavior : MonoBehaviour
     public float chaseSpeed;
     public float velocityLerpSpeed = 1f;
     public float navTreshold = 1f;
-    public List<Transform> paths;
+    public List<Transform> path;
 
     [Header("Settings")]
     public float reactionTime = 1f;
@@ -67,14 +67,26 @@ public class HumanBehavior : MonoBehaviour
         rangeEvent.onTriggerExit += (Collider other) => { inRange.Remove(other.transform.gameObject); };
     }
 
+
+    private void FindPath()
+    {
+        // Get reference to points
+        List<Transform> waypoints = new List<Transform>();
+        foreach(Waypoint wp in  FindObjectsOfType<Waypoint>()) waypoints.Add(wp.transform);
+
+        // If there is no waypoints in the scene
+        if(waypoints.Count == 0)
+        {
+            path.Add(Instantiate<GameObject>(new GameObject(), transform.position, Quaternion.identity).transform);
+        }
+        
+        // Apply the path to the actor
+        path = waypoints;
+    }
     
     void Start()
     {
-        if (paths.Count <= 0)
-        {
-            // Creates dummy GO for pathfinding
-            paths.Add(Instantiate<GameObject>(new GameObject(), transform.position, Quaternion.identity).transform);
-        }
+        if(path.Count <= 0) FindPath();
         ChangeState(HumanState.Walking);
     }
 
@@ -270,7 +282,7 @@ public class HumanBehavior : MonoBehaviour
         if(seenItem != null && seenItem.gameObject != null) Destroy(seenItem.gameObject);
         // Return to normal state
         ChangeState(HumanState.Walking);
-        if(paths.Count > 0) MoveTo(0);
+        if(path.Count > 0) MoveTo(0);
     }
 
     void SuprisedBy(Vector3 position)
@@ -326,14 +338,14 @@ public class HumanBehavior : MonoBehaviour
     int GetNextWaypoint()
     {
         int waypoint = currentWaypoint + 1;
-        if(waypoint >= paths.Count) waypoint = 0;
+        if(waypoint >= path.Count) waypoint = 0;
         return waypoint;
     }
 
     void MoveTo(int waypointIndex)
     {
-        if(paths.Count == 0) return;
-        agent.destination = paths[waypointIndex].position;
+        if(path.Count == 0) return;
+        agent.destination = path[waypointIndex].position;
         currentWaypoint = waypointIndex;
     }
 
