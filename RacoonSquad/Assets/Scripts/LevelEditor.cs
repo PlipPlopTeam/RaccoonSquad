@@ -454,8 +454,12 @@ public class LevelEditor : MonoBehaviour
         xDoc.Load(levelPath);
         var props = GetPropsFromXDoc(xDoc);
         foreach(var prop in props) {
-            if (prop.prefab.GetComponent<Prop>().isHuman) {
+            if (prop.prefab.GetComponent<Prop>().propType == Prop.PropType.HUMAN_STATUE) {
                 Instantiate(Library.instance.humanPrefab, prop.position, Quaternion.identity);
+                continue;
+            }
+            if (prop.prefab.GetComponent<Prop>().propType == Prop.PropType.HUMAN_WAYPOINT) {
+                Instantiate(Library.instance.humanWaypointPrefab, prop.position, Quaternion.identity);
                 continue;
             }
             Instantiate(prop.prefab, prop.position, Quaternion.Euler(prop.euler));

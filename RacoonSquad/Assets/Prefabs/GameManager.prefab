@@ -84,6 +84,8 @@ MonoBehaviour:
     type: 3}
   editorSaveLevelCube: {fileID: 6947260675675812885, guid: f2c32eddaf1c1f84895c86ad922cfa3b,
     type: 3}
+  humanWaypointPrefab: {fileID: 700200271345760460, guid: 463b0f386dae29346a11d24d032b8b37,
+    type: 3}
   sweatParticle: {fileID: 4555859333002654280, guid: 661c764e8994a984d8acdd2e179973a3,
     type: 3}
   hitFX: {fileID: 3914065392152726493, guid: f609e9ca307071446aa4ac2ca3f91e14, type: 3}
@@ -239,6 +241,7 @@ MonoBehaviour:
   - {fileID: 1304170656622110433, guid: d9e8b96c2d27bb944bf726bd6641b8c8, type: 3}
   - {fileID: 1798974844505044420, guid: 515d2a7fe1ff5b64aacf21c2bad9c6fc, type: 3}
   - {fileID: 5519577081452358113, guid: 1560748c0ad83944fb4cdd1aef41a317, type: 3}
+  - {fileID: 650907519151181300, guid: a79d2aa97cafbc84aa8deba557c24da6, type: 3}
   cosmetics:
   - {fileID: 4170486490838146260, guid: 8b5d1ffc0fcc308478f8d5c525f77ffd, type: 3}
   - {fileID: 2817270856750924431, guid: 907d4cdcd849b7549be919daf2bd0954, type: 3}

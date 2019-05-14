@@ -10,9 +10,11 @@ public class Prop : MonoBehaviour
         Prop GetProp();
     }
 
+    public enum PropType { PROP, HUMAN_STATUE, HUMAN_WAYPOINT};
+
+    public PropType propType;
     public System.Action<Collision> onHit;
     public float groundedThreshold = 0.01f;
-    public bool isHuman;
     public bool isObstacle = true;
     public int id = 0;
 
