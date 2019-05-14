@@ -33,7 +33,15 @@ public class Prop : MonoBehaviour
         obstacle = GetComponent<NavMeshObstacle>();
         if (collider == null) collider = gameObject.AddComponent<BoxCollider>();
         if (rigidbody == null) rigidbody = gameObject.AddComponent<Rigidbody>();
-        if (isObstacle && obstacle == null) obstacle = gameObject.AddComponent<NavMeshObstacle>();
+        if (isObstacle && obstacle == null) 
+        {
+            obstacle = gameObject.AddComponent<NavMeshObstacle>();
+            // collider.bounds.size return a local scale value
+            // So if transform scale of the game object is != 1 it causes problem
+            obstacle.size = collider.bounds.size;
+            // when strangly collider.bounds.center is world scaled 🤔
+            obstacle.center = collider.bounds.center - transform.position;
+        }
 
         activated = false;
         StartCoroutine(WaitBeforeActivate());
