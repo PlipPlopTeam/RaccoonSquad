@@ -40,10 +40,14 @@ public class GoalZone : MonoBehaviour
 
     List<AbsorbedObject> absorbedObjects = new List<AbsorbedObject>();
 
-    void Start()
+    void Awake()
     {
         speak = GetComponent<Speak>();
         jaugeMeshRenderer.material = Instantiate(jaugeMeshRenderer.material);
+    }
+
+    void Start()
+    {
         foreach(ScoreStar ss in stars)
         {
             ss.mr.material = Instantiate(ss.mr.material);
@@ -54,12 +58,19 @@ public class GoalZone : MonoBehaviour
         {
             OnScoreChange();
             GameManager.instance.level.OnScoreChange += () => this.OnScoreChange();
+            speak.Say("Good luck boys!");
+            foreach(ScoreStar ss in stars) ss.obj.SetActive(true);
+        }
+        else
+        {
+            foreach(ScoreStar ss in stars) ss.obj.SetActive(false);
+            speak.Say("Hey");
         }
 
-        speak.Say("Good luck boys!");
         raccountObject.SetActive(false);
         UpdateRaccount();
     }
+
 
     void Update()
     {
