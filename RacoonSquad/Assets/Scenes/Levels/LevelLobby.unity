@@ -14317,8 +14317,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  propType: 0
   groundedThreshold: 0.01
-  isHuman: 0
   isObstacle: 1
   id: 0
   rigidbody: {fileID: 0}
@@ -14444,8 +14444,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  propType: 0
   groundedThreshold: 0.01
-  isHuman: 0
   isObstacle: 1
   id: 0
   rigidbody: {fileID: 0}
@@ -25589,6 +25589,12 @@ PrefabInstance:
       propertyPath: sceneType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 697883227056900205, guid: e840d2102a1ff064c9f9c5c5965caebd,
+        type: 3}
+      propertyPath: humanWaypointPrefab
+      value: 
+      objectReference: {fileID: 700200271345760460, guid: 463b0f386dae29346a11d24d032b8b37,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e840d2102a1ff064c9f9c5c5965caebd, type: 3}
 --- !u!1001 &6947260675875977542

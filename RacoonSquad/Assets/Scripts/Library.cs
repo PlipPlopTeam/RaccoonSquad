@@ -22,6 +22,7 @@ public class Library : MonoBehaviour
     public GameObject editorPrefab;
     public GameObject editorHumanPrefab;
     public GameObject editorSaveLevelCube;
+    public GameObject humanWaypointPrefab;
 
     [Header("Particles")]
     public GameObject sweatParticle;

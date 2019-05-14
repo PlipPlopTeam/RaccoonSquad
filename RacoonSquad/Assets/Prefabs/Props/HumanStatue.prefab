@@ -74,12 +74,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e74c76db49fda474583ce21a1646c381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  propType: 1
   groundedThreshold: 0.01
-  isHuman: 1
+  isObstacle: 1
   id: 23
   rigidbody: {fileID: 0}
   collider: {fileID: 0}
-  obstacle: {fileID: 0}
 --- !u!1001 &3545096635805780618
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -152,12 +152,12 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 4be059821d7b90243a9a03edce8aad69, type: 2}
-    - target: {fileID: -941883518842354624, guid: 5b6e7078cec145f46b0e620aa6dd1cda,
+    - target: {fileID: 4137360376990707587, guid: 5b6e7078cec145f46b0e620aa6dd1cda,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: bc1c85ea220b69246b6b215b065a200a, type: 2}
-    - target: {fileID: 4137360376990707587, guid: 5b6e7078cec145f46b0e620aa6dd1cda,
+    - target: {fileID: -941883518842354624, guid: 5b6e7078cec145f46b0e620aa6dd1cda,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
