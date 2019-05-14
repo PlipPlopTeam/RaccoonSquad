@@ -178,7 +178,8 @@ public class PlayerController : MonoBehaviour
         }
 
         // Rotate the character towards his movement direction
-        transform.forward = Vector3.Lerp(transform.forward, targetOrientation, Time.deltaTime * orientationLerpSpeed);
+        if(targetOrientation.magnitude >= 0.1f)
+            transform.forward = Vector3.Lerp(transform.forward, targetOrientation, Time.deltaTime * orientationLerpSpeed);
     }
     
     void CheckGrabInputs(GamePadState state)

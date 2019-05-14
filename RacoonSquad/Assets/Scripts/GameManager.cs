@@ -261,14 +261,13 @@ public class GameManager : MonoBehaviour
         }   
     }
 
-    public PlayerController SpawnPlayer(PlayerIndex player, Vector3 position)
+    public PlayerController SpawnPlayer(PlayerIndex player, Vector3 position = new Vector3(), Quaternion rotation = new Quaternion())
     {
 
-        PlayerController pc = Instantiate(Library.instance.racoonPrefab, position, Quaternion.identity).GetComponent<PlayerController>();
+        PlayerController pc = Instantiate(Library.instance.racoonPrefab, position, rotation).GetComponent<PlayerController>();
         pc.gameObject.name = "Racoon_" + player;
         pc.index = player;
         pc.ReloadColor();
-
         return pc;
     }
 
@@ -286,13 +285,17 @@ public class GameManager : MonoBehaviour
     
     public PlayerController SpawnPlayer(PlayerIndex player)
     {
-        foreach (var spawn in FindObjectsOfType<PlayerSpawn>()) {
-            if (spawn.playerIndex == player) {
-                return SpawnPlayer(player, spawn.transform.position);
+        foreach(var spawn in FindObjectsOfType<PlayerSpawn>())
+        {
+            if (spawn.playerIndex == player)
+            {
+                Quaternion rot = Quaternion.Euler(0f, spawn.transform.eulerAngles.y, 0f);
+                Debug.Log(rot.eulerAngles);
+                return SpawnPlayer(player, spawn.transform.position, rot);
             }
         }
 
-        return SpawnPlayer(player, new Vector3());
+        return SpawnPlayer(player);
     }
 
     //////////////////////////
