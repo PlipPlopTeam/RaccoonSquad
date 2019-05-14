@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
         if(IsHolding()) weightSpeedMultiplier = Mathf.Clamp(carryCapacity - heldObject.weight, 0f, 1f) * (1f - minimumWeightedSpeedFactor) + minimumWeightedSpeedFactor;
         sweat.Set(1 - weightSpeedMultiplier);
 
-        transform.position += new Vector3(direction.x, 0f, direction.y) * currentSpeed * Time.deltaTime * movementSpeed.GetMultiplier() * weightSpeedMultiplier;
+        transform.position += Vector3.ClampMagnitude(new Vector3(direction.x, 0f, direction.y), 1f) * currentSpeed * Time.deltaTime * movementSpeed.GetMultiplier() * weightSpeedMultiplier;
         anim.SetFloat("Speed", targetSpeed/speed);
 
         // If the player is aiming
