@@ -77,6 +77,8 @@ public class PlayerController : MonoBehaviour
         grabCollisions.onTriggerExit += (Collider x) => { var grab = x.GetComponent<Grabbable>(); if (grab) objectsAtRange.Remove(grab); };
 
         ReloadColor();
+
+        Instantiate(Library.instance.dustFX, transform.position, transform.rotation);
     }
 
     public void ReloadColor()

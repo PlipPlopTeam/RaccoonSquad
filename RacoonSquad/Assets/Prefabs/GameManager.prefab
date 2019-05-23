@@ -88,6 +88,7 @@ MonoBehaviour:
     type: 3}
   sweatParticle: {fileID: 4555859333002654280, guid: 661c764e8994a984d8acdd2e179973a3,
     type: 3}
+  dustFX: {fileID: 7856433827954775896, guid: 9275bfc177e8d454cb2789d89ccdcad9, type: 3}
   hitFX: {fileID: 3914065392152726493, guid: f609e9ca307071446aa4ac2ca3f91e14, type: 3}
   playersColors:
   - {r: 0.24056602, g: 0.7652617, b: 1, a: 1}
