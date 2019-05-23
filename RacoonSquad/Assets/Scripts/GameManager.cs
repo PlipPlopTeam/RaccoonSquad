@@ -290,12 +290,11 @@ public class GameManager : MonoBehaviour
             if (spawn.playerIndex == player)
             {
                 Quaternion rot = Quaternion.Euler(0f, spawn.transform.eulerAngles.y, 0f);
-                Debug.Log(rot.eulerAngles);
                 return SpawnPlayer(player, spawn.transform.position, rot);
             }
         }
 
-        return SpawnPlayer(player);
+        return SpawnPlayer(player, new Vector3());
     }
 
     //////////////////////////

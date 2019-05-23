@@ -177,6 +177,12 @@ MonoBehaviour:
   - name: debug_music_2
     clip: {fileID: 8300000, guid: 2dbaa32643e64ce4aaa70bd85029b2ca, type: 3}
     loop: 1
+  - name: editor_music
+    clip: {fileID: 8300000, guid: 4172f3b42e22a984bbc7022cfcb52724, type: 3}
+    loop: 1
+  - name: amb_square
+    clip: {fileID: 8300000, guid: b6f1fd876a436c84c9f67de553d76d2e, type: 3}
+    loop: 1
   props:
   - {fileID: 4396336831028684549, guid: 7af7860f19ee659479eb1ab82c97fd24, type: 3}
   - {fileID: 5574195955829742556, guid: 1a60c7af4cdfcff46a00074566762c0d, type: 3}

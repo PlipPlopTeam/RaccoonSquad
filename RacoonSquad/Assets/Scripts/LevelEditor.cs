@@ -31,6 +31,7 @@ public class LevelEditor : MonoBehaviour
     Vector2 previousMousePosition;
     Vector2 previousLeftStick;
     float savingAdvancement = 0f;
+    bool isSaving = false;
 
     public class SavedProp{
         public GameObject prefab;
@@ -40,16 +41,16 @@ public class LevelEditor : MonoBehaviour
 
     private void Start()
     {
-        /*
         SoundPlayer.StopEverySound();
-        SoundPlayer.Play("msc_editor");
-        */
+        SoundPlayer.Play("amb_suburbs_cars", 0.7f);
+        SoundPlayer.Play("amb_square", 0.1f);
         Instantiate(Library.instance.editorSaveLevelCube, new Vector3(), Quaternion.identity);
         StartCoroutine(CreatePreviews());
     }
 
     private void Update()
     {
+        if (isSaving) return;
         var state = GamePad.GetState(GameManager.instance.GetPlayers()[0].index);
         var pc = FindObjectOfType<PlayerController>();
 
@@ -389,6 +390,9 @@ public class LevelEditor : MonoBehaviour
 
     IEnumerator SaveLevel(string name)
     {
+        isSaving = true;
+        FindObjectOfType<PlayerController>().Paralyze();
+
         XmlDocument xDoc = new XmlDocument();
         XmlElement xDocElement = (XmlElement)xDoc.AppendChild(xDoc.CreateElement("Level"));
         XmlElement xProps = (XmlElement)xDocElement.AppendChild(xDoc.CreateElement("Props"));
@@ -440,6 +444,8 @@ public class LevelEditor : MonoBehaviour
 
 
         saveProgressionScreen.SetActive(false);
+        Destroy(gameObject);
+        GameManager.instance.GoToLobby();
         yield return true;
     }
 
